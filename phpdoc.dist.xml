@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>Laravel Migrations UI API Documentation</title>
+    <parser>
+        <target>api-docs/cache/parser/</target>
+    </parser>
+    <transformer>
+        <target>api-docs/</target>
+    </transformer>
+    <files>
+        <directory>src/</directory>
+    </files>
+</phpdoc>
