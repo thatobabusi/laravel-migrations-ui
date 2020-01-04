@@ -2,7 +2,7 @@
 
 use DaveJamesMiller\MigrationsUI\Controllers\Asset;
 use DaveJamesMiller\MigrationsUI\Controllers\Home;
-use DaveJamesMiller\MigrationsUI\Middleware\EnabledMiddleware;
+use DaveJamesMiller\MigrationsUI\EnabledMiddleware;
 
 Route
     ::prefix(config('migrations-ui.path', 'migrations'))

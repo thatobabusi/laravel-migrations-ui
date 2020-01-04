@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DaveJamesMiller\MigrationsUI\Middleware;
+namespace DaveJamesMiller\MigrationsUI;
 
 use Closure;
 
