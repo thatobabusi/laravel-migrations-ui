@@ -2,6 +2,14 @@
 
 @section('title', 'Migrations')
 
+@section('navbar-right')
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/') }}">Back to Application</a>
+        </li>
+    </ul>
+@endsection
+
 @section('content')
     <div class="container-fluid mt-3">
         <div class="row">

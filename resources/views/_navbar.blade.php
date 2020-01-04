@@ -2,7 +2,7 @@
 
     {{-- Logo --}}
     <a class="navbar-brand" href="{{ route('migrations-ui.home') }}">
-        <i class="fab fa-laravel mr-1" aria-hidden="true"></i>
+        <i class="fab fa-laravel fa-lg mr-2" aria-hidden="true"></i>
         <span class="sr-only">Laravel</span>
         Migrations
         &ndash;
