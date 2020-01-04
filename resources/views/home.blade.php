@@ -8,9 +8,13 @@
             <div class="col-xl">
 
                 <div class="card shadow-sm mb-3">
-                    <h6 class="card-header bg-secondary text-white" style="padding-left: 0.80em; padding-right: 0.80em;">
-                        Migrations
-                    </h6>
+                    <div class="card-header bg-secondary text-white" style="padding-left: 0.80em; padding-right: 0.80em;">
+                        <a href="https://laravel.com/docs/migrations" target="_blank" class="float-right text-white" style="line-height: 1.2;">
+                            <i class="fas fa-question-circle"></i>
+                            Laravel Docs
+                        </a>
+                        <h6 class="m-0">Migrations</h6>
+                    </div>
                     <table class="table table-hover bg-white mb-0">
                         <thead>
                             <tr>
@@ -143,7 +147,7 @@
             {{--<div class="col-xl-4">
 
                 <div class="card shadow-sm">
-                    <h6 class="card-header bg-secondary text-white" style="padding-left: 0.80em; padding-right: 0.80em;">
+                    <div class="card-header bg-secondary text-white" style="padding-left: 0.80em; padding-right: 0.80em;">
                         <div class="float-right" style="margin: -6px 0;">
                             <span data-toggle="modal" data-target="#exampleModal2">
                                 <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Switch Database">
@@ -161,7 +165,7 @@
                                 <tt style="font-size: 1.3rem; line-height: 1.1;">forge</tt>
                             </span>
                         </span>
-                    </h6>
+                    </div>
                     <table class="table table-hover bg-white mb-0">
                         <thead>
                             <tr>
