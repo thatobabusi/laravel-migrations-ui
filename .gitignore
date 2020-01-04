@@ -2,10 +2,6 @@
 /composer.lock
 /vendor/
 
-# phpDocumentor
-/api-docs/
-/phpdoc.xml
-
 # Node packages
 /node_modules/
 npm-debug.log
