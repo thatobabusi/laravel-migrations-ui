@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             @forelse ($migrations as $migration)
-                                <tr>
+                                <tr class="{{ $migration->file ? '' : 'table-danger' }}">
                                     <td class="align-middle">
                                         @if ($migration->date)
                                             {{ $migration->date->format('Y-m-d H:i:s') }}
