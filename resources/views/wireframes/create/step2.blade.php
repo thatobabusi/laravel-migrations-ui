@@ -5,20 +5,20 @@
 @section('navbar-right')
     <ul class="navbar-nav ml-auto">
         <li class="nav-item mr-4" style="display: none; font-size: 1.8rem; line-height: 1.3;" id="spinner">
-            <i class="fas fa-cog fa-spin text-white"></i>
+            <i class="fas fa-cog fa-spin text-white" aria-hidden="true"></i>
         </li>
         <li class="nav-item">
             <a href="{{ route('migrations-ui.wireframes.create') }}" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Undo">
-                <i class="fas fa-fw fa-undo"></i>
+                <i class="fas fa-fw fa-undo" aria-hidden="true"></i>
             </a>
             <button class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Redo" disabled>
-                <i class="fas fa-fw fa-redo"></i>
+                <i class="fas fa-fw fa-redo" aria-hidden="true"></i>
             </button>
         </li>
         <li class="nav-item ml-3">
             <a href="{{ route('migrations-ui.wireframes.create.step4') }}" class="btn btn-success font-weight-bold" onclick="$('#spinner').show()">
                 Save &amp; Apply
-                <i class="fas fa-caret-right ml-1"></i>
+                <i class="fas fa-caret-right ml-1" aria-hidden="true"></i>
             </a>
         </li>
     </ul>

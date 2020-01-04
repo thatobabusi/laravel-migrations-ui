@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModal2Label">
                     Change Connection / Database
-                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted"></i>--}}
+                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted" aria-hidden="true"></i>--}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

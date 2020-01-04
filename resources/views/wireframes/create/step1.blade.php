@@ -6,16 +6,16 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
             <button class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Undo" disabled>
-                <i class="fas fa-fw fa-undo"></i>
+                <i class="fas fa-fw fa-undo" aria-hidden="true"></i>
             </button>
             <button class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Redo" disabled>
-                <i class="fas fa-fw fa-redo"></i>
+                <i class="fas fa-fw fa-redo" aria-hidden="true"></i>
             </button>
         </li>
         <li class="nav-item ml-3">
             <a href="{{ route('migrations-ui.wireframes.create.step4') }}" class="btn btn-success font-weight-bold disabled">
                 Save &amp; Apply
-                <i class="fas fa-caret-right ml-1"></i>
+                <i class="fas fa-caret-right ml-1" aria-hidden="true"></i>
             </a>
         </li>
     </ul>

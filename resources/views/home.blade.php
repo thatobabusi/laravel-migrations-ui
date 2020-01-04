@@ -18,7 +18,7 @@
                 <div class="card shadow-sm mb-3">
                     <div class="card-header bg-secondary text-white" style="padding-left: 0.80em; padding-right: 0.80em;">
                         <a href="https://laravel.com/docs/migrations" target="_blank" class="float-right text-white" style="line-height: 1.2;">
-                            <i class="fas fa-question-circle"></i>
+                            <i class="fas fa-question-circle" aria-hidden="true"></i>
                             Laravel Docs
                         </a>
                         <h6 class="m-0">Migrations</h6>
@@ -159,17 +159,17 @@
                         <div class="float-right" style="margin: -6px 0;">
                             <span data-toggle="modal" data-target="#exampleModal2">
                                 <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Switch Database">
-                                    <i class="fas fa-fw fa-database"></i>
+                                    <i class="fas fa-fw fa-database" aria-hidden="true"></i>
                                 </button>
                             </span>
                         </div>
                         <span data-toggle="modal" data-target="#exampleModal2">
                             <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
-                                <i class="fa fa-plug mr-1"></i>
+                                <i class="fa fa-plug mr-1" aria-hidden="true"></i>
                                 <tt style="font-size: 1.3rem; line-height: 1.1;">mysql</tt>
                             </span>
                             <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
-                                <i class="fa fa-database mr-1"></i>
+                                <i class="fa fa-database mr-1" aria-hidden="true"></i>
                                 <tt style="font-size: 1.3rem; line-height: 1.1;">forge</tt>
                             </span>
                         </span>
@@ -182,7 +182,7 @@
                                 </th>
                                 <th scope="col" class="align-middle font-weight-normal text-muted text-right">
                                     <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="New Migration: Create Table">
-                                        <i class="fas fa-fw fa-plus"></i>
+                                        <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                                     </button>
                                 </th>
                             </tr>
@@ -194,16 +194,16 @@
                                 </td>
                                 <td class="align-middle text-right">
                                     <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="View Structure">
-                                        <i class="fas fa-fw fa-search"></i>
+                                        <i class="fas fa-fw fa-search" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="New Migration: Modify">
-                                        <i class="fas fa-fw fa-pen"></i>
+                                        <i class="fas fa-fw fa-pen" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="New Migration: Rename">
-                                        <i class="fas fa-fw fa-i-cursor"></i>
+                                        <i class="fas fa-fw fa-i-cursor" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="New Migration: Drop">
-                                        <i class="fas fa-fw fa-trash"></i>
+                                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -213,16 +213,16 @@
                                 </td>
                                 <td class="align-middle text-right">
                                     <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="View Structure">
-                                        <i class="fas fa-fw fa-search"></i>
+                                        <i class="fas fa-fw fa-search" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="New Migration: Modify">
-                                        <i class="fas fa-fw fa-pen"></i>
+                                        <i class="fas fa-fw fa-pen" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="New Migration: Rename">
-                                        <i class="fas fa-fw fa-i-cursor"></i>
+                                        <i class="fas fa-fw fa-i-cursor" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="New Migration: Drop">
-                                        <i class="fas fa-fw fa-trash"></i>
+                                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </tr>

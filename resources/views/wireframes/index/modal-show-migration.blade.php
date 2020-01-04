@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="showMigrationModalLabel">
                     2018-11-02 23:57:21 &ndash; create posts table
-                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted"></i>--}}
+                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted" aria-hidden="true"></i>--}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -57,10 +57,10 @@ END
             </div>
             <div class="modal-footer">
                 <button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Edit Migration">
-                    <i class="fas fa-fw fa-pencil-alt"></i>
+                    <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                 </button>
                 <button class="btn btn-danger mr-auto" data-toggle="tooltip" data-placement="top" title="Delete Migration">
-                    <i class="fas fa-fw fa-trash"></i>
+                    <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                 </button>
                 {{--<button class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
                 <button class="btn btn-success font-weight-bold">Apply Migration (Up)</button>

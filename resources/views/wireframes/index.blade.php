@@ -171,7 +171,7 @@
                             </th>
                             <th scope="col" class="align-middle font-weight-normal text-muted text-right">
                                 <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="New Migration: Create Table">
-                                    <i class="fas fa-fw fa-plus"></i>
+                                    <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                                 </a>
                             </th>
                         </tr>
@@ -186,10 +186,10 @@
                                     <i class="fas fa-fw fa-search"></i>
                                 </button>
                                 <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="New Migration: Modify">
-                                    <i class="fas fa-fw fa-pencil-alt"></i>
+                                    <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                                 </a>
                                 <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="New Migration: Drop">
-                                    <i class="fas fa-fw fa-trash"></i>
+                                    <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>
@@ -202,10 +202,10 @@
                                     <i class="fas fa-fw fa-search"></i>
                                 </button>
                                 <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="New Migration: Modify">
-                                    <i class="fas fa-fw fa-pencil-alt"></i>
+                                    <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                                 </a>
                                 <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="New Migration: Drop">
-                                    <i class="fas fa-fw fa-trash"></i>
+                                    <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

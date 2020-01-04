@@ -2,13 +2,13 @@
     <h6 class="card-header bg-secondary text-white">
         <div class="float-right" style="margin: -6px 0;">
             <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Move Up">
-                <i class="fas fa-fw fa-arrow-alt-circle-up"></i>
+                <i class="fas fa-fw fa-arrow-alt-circle-up" aria-hidden="true"></i>
             </button>
             <button class="btn btn-sm btn-dark mr-2" data-toggle="tooltip" data-placement="top" title="Move Down">
-                <i class="fas fa-fw fa-arrow-alt-circle-down"></i>
+                <i class="fas fa-fw fa-arrow-alt-circle-down" aria-hidden="true"></i>
             </button>
             <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Delete Group">
-                <i class="fas fa-fw fa-trash"></i>
+                <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
             </button>
         </div>
         Modify Table
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col flex-grow-0 pl-1">
                         <a href="#" class="text-muted" data-toggle="tooltip" data-placement="top" title="Rename Table" onclick="$('#renameTable').show().find('input').focus(); return false;">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col flex-grow-0 pl-1">
                         <a href="#" class="text-muted" data-toggle="tooltip" data-placement="top" title="Cancel Rename" onclick="$('#renameTable').hide(); return false;">
-                            <i class="fas fa-fw fa-times"></i>
+                            <i class="fas fa-fw fa-times" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

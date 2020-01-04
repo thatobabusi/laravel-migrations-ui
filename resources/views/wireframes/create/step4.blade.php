@@ -5,18 +5,18 @@
 @section('navbar-right')
     <ul class="navbar-nav ml-auto">
         <li class="nav-item mr-4" style="display: none; font-size: 1.8rem; line-height: 1.3;" id="spinner">
-            <i class="fas fa-cog fa-spin text-white"></i>
+            <i class="fas fa-cog fa-spin text-white" aria-hidden="true"></i>
         </li>
         <li class="nav-item">
             <a href="{{ route('migrations-ui.wireframes.create.step2') }}" class="btn btn-danger font-weight-bold" onclick="$('#spinner').show()">
-                <i class="fas fa-caret-left mr-1"></i>
+                <i class="fas fa-caret-left mr-1" aria-hidden="true"></i>
                 Revert
             </a>
         </li>
         <li class="nav-item ml-3">
             <a href="{{ route('migrations-ui.wireframes.index') }}" class="btn btn-success font-weight-bold">
                 Finish
-                <i class="fas fa-caret-right ml-1"></i>
+                <i class="fas fa-caret-right ml-1" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -27,7 +27,7 @@
         <div class="col">
 
             <div class="alert alert-success" role="alert">
-                <i class="fas fa-check mr-1"></i>
+                <i class="fas fa-check mr-1" aria-hidden="true"></i>
                 Migration applied successfully
             </div>
 

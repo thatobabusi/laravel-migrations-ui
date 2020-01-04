@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModal3Label">
                     License Key
-                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted"></i>--}}
+                    {{--<i class="fas fa-cog fa-spin ml-1 text-muted" aria-hidden="true"></i>--}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -39,7 +39,7 @@ uhpBc60iT13s3yb01ItSB2MhEd5pUSqC
                                 <input class="custom-control-input" type="checkbox" value="" id="savelicensekey">
                                 <label class="custom-control-label" for="savelicensekey">
                                     Add the license key to the Git repository
-                                    <i class="fas fa-fw fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" title="Add to Git" data-content="Only tick this if (1) the repository is private (not public), and (2) all developers working on this project are authorised to use the same license."></i>
+                                    <i class="fas fa-fw fa-question-circle" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="right" title="Add to Git" data-content="Only tick this if (1) the repository is private (not public), and (2) all developers working on this project are authorised to use the same license."></i>
                                 </label>
                             </div>
                         </div>--}}

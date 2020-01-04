@@ -2,13 +2,13 @@
     <h6 class="card-header bg-secondary text-white">
         <div class="float-right" style="margin: -6px 0;">
             <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Move Up" disabled>
-                <i class="fas fa-fw fa-arrow-alt-circle-up"></i>
+                <i class="fas fa-fw fa-arrow-alt-circle-up" aria-hidden="true"></i>
             </button>
             <button class="btn btn-sm btn-dark mr-2" data-toggle="tooltip" data-placement="top" title="Move Down">
-                <i class="fas fa-fw fa-arrow-alt-circle-down"></i>
+                <i class="fas fa-fw fa-arrow-alt-circle-down" aria-hidden="true"></i>
             </button>
             <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Delete Group">
-                <i class="fas fa-fw fa-trash"></i>
+                <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
             </button>
         </div>
         Create Table
@@ -59,7 +59,7 @@
         <tbody>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     id
                 </td>
                 <td class="align-middle">auto increment</td>
@@ -68,101 +68,101 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     name
                 </td>
                 <td class="align-middle">string</td>
                 <td class="align-middle"></td>
                 <td class="align-middle pr-0" nowrap>
-                    <i class="far fa-fw fa-keyboard text-muted mr-1" data-toggle="popover" data-trigger="hover" data-placement="top" title="Default Value" data-content="New user"></i>
-                    <i class="fas fa-fw fa-font text-muted mr-1" data-toggle="popover" data-trigger="hover" data-placement="top" title="Custom Encoding" data-content="charset=utf-8, collation=utf8_unicode_ci"></i>
+                    <i class="far fa-fw fa-keyboard text-muted mr-1" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" title="Default Value" data-content="New user"></i>
+                    <i class="fas fa-fw fa-font text-muted mr-1" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" title="Custom Encoding" data-content="charset=utf-8, collation=utf8_unicode_ci"></i>
                 </td>
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal2">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal2">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     account_id
                 </td>
                 <td class="align-middle">integer</td>
                 <td class="align-middle">unsigned, foreign</td>
                 <td class="align-middle pr-0" nowrap>
-                    <i class="far fa-fw fa-comment text-muted mr-1" data-toggle="popover" data-trigger="hover" data-placement="top" title="Comment" data-content="Each user can only belong to one account."></i>
+                    <i class="far fa-fw fa-comment text-muted mr-1" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" title="Comment" data-content="Each user can only belong to one account."></i>
                 </td>
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal3">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal3">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     email
                 </td>
                 <td class="align-middle">string</td>
                 <td class="align-middle">unique</td>
                 <td class="align-middle pr-0" nowrap>
-                    <i class="fas fa-fw fa-magic text-muted mr-1" data-toggle="popover" data-trigger="hover" data-placement="top" title="Virtual Column" data-content="1 + 2"></i>
+                    <i class="fas fa-fw fa-magic text-muted mr-1" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" title="Virtual Column" data-content="1 + 2"></i>
                 </td>
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     email_verified_at
                 </td>
                 <td class="align-middle">timestamp</td>
@@ -171,22 +171,22 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     password
                 </td>
                 <td class="align-middle">string</td>
@@ -195,22 +195,22 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle text-muted font-italic">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     remember_token
                 </td>
                 <td class="align-middle">remember token</td>
@@ -219,22 +219,22 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle text-muted font-italic">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     created_at, updated_at
                 </td>
                 <td class="align-middle">timestamps</td>
@@ -243,22 +243,22 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle text-muted font-italic">
-                    <i class="fas fa-grip-vertical text-muted mr-1"></i>
+                    <i class="fas fa-grip-vertical text-muted mr-1" aria-hidden="true"></i>
                     deleted_at
                 </td>
                 <td class="align-middle">soft delete</td>
@@ -267,23 +267,23 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#exampleModal1">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
             <tr>
                 <td class="align-middle" colspan="5">
                     <button class="btn btn-sm btn-success">
-                        <i class="fas fa-fw fa-plus"></i>
+                        <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                         Add Column
                     </button>
                     <small class="ml-3 mr-1">
@@ -315,16 +315,16 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#indexModal">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#indexModal">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
@@ -332,7 +332,7 @@
                 <td class="align-middle" colspan="5">
                     <span data-toggle="modal" data-target="#indexModal">
                         <button class="btn btn-sm btn-success">
-                            <i class="fas fa-fw fa-plus"></i>
+                            <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                             Add Index
                         </button>
                     </span>
@@ -355,16 +355,16 @@
                 <td class="align-middle text-right" nowrap>
                     <span data-toggle="modal" data-target="#foreignKeyModal">
                         <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         </button>
                     </span>
                     <span data-toggle="modal" data-target="#foreignKeyModal">
                         <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Clone">
-                            <i class="far fa-fw fa-clone"></i>
+                            <i class="far fa-fw fa-clone" aria-hidden="true"></i>
                         </button>
                     </span>
                     <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Remove" onclick="$(this).tooltip('dispose').closest('tr').remove();">
-                        <i class="fas fa-fw fa-trash"></i>
+                        <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
@@ -372,7 +372,7 @@
                 <td class="align-middle" colspan="5">
                     <span data-toggle="modal" data-target="#foreignKeyModal">
                         <button class="btn btn-sm btn-success">
-                            <i class="fas fa-fw fa-plus"></i>
+                            <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                             Add Foreign Key
                         </button>
                     </span>
