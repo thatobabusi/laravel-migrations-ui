@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DaveJamesMiller\MigrationsUI\Controllers;
 
 use Carbon\CarbonImmutable;
+use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Controller;
 use stdClass;
@@ -36,7 +37,11 @@ class Home extends Controller
 
         $migrations = $this->migrations();
 
-        return view('migrations-ui::home', compact('migrations'));
+        $connection = config('database.default');
+        $database = DB::getDatabaseName();
+        $tables = DB::getDoctrineSchemaManager()->listTableNames();
+
+        return view('migrations-ui::home', compact('migrations', 'connection', 'database', 'tables'));
     }
 
     private function migrations()
