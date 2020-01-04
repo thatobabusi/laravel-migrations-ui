@@ -47,8 +47,8 @@
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        {{--<a href="#">{{ $migration->name }}</a>--}}
-                                        {{ $migration->name }}
+                                        {{--<a href="#">{{ $migration->title }}</a>--}}
+                                        {{ $migration->title }}
                                         @if (!$migration->file)
                                             <span class="badge badge-danger">File Missing!</span>
                                         @endif

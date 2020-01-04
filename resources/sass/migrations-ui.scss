@@ -72,6 +72,11 @@ body {
     position: relative;
 }
 
+h6,
+.h6 {
+    font-weight: 600;
+}
+
 .table thead tr {
     background: $light;
 }

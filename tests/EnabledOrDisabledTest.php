@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MigrationsUITests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
 
 class EnabledOrDisabledTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testExplicitlyEnabled()
     {
         config(['migrations-ui.enabled' => true]);

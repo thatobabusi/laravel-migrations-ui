@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DaveJamesMiller\MigrationsUI\Controllers;
 
-use App;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Controller;
+use stdClass;
 
 class Home extends Controller
 {
@@ -48,30 +50,45 @@ class Home extends Controller
 
         // Convert each one to an object
         $migrations->transform(static function (string $file, string $name) {
-            $date = null;
-
-            if (preg_match('/^(\d{4}_\d{2}_\d{2}_\d{2}\d{2}\d{2})_(.+)$/', $name, $matches)) {
-                $date = CarbonImmutable::createFromFormat('Y_m_d_His', $matches[1]);
-                $name = $matches[2];
-            }
-
             return (object)[
-                'date' => $date,
-                'name' => str_replace('_', ' ', $name),
                 'file' => $file,
                 'batch' => null, // Will be overwritten later
             ];
         });
 
         // Check which migrations have been run, and check for any missing files
-        // TODO
-        // if ($this->migrator->repositoryExists()) {
-        //
-        //     $runMigrations = $this->migrator->getRepository()->getMigrationBatches();
-        //     var_dump($runMigrations);exit;
-        //
-        // }
+        if ($this->migrator->repositoryExists()) {
+            foreach ($this->migrator->getRepository()->getMigrationBatches() as $name => $batch) {
+                if (isset($migrations[$name])) {
+                    $migrations[$name]->batch = $batch;
+                } else {
+                    $migrations[$name] = (object)[
+                        'file' => null,
+                        'batch' => $batch,
+                    ];
+                }
+            }
+        }
 
-        return $migrations->reverse();
+        // Split name into date and human-readable title
+        $migrations->each(static function (stdClass $migration, string $name) {
+            $migration->name = $name;
+
+            if (preg_match('/^(\d{4}_\d{2}_\d{2}_\d{2}\d{2}\d{2})_(.+)$/', $migration->name, $matches)) {
+                $migration->date = CarbonImmutable::createFromFormat('Y_m_d_His', $matches[1]);
+                $migration->title = $matches[2];
+            } else {
+                $migration->date = null;
+                $migration->title = $migration->name;
+            }
+
+            $migration->title = str_replace('_', ' ', $migration->title);
+        });
+
+        // Sort migrations
+        return $migrations->sort(static function (stdClass $m1, stdClass $m2) {
+            return ($m2->batch ?? INF) <=> ($m1->batch ?? INF)
+                ?: $m2->name <=> $m1->name;
+        });
     }
 }
