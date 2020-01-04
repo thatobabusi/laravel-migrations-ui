@@ -1,13 +1,17 @@
 # PHP packages
 /composer.lock
-/vendor
+/vendor/
 
 # phpDocumentor
 /api-docs/
 /phpdoc.xml
 
+# Node packages
+/node_modules/
+
 # Test output
-/build/
+/.phpunit.result.cache
+/build/logs/clover.xml
 /test-coverage/
 /tests/storage/
 

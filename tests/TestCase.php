@@ -13,4 +13,11 @@ abstract class TestCase extends TestbenchTestCase
             MigrationsUIServiceProvider::class,
         ];
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
 }

@@ -9,34 +9,23 @@ use Illuminate\Support\ServiceProvider;
  */
 class MigrationsUIServiceProvider extends ServiceProvider
 {
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register(): void
     {
-        $this->mergeConfigFrom($this->path('config/migrations-ui.php'), 'migrations-ui');
+        // Load the default config values
+        $this->mergeConfigFrom(__DIR__ . '/../config/migrations-ui.php', 'migrations-ui');
     }
 
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
     public function boot(): void
     {
-        $this->loadRoutesFrom($this->path('routes.php'));
+        // Register routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes.php');
 
-        $this->loadViewsFrom($this->path('views'), 'migrations-ui');
+        // Register 'migrations-ui::' view namespace
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'migrations-ui');
 
+        // Publish the config/migrations-ui.php file
         $this->publishes([
-            $this->path('config/migrations-ui.php') => config_path('migrations-ui.php'),
-        ], 'config');
-    }
-
-    protected function path(string $path): string
-    {
-        return dirname(__DIR__) . "/$path";
+            __DIR__ . '/../config/migrations-ui.php' => config_path('migrations-ui.php'),
+        ], 'migrations-ui-config');
     }
 }

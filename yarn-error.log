@@ -1,0 +1,58 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /home/dave/local/bin:/home/dave/bin:/home/dave/opt/winpty/bin:/home/dave/opt/mdview/bin:/home/dave/opt/icdiff-local/bin:/home/dave/opt/git-extras-local/bin:/home/dave/go/bin:/home/dave/.config/composer/vendor/bin:/home/dave/.composer/vendor/bin:/home/dave/.composer/packages/vendor/bin:/home/dave/.rvm/bin:/home/dave/.yarn/bin:/home/dave/local/bin:/home/dave/bin:/home/dave/opt/winpty/bin:/home/dave/opt/mdview/bin:/home/dave/opt/icdiff-local/bin:/home/dave/opt/git-extras-local/bin:/home/dave/go/bin:/home/dave/.config/composer/vendor/bin:/home/dave/.composer/vendor/bin:/home/dave/.composer/packages/vendor/bin:/home/dave/.rvm/bin:/home/dave/.yarn/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/sbin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  10.18.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/www/laravel-packages.roxy.djm.me/repo/migrations-ui/package.json: Unexpected string in JSON at position 1091
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+      "private": true,
+      "scripts": {
+          "dev": "npm run development",
+          "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+          "watch": "npm run development -- --watch",
+          "watch-poll": "npm run watch -- --watch-poll",
+          "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+          "prod": "npm run production",
+          "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+      },
+      "devDependencies": {
+          "@fortawesome/fontawesome-free": "^5.11.2",
+          "axios": "^0.19",
+          "bootstrap": "^4.3.1",
+          "cross-env": "^5.1",
+          "highlight.js": "^9.16.2",
+          "jquery": "^3.4.1",
+          "laravel-mix": "^4.0.7",
+          "lodash": "^4.17.13",
+          "popper.js": "^1.16.0"
+          "resolve-url-loader": "^2.3.1",
+          "sass": "^1.15.2",
+          "sass-loader": "^7.1.0",
+          "vue-template-compiler": "^2.6.10",
+          "webpack": "^4.41.2"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

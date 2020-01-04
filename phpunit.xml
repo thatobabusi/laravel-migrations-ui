@@ -2,10 +2,11 @@
 <phpunit
     backupGlobals="false"
     backupStaticAttributes="false"
+    beStrictAboutChangesToGlobalState="true"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
     bootstrap="vendor/autoload.php"
-    beStrictAboutCoversAnnotation="true"
+    cacheResult="true"
     colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
@@ -25,7 +26,7 @@
     <!-- List of source files for code coverage checker -->
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">classes/</directory>
         </whitelist>
     </filter>
 
