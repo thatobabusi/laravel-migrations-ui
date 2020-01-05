@@ -88,6 +88,10 @@
                                                         <button class="dropdown-item" type="submit">Single Migration</button>
                                                     </form>
                                                     {{--<a class="dropdown-item" href="#">Batch 1</a>--}}
+                                                    <form action="{{ route('migrations-ui.rollback-all') }}" method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">All Migrations</button>
+                                                    </form>
                                                 </div>
                                             @else
                                                 <button class="btn btn-sm btn-success dropdown-toggle" style="width: 6em;" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -98,7 +102,10 @@
                                                         @csrf
                                                         <button class="dropdown-item" type="submit">Single Migration</button>
                                                     </form>
-                                                    {{--<a class="dropdown-item" href="#">All New Migrations</a>--}}
+                                                    <form action="{{ route('migrations-ui.apply-all') }}" method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">All Pending</button>
+                                                    </form>
                                                 </div>
                                             @endif
                                         </div>
