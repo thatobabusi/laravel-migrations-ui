@@ -39,11 +39,7 @@ class MigrationsRepository
 
     public function all(): Collection
     {
-        // Pending first, then by batch (most recent first), then by filename descending
-        return $this->migrations->sort(static function (Migration $m1, Migration $m2) {
-            return ($m2->batch ?? INF) <=> ($m1->batch ?? INF)
-                ?: $m2->name <=> $m1->name;
-        });
+        return $this->migrations->sortByDesc('name');
     }
 
     public function get($name): ?Migration
@@ -51,8 +47,18 @@ class MigrationsRepository
         return $this->migrations->get($name);
     }
 
+    public function pending(): Collection
+    {
+        return $this->all()->where('batch', '===', null);
+    }
+
     public function applied(): Collection
     {
         return $this->all()->where('batch', '!==', null);
+    }
+
+    public function batch(int $batch): Collection
+    {
+        return $this->all()->where('batch', '===', $batch);
     }
 }

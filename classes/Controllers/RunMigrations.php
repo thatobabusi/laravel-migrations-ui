@@ -7,28 +7,36 @@ namespace DaveJamesMiller\MigrationsUI\Controllers;
 use DaveJamesMiller\MigrationsUI\Migration;
 use DaveJamesMiller\MigrationsUI\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Migrator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 
 class RunMigrations
 {
-    public function apply(Migration $migration, Migrator $migrator)
+    /** @var \DaveJamesMiller\MigrationsUI\MigrationsRepository */
+    private $migrationsRepository;
+
+    /** @var \DaveJamesMiller\MigrationsUI\Migrator */
+    private $migrator;
+
+    public function __construct(MigrationsRepository $migrationsRepository, Migrator $migrator)
     {
-        $migrator->requireFiles([$migration->file]);
-
-        $startTime = microtime(true);
-        $migrator->runPending([$migration->name]);
-        $runTime = round(microtime(true) - $startTime, 2);
-
-        return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', new HtmlString(
-                '<strong>Migrated:</strong> ' . e($migration->name) . " ($runTime seconds)"
-            ));
+        $this->migrationsRepository = $migrationsRepository;
+        $this->migrator = $migrator;
     }
 
-    public function applyAll(Migrator $migrator)
+    private function load(Collection $migrations): void
     {
+        $files = $migrations->pluck('file')->all();
+
+        $this->migrator->requireFiles($files);
+    }
+
+    private function apply(Collection $migrations)
+    {
+        $this->load($migrations);
+
         $startTime = microtime(true);
-        $migrations = $migrator->run($migrator->allPaths());
+        $this->migrator->runPending($migrations->pluck('name')->all());
         $runTime = round(microtime(true) - $startTime, 2);
         $count = count($migrations);
 
@@ -37,49 +45,87 @@ class RunMigrations
                 ->with('migrations-ui::warning', 'No pending migrations found');
         }
 
+        if ($migrations->count() === 1) {
+            $migration = $migrations->first();
+
+            return redirect()->route('migrations-ui.home')
+                ->with('migrations-ui::success', new HtmlString(
+                    '<strong>Migrated:</strong> ' . e($migration->name) . " ($runTime seconds)"
+                ));
+        }
+
         return redirect()->route('migrations-ui.home')
             ->with('migrations-ui::success', "Ran $count migrations ($runTime seconds)");
     }
 
-    public function rollback(Migration $migration, Migrator $migrator)
+    public function applySingle(Migration $migration)
     {
-        $migrator->requireFiles([$migration->file]);
-
-        $startTime = microtime(true);
-        $migrator->rollbackMigrations([['migration' => $migration->name]], $migrator->allPaths(), []);
-        $runTime = round(microtime(true) - $startTime, 2);
-
-        return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', new HtmlString(
-                '<strong>Rolled back:</strong> ' . e($migration->name) . " ($runTime seconds)"
-            ));
+        return $this->apply(collect([$migration]));
     }
 
-    public function rollbackAll(MigrationsRepository $migrationsRepository, Migrator $migrator)
+    public function applyAll()
     {
-        $migrations = $migrationsRepository->applied();
+        $migrations = $this->migrationsRepository->pending();
 
-        if ($migrations->isEmpty()) {
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::warning', 'No applied migrations found');
-        }
+        return $this->apply($migrations);
+    }
 
-        $migrator->requireFiles($migrations->pluck('file')->all());
+    private function rollback(Collection $migrations)
+    {
+        $this->load($migrations);
 
         $startTime = microtime(true);
 
-        $migrator->rollbackMigrations(
+        $this->migrator->rollbackMigrations(
             $migrations->map(static function (Migration $migration) {
                 return ['migration' => $migration->name];
             })->all(),
-            $migrator->allPaths(),
+            $this->migrator->allPaths(),
             []
         );
 
         $runTime = round(microtime(true) - $startTime, 2);
         $count = $migrations->count();
 
+        if ($count === 1) {
+            $migration = $migrations->first();
+
+            return redirect()->route('migrations-ui.home')
+                ->with('migrations-ui::success', new HtmlString(
+                    '<strong>Rolled back:</strong> ' . e($migration->name) . " ($runTime seconds)"
+                ));
+        }
+
         return redirect()->route('migrations-ui.home')
             ->with('migrations-ui::success', "Rolled back $count migrations ($runTime seconds)");
+    }
+
+    public function rollbackSingle(Migration $migration)
+    {
+        return $this->rollback(collect([$migration]));
+    }
+
+    public function rollbackBatch(int $batch)
+    {
+        $migrations = $this->migrationsRepository->batch($batch);
+
+        if ($migrations->isEmpty()) {
+            return redirect()->route('migrations-ui.home')
+                ->with('migrations-ui::warning', "No migrations found in batch $batch");
+        }
+
+        return $this->rollback($migrations);
+    }
+
+    public function rollbackAll()
+    {
+        $migrations = $this->migrationsRepository->applied();
+
+        if ($migrations->isEmpty()) {
+            return redirect()->route('migrations-ui.home')
+                ->with('migrations-ui::warning', 'No applied migrations found');
+        }
+
+        return $this->rollback($migrations);
     }
 }

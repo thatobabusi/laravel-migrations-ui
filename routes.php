@@ -27,16 +27,23 @@ Route
             ->where('path', '.*')
             ->name('migrations-ui.asset');
 
+        // All migrations
         Route::post('apply-all', [RunMigrations::class, 'applyAll'])
             ->name('migrations-ui.apply-all');
 
         Route::post('rollback-all', [RunMigrations::class, 'rollbackAll'])
             ->name('migrations-ui.rollback-all');
 
-        Route::post('{migration}/apply', [RunMigrations::class, 'apply'])
+        // Batches
+        Route::post('batch/{batch}/rollback', [RunMigrations::class, 'rollbackBatch'])
+            ->where('batch', '\d+')
+            ->name('migrations-ui.rollback-batch');
+
+        // Single migrations
+        Route::post('{migration}/apply', [RunMigrations::class, 'applySingle'])
             ->name('migrations-ui.apply');
 
-        Route::post('{migration}/rollback', [RunMigrations::class, 'rollback'])
+        Route::post('{migration}/rollback', [RunMigrations::class, 'rollbackSingle'])
             ->name('migrations-ui.rollback');
 
         // Wireframes

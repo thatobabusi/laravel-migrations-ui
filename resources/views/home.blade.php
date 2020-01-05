@@ -87,7 +87,10 @@
                                                         @csrf
                                                         <button class="dropdown-item" type="submit">Single Migration</button>
                                                     </form>
-                                                    {{--<a class="dropdown-item" href="#">Batch 1</a>--}}
+                                                    <form action="{{ route('migrations-ui.rollback-batch', $migration->batch) }}" method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">Batch {{ $migration->batch }}</button>
+                                                    </form>
                                                     <form action="{{ route('migrations-ui.rollback-all') }}" method="post">
                                                         @csrf
                                                         <button class="dropdown-item" type="submit">All Migrations</button>
