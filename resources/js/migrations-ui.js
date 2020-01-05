@@ -1,11 +1,13 @@
 import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/modal';
 // import 'bootstrap/js/dist/popover';
 import 'bootstrap/js/dist/tooltip';
 
+import $ from 'jquery';
 import hljs from 'highlight.js/lib/highlight';
 
-import $ from 'jquery';
+import './migration-popup';
 
 // Configure highlight.js
 hljs.registerLanguage('php', require('highlight.js/lib/languages/php'));
@@ -37,4 +39,3 @@ $(function () {
         event.preventDefault();
     });
 });
-

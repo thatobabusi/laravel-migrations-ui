@@ -2,6 +2,7 @@
 
 use DaveJamesMiller\MigrationsUI\Controllers\Asset;
 use DaveJamesMiller\MigrationsUI\Controllers\Home;
+use DaveJamesMiller\MigrationsUI\Controllers\MigrationDetails;
 use DaveJamesMiller\MigrationsUI\Controllers\RunMigrations;
 use DaveJamesMiller\MigrationsUI\CheckEnabled;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -49,6 +50,9 @@ Route
             ->name('migrations-ui.rollback-batch');
 
         // Single migrations
+        Route::get('{migration}', MigrationDetails::class)
+            ->name('migrations-ui.migration-details');
+
         Route::post('{migration}/apply', [RunMigrations::class, 'applySingle'])
             ->name('migrations-ui.apply');
 

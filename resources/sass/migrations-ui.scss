@@ -8,6 +8,8 @@
 $text-muted: $gray-500;
 $code-color: #000;
 
+$modal-lg: 97%;
+
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
@@ -36,7 +38,7 @@ $code-color: #000;
 //@import '~bootstrap/scss/list-group';
 @import '~bootstrap/scss/close';
 //@import '~bootstrap/scss/toasts';
-//@import '~bootstrap/scss/modal';
+@import '~bootstrap/scss/modal';
 @import '~bootstrap/scss/tooltip';
 //@import '~bootstrap/scss/popover';
 //@import '~bootstrap/scss/carousel';

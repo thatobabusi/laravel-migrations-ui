@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="{{ route('migrations-ui.asset', 'migrations-ui.css') }}">
         <script src="{{ route('migrations-ui.asset', 'migrations-ui.js') }}" async></script>
 
-        @yield('head')
+        @stack('head')
 
     </head>
     <body class="bg-light">
@@ -28,6 +28,8 @@
         @include('migrations-ui::_navbar')
 
         @yield('content')
+
+        @stack('footer')
 
     </body>
 </html>

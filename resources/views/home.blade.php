@@ -83,13 +83,16 @@
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        {{--<a href="#">{{ $migration->title }}</a>--}}
-                                        <span data-toggle="tooltip" data-placement="top" title="{{ $migration->relPath() }}" style="cursor: default;">
-                                            {{ $migration->title }}
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $migration->relPath() }}">
+                                            @if ($migration->file)
+                                                <a href="{{ route('migrations-ui.migration-details', $migration) }}" data-toggle="modal" data-target="#migration-popup" data-path="{{ $migration->relPath() }}">
+                                                    {{ $migration->title }}
+                                                </a>
+                                            @else
+                                                {{ $migration->title }}
+                                                <span class="badge badge-danger">File Missing!</span>
+                                            @endif
                                         </span>
-                                        @if (!$migration->file)
-                                            <span class="badge badge-danger">File Missing!</span>
-                                        @endif
                                     </td>
                                     <td class="align-middle">
                                         @if ($migration->isApplied())
@@ -172,16 +175,16 @@
                                 </button>
                             </span>
                         </div>--}}
-                        <span data-toggle="modal" data-target="#exampleModal2">
-                            <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
-                                <i class="fa fa-plug mr-1" aria-hidden="true"></i>
-                                {{ $connection }}
-                            </span>
-                            <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
-                                <i class="fa fa-database mr-1" aria-hidden="true"></i>
-                                {{ $database }}
-                            </span>
+                        {{--<span data-toggle="modal" data-target="#exampleModal2">--}}
+                        <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
+                            <i class="fa fa-plug mr-1" aria-hidden="true"></i>
+                            {{ $connection }}
                         </span>
+                        <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
+                            <i class="fa fa-database mr-1" aria-hidden="true"></i>
+                            {{ $database }}
+                        </span>
+                        {{--</span>--}}
                     </div>
                     <table class="table table-hover bg-white mb-0">
                         <thead>
@@ -231,3 +234,21 @@
         </div>
     </div>
 @endsection
+
+@push('footer')
+    <div class="modal fade" id="migration-popup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="migration-popup-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <pre id="migration-popup-code" class="m-0 p-3 language-php"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+@endpush
