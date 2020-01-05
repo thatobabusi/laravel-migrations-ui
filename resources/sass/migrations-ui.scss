@@ -88,6 +88,11 @@ h6,
     vertical-align: middle;
 }
 
+.tooltip-inner {
+    // Make tooltips bigger to accommodate long filenames
+    max-width: 600px;
+}
+
 .page-footer {
     position: absolute;
     bottom: 0;

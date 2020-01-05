@@ -55,7 +55,9 @@
                                     </td>
                                     <td class="align-middle">
                                         {{--<a href="#">{{ $migration->title }}</a>--}}
-                                        {{ $migration->title }}
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $migration->relPath() }}" style="cursor: default;">
+                                            {{ $migration->title }}
+                                        </span>
                                         @if (!$migration->file)
                                             <span class="badge badge-danger">File Missing!</span>
                                         @endif
