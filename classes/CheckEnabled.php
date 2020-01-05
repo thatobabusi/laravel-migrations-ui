@@ -6,7 +6,7 @@ namespace DaveJamesMiller\MigrationsUI;
 
 use Closure;
 
-class EnabledMiddleware
+class CheckEnabled
 {
     public function handle($request, Closure $next)
     {

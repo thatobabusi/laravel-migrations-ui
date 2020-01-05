@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace DaveJamesMiller\MigrationsUI;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Routing\UrlRoutable;
+use LogicException;
 
-class Migration
+class Migration implements UrlRoutable
 {
     /*** @var string */
     public $name;
 
-    /** @var string */
+    /** @var string|null */
     public $file;
 
     /** @var \Carbon\CarbonImmutable */
@@ -23,8 +25,13 @@ class Migration
     /** @var int */
     public $batch;
 
-    public function __construct(string $name, string $file = null)
+    public function __construct(string $name = null, string $file = null)
     {
+        if ($name === null) {
+            // Necessary for UrlRoutable to work
+            return;
+        }
+
         $this->name = $name;
         $this->file = $file;
 
@@ -37,5 +44,34 @@ class Migration
         }
 
         $this->title = str_replace('_', ' ', $this->title);
+    }
+
+    public function isApplied(): bool
+    {
+        return $this->batch !== null;
+    }
+
+    public function isMissing(): bool
+    {
+        return $this->file === null;
+    }
+
+    //--------------------------------------
+    // UrlRoutable
+    //--------------------------------------
+
+    public function getRouteKeyName()
+    {
+        throw new LogicException("Laravel doesn't actually use this method outside the Model class, yet it's in the interface :-/");
+    }
+
+    public function getRouteKey()
+    {
+        return $this->name;
+    }
+
+    public function resolveRouteBinding($name)
+    {
+        return app(MigrationsRepository::class)->get($name);
     }
 }

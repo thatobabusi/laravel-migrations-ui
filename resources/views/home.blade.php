@@ -1,5 +1,11 @@
 @extends('migrations-ui::_layout')
 
+<?php
+/**
+ * @var \Illuminate\Support\Collection|\DaveJamesMiller\MigrationsUI\Migration[] $migrations
+ */
+?>
+
 @section('title', 'Migrations')
 
 @section('navbar-right')
@@ -12,6 +18,7 @@
 
 @section('content')
     <div class="container-fluid mt-3">
+        @include('migrations-ui::_flash')
         <div class="row">
             <div class="col-xl">
 
@@ -29,11 +36,11 @@
                                 <th scope="col">Date / Time</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Status</th>
-                                {{--<th scope="col" class="align-middle font-weight-normal text-muted text-right">
-                                    <a href="#" class="btn btn-sm btn-primary font-weight-bold" style="width: 5.5em;">
+                                <th scope="col" class="align-middle font-weight-normal text-muted text-right">
+                                    {{--<a href="#" class="btn btn-sm btn-primary font-weight-bold" style="width: 6em;">
                                         New
-                                    </a>
-                                </th>--}}
+                                    </a>--}}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,23 +61,48 @@
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        @if ($migration->batch)
+                                        @if ($migration->isApplied())
                                             <span class="badge badge-pill badge-success">Applied &ndash; Batch {{ $migration->batch }}</span>
                                         @else
                                             <span class="badge badge-pill badge-warning">Pending</span>
                                         @endif
                                     </td>
-                                    {{--<td class="align-middle text-right">
+                                    <td class="align-middle text-right">
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-success dropdown-toggle" style="width: 5.5em;" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Apply
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                                                <a class="dropdown-item" href="#">Single Migration</a>
-                                                <a class="dropdown-item" href="#">All New Migrations</a>
-                                            </div>
+                                            @if ($migration->isMissing())
+                                                {{--<button class="btn btn-sm btn-secondary dropdown-toggle" style="width: 6em;" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Fix
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="migration-dropdown-button-{{ $loop->index }}">
+                                                    <a class="dropdown-item" href="#">Recreate File</a>
+                                                    <a class="dropdown-item" href="#">Update Filename</a>
+                                                    <a class="dropdown-item" href="#">Delete Record</a>
+                                                </div>--}}
+                                            @elseif ($migration->isApplied())
+                                                <button class="btn btn-sm btn-danger dropdown-toggle" style="width: 6em;" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Rollback
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton2">
+                                                    <form action="{{ route('migrations-ui.rollback', $migration) }}" method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">Single Migration</button>
+                                                    </form>
+                                                    {{--<a class="dropdown-item" href="#">Batch 1</a>--}}
+                                                </div>
+                                            @else
+                                                <button class="btn btn-sm btn-success dropdown-toggle" style="width: 6em;" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Apply
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="migration-dropdown-button-{{ $loop->index }}">
+                                                    <form action="{{ route('migrations-ui.apply', $migration) }}" method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">Single Migration</button>
+                                                    </form>
+                                                    {{--<a class="dropdown-item" href="#">All New Migrations</a>--}}
+                                                </div>
+                                            @endif
                                         </div>
-                                    </td>--}}
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
@@ -79,77 +111,9 @@
                                     </td>
                                 </tr>
                             @endforelse
-                            {{--<tr>
-                                <td class="align-middle">
-                                    2014-10-12 10:00:00
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#">create password resets table</a>
-                                </td>
-                                <td class="align-middle">
-                                    <span class="badge badge-pill badge-success">Applied &ndash; Batch 1</span>
-                                </td>
-                                <td class="align-middle text-right">
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-danger dropdown-toggle" style="width: 5.5em;" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Revert
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton2">
-                                            <a class="dropdown-item" href="#">Single Migration</a>
-                                            <a class="dropdown-item" href="#">Batch 1</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table-danger">
-                                <td class="align-middle">
-                                    2014-10-12 00:00:00
-                                </td>
-                                <td class="align-middle">
-                                    create users table
-                                    <span class="badge badge-danger">File Missing!</span>
-                                </td>
-                                <td class="align-middle">
-                                    <span class="badge badge-pill badge-success">Applied &ndash; Batch 1</span>
-                                </td>
-                                <td class="align-middle text-right">
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" style="width: 5.5em;" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Fix
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                                            <a class="dropdown-item" href="#">Recreate File</a>
-                                            <a class="dropdown-item" href="#">Update Filename</a>
-                                            <a class="dropdown-item" href="#">Delete Record</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>--}}
                         </tbody>
                     </table>
                 </div>
-
-                {{--<nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>--}}
 
             </div>
             <div class="col-xl-4">

@@ -15,6 +15,12 @@ class MigrationsUIServiceProvider extends ServiceProvider
     {
         // Load the default config values
         $this->mergeConfigFrom(__DIR__ . '/../config/migrations-ui.php', 'migrations-ui');
+
+        // Register custom migrator class
+        /** @see \Illuminate\Database\MigrationServiceProvider::registerMigrator() */
+        $this->app->singleton(Migrator::class, function ($app) {
+            return new Migrator($app['migration.repository'], $app['db'], $app['files'], $app['events']);
+        });
     }
 
     public function boot(): void

@@ -2,11 +2,22 @@
 
 use DaveJamesMiller\MigrationsUI\Controllers\Asset;
 use DaveJamesMiller\MigrationsUI\Controllers\Home;
-use DaveJamesMiller\MigrationsUI\EnabledMiddleware;
+use DaveJamesMiller\MigrationsUI\Controllers\RunMigrations;
+use DaveJamesMiller\MigrationsUI\CheckEnabled;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
 
 Route
     ::prefix(config('migrations-ui.path', 'migrations'))
-    ->middleware(EnabledMiddleware::class)
+    ->middleware([
+        CheckEnabled::class,
+        AddQueuedCookiesToResponse::class,
+        StartSession::class,
+        VerifyCsrfToken::class,
+        SubstituteBindings::class,
+    ])
     ->group(static function () {
 
         Route::get('/', Home::class)
@@ -15,6 +26,12 @@ Route
         Route::get('assets/{path}', Asset::class)
             ->where('path', '.*')
             ->name('migrations-ui.asset');
+
+        Route::post('{migration}/apply', [RunMigrations::class, 'apply'])
+            ->name('migrations-ui.apply');
+
+        Route::post('{migration}/rollback', [RunMigrations::class, 'rollback'])
+            ->name('migrations-ui.rollback');
 
         // Wireframes
         Route::view('wireframes', 'migrations-ui::wireframes.index')->name('migrations-ui.wireframes.index');

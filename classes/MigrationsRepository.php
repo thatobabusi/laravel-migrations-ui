@@ -5,27 +5,20 @@ declare(strict_types=1);
 namespace DaveJamesMiller\MigrationsUI;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
 
 class MigrationsRepository
 {
     /** @var \Illuminate\Support\Collection */
     private $migrations;
 
-    public function __construct(Application $app)
+    public function __construct(Application $app, Migrator $migrator)
     {
-        /** @see \Illuminate\Database\MigrationServiceProvider::registerMigrator() */
-        /** @var \Illuminate\Database\Migrations\Migrator $migrator */
-        $migrator = $app->make('migrator');
-
         // TODO: Support for other database connections?
         //$migrator->setConnection($connection);
 
-        // Get list of migration files
-        /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
-        $paths = array_merge($migrator->paths(), [$app->databasePath('migrations')]);
-
         /** @see \Illuminate\Database\Console\Migrations\StatusCommand::getAllMigrationFiles() */
-        $migrations = collect($migrator->getMigrationFiles($paths))
+        $migrations = collect($migrator->getMigrationFiles($migrator->allPaths()))
             ->map(static function (string $file, string $name) {
                 return new Migration($name, $file);
             });;
@@ -44,11 +37,16 @@ class MigrationsRepository
         $this->migrations = $migrations;
     }
 
-    public function all()
+    public function all(): Collection
     {
         return $this->migrations->sort(static function (Migration $m1, Migration $m2) {
             return ($m2->batch ?? INF) <=> ($m1->batch ?? INF)
                 ?: $m2->name <=> $m1->name;
         });
+    }
+
+    public function get($name): ?Migration
+    {
+        return $this->migrations->get($name);
     }
 }
