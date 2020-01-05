@@ -40,45 +40,33 @@
                                     {{--<a href="#" class="btn btn-sm btn-primary font-weight-bold" style="width: 6em;">
                                         New
                                     </a>--}}
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-warning dropdown-toggle" style="width: 6em;" type="button" id="new-migration-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-warning" style="width: 5em;" data-method="post" href="{{ route('migrations-ui.fresh', ['seed' => true]) }}">
                                             Fresh
+                                        </a>
+                                        <button class="btn btn-sm btn-warning dropdown-toggle dropdown-toggle-split" type="button" id="new-migration-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="new-migration-dropdown-button">
-                                            <form action="{{ route('migrations-ui.fresh') }}" method="post">
-                                                @csrf
-                                                <button class="dropdown-item" type="submit">
-                                                    Fresh
-                                                    <small class="d-block text-muted">Drop tables &amp; apply all migrations</small>
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('migrations-ui.fresh', ['seed' => true]) }}" method="post">
-                                                @csrf
-                                                <button class="dropdown-item" type="submit">
-                                                    Fresh + Seed
-                                                </button>
-                                            </form>
+                                            <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.fresh') }}">
+                                                Fresh
+                                                <small class="d-block text-muted">Drop tables &amp; apply all migrations</small>
+                                            </a>
+                                            <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.fresh', ['seed' => true]) }}">
+                                                Fresh + Seed
+                                            </a>
                                             <div class="dropdown-divider"></div>
-                                            <form action="{{ route('migrations-ui.refresh') }}" method="post">
-                                                @csrf
-                                                <button class="dropdown-item" type="submit">
-                                                    Refresh
-                                                    <small class="d-block text-muted">Rollback &amp; apply all migrations</small>
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('migrations-ui.refresh', ['seed' => true]) }}" method="post">
-                                                @csrf
-                                                <button class="dropdown-item" type="submit">
-                                                    Refresh + Seed
-                                                </button>
-                                            </form>
+                                            <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.refresh') }}">
+                                                Refresh
+                                                <small class="d-block text-muted">Rollback &amp; apply all migrations</small>
+                                            </a>
+                                            <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.refresh', ['seed' => true]) }}">
+                                                Refresh + Seed
+                                            </a>
                                             <div class="dropdown-divider"></div>
-                                            <form action="{{ route('migrations-ui.seed') }}" method="post">
-                                                @csrf
-                                                <button class="dropdown-item" type="submit">
-                                                    Seed Only
-                                                </button>
-                                            </form>
+                                            <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.seed') }}">
+                                                Seed Only
+                                            </a>
                                         </div>
                                     </div>
                                 </th>
@@ -111,47 +99,51 @@
                                         @endif
                                     </td>
                                     <td class="align-middle text-right">
-                                        <div class="dropdown">
+                                        <div class="btn-group">
                                             @if ($migration->isMissing())
-                                                {{--<button class="btn btn-sm btn-secondary dropdown-toggle" style="width: 6em;" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{--<a class="btn btn-sm btn-secondary" style="width: 5em;" data-method="post" href="#">
                                                     Fix
+                                                </a>
+                                                <button class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="migration-dropdown-button-{{ $loop->index }}">
-                                                    <a class="dropdown-item" href="#">Recreate File</a>
-                                                    <a class="dropdown-item" href="#">Update Filename</a>
-                                                    <a class="dropdown-item" href="#">Delete Record</a>
+                                                    <a class="dropdown-item" data-method="post" href="#">Recreate File</a>
+                                                    <a class="dropdown-item" data-method="post" href="#">Update Filename</a>
+                                                    <a class="dropdown-item" data-method="post" href="#">Delete Record</a>
                                                 </div>--}}
                                             @elseif ($migration->isApplied())
-                                                <button class="btn btn-sm btn-danger dropdown-toggle" style="width: 6em;" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a class="btn btn-sm btn-danger" style="width: 5em;" data-method="post" href="{{ route('migrations-ui.rollback', $migration) }}">
                                                     Rollback
+                                                </a>
+                                                <button class="btn btn-sm btn-danger dropdown-toggle dropdown-toggle-split" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton2">
-                                                    <form action="{{ route('migrations-ui.rollback', $migration) }}" method="post">
-                                                        @csrf
-                                                        <button class="dropdown-item" type="submit">Rollback This Migration</button>
-                                                    </form>
-                                                    <form action="{{ route('migrations-ui.rollback-batch', $migration->batch) }}" method="post">
-                                                        @csrf
-                                                        <button class="dropdown-item" type="submit">Rollback Batch {{ $migration->batch }}</button>
-                                                    </form>
-                                                    <form action="{{ route('migrations-ui.rollback-all') }}" method="post">
-                                                        @csrf
-                                                        <button class="dropdown-item" type="submit">Rollback All</button>
-                                                    </form>
+                                                    <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.rollback', $migration) }}">
+                                                        Rollback This Migration
+                                                    </a>
+                                                    <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.rollback-batch', $migration->batch) }}">
+                                                        Rollback Batch {{ $migration->batch }}
+                                                    </a>
+                                                    <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.rollback-all') }}">
+                                                        Rollback All
+                                                    </a>
                                                 </div>
                                             @else
-                                                <button class="btn btn-sm btn-success dropdown-toggle" style="width: 6em;" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a class="btn btn-sm btn-success" style="width: 5em;" data-method="post" href="{{ route('migrations-ui.apply', $migration) }}">
                                                     Apply
+                                                </a>
+                                                <button class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split" type="button" id="migration-dropdown-button-{{ $loop->index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="migration-dropdown-button-{{ $loop->index }}">
-                                                    <form action="{{ route('migrations-ui.apply', $migration) }}" method="post">
-                                                        @csrf
-                                                        <button class="dropdown-item" type="submit">Apply This Migration</button>
-                                                    </form>
-                                                    <form action="{{ route('migrations-ui.apply-all') }}" method="post">
-                                                        @csrf
-                                                        <button class="dropdown-item" type="submit">Apply All</button>
-                                                    </form>
+                                                    <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.apply', $migration) }}">
+                                                        Apply This Migration
+                                                    </a>
+                                                    <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.apply-all') }}">
+                                                        Apply All
+                                                    </a>
                                                 </div>
                                             @endif
                                         </div>
