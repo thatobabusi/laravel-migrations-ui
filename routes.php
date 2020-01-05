@@ -34,6 +34,15 @@ Route
         Route::post('rollback-all', [RunMigrations::class, 'rollbackAll'])
             ->name('migrations-ui.rollback-all');
 
+        Route::post('fresh', [RunMigrations::class, 'fresh'])
+            ->name('migrations-ui.fresh');
+
+        Route::post('refresh', [RunMigrations::class, 'refresh'])
+            ->name('migrations-ui.refresh');
+
+        Route::post('seed', [RunMigrations::class, 'seed'])
+            ->name('migrations-ui.seed');
+
         // Batches
         Route::post('batch/{batch}/rollback', [RunMigrations::class, 'rollbackBatch'])
             ->where('batch', '\d+')

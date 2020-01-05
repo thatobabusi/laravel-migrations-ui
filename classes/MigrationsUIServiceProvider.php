@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace DaveJamesMiller\MigrationsUI;
 
 use Illuminate\Support\ServiceProvider;
