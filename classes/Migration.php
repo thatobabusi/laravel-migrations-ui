@@ -75,4 +75,10 @@ class Migration implements UrlRoutable
         // Note: $field was added in Laravel 7
         return app(MigrationsRepository::class)->get($name);
     }
+
+    // Note: This method was added in Laravel 7
+    public function resolveChildRouteBinding($childType, $value, $field)
+    {
+        throw new LogicException('Child route bindings not supported');
+    }
 }
