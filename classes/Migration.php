@@ -70,8 +70,9 @@ class Migration implements UrlRoutable
         return $this->name;
     }
 
-    public function resolveRouteBinding($name)
+    public function resolveRouteBinding($name, $field = null)
     {
+        // Note: $field was added in Laravel 7
         return app(MigrationsRepository::class)->get($name);
     }
 }
