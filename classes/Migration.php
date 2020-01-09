@@ -54,7 +54,7 @@ class Migration implements UrlRoutable
         return $this->file === null;
     }
 
-    public function relPath(): string
+    public function relPath(): ?string
     {
         $base = base_path() . DIRECTORY_SEPARATOR;
 
