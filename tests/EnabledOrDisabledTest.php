@@ -3,7 +3,6 @@
 namespace MigrationsUITests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestResponse;
 
 class EnabledOrDisabledTest extends TestCase
 {
@@ -59,7 +58,8 @@ class EnabledOrDisabledTest extends TestCase
         $this->getRouteList()->assertOk();
     }
 
-    private function getRouteList(): TestResponse
+    /** @noinspection ReturnTypeCanBeDeclaredInspection Changed between Laravel 6 and 7 */
+    private function getRouteList()
     {
         return $this->withExceptionHandling()->get('/migrations');
     }
