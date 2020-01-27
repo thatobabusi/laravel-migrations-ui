@@ -21,9 +21,18 @@ Route
     ])
     ->group(static function () {
 
+        // Wireframes (TODO: remove once fully implemented)
+        Route::view('wireframes', 'migrations-ui::wireframes.index')->name('migrations-ui.wireframes.index');
+        Route::view('wireframes/create', 'migrations-ui::wireframes.create.step1')->name('migrations-ui.wireframes.create');
+        Route::view('wireframes/create/step2', 'migrations-ui::wireframes.create.step2')->name('migrations-ui.wireframes.create.step2');
+        Route::view('wireframes/create/step3', 'migrations-ui::wireframes.create.step3')->name('migrations-ui.wireframes.create.step3');
+        Route::view('wireframes/create/step4', 'migrations-ui::wireframes.create.step4')->name('migrations-ui.wireframes.create.step4');
+
+        // Homepage
         Route::get('/', Home::class)
             ->name('migrations-ui.home');
 
+        // Assets
         Route::get('assets/{path}', Asset::class)
             ->where('path', '.*')
             ->name('migrations-ui.asset');
@@ -58,12 +67,5 @@ Route
 
         Route::post('{migration}/rollback', [RunMigrations::class, 'rollbackSingle'])
             ->name('migrations-ui.rollback');
-
-        // Wireframes
-        Route::view('wireframes', 'migrations-ui::wireframes.index')->name('migrations-ui.wireframes.index');
-        Route::view('wireframes/create', 'migrations-ui::wireframes.create.step1')->name('migrations-ui.wireframes.create');
-        Route::view('wireframes/create/step2', 'migrations-ui::wireframes.create.step2')->name('migrations-ui.wireframes.create.step2');
-        Route::view('wireframes/create/step3', 'migrations-ui::wireframes.create.step3')->name('migrations-ui.wireframes.create.step3');
-        Route::view('wireframes/create/step4', 'migrations-ui::wireframes.create.step4')->name('migrations-ui.wireframes.create.step4');
 
     });
