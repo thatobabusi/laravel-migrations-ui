@@ -57,13 +57,13 @@ class RunMigrations
             $migration = $migrations->first();
 
             return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::success', new HtmlString(
-                    '<strong>Migrated:</strong> ' . e($migration->name) . $this->runtime()
-                ));
+                ->with('migrations-ui::success-title', 'Applied Migration')
+                ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
         }
 
         return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', "Ran $count migrations" . $this->runtime());
+            ->with('migrations-ui::success-title', 'Applied Migrations')
+            ->with('migrations-ui::success', new HtmlString("Ran $count migrations." . $this->runtime()));
     }
 
     public function applySingle(Migration $migration)
@@ -77,7 +77,8 @@ class RunMigrations
 
         if ($migrations->isEmpty()) {
             return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::warning', 'No migrations are pending');
+                ->with('migrations-ui::danger-title', 'Cannot Apply Migrations')
+                ->with('migrations-ui::danger', 'No migrations are pending.');
         }
 
         return $this->applyAndRedirect($migrations);
@@ -108,13 +109,13 @@ class RunMigrations
             $migration = $migrations->first();
 
             return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::success', new HtmlString(
-                    '<strong>Rolled back:</strong> ' . e($migration->name) . $this->runtime()
-                ));
+                ->with('migrations-ui::success-title', 'Rolled Back')
+                ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
         }
 
         return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', "Rolled back $count migrations" . $this->runtime());
+            ->with('migrations-ui::success-title', 'Rolled Back')
+            ->with('migrations-ui::success', new HtmlString("Rolled back $count migrations." . $this->runtime()));
     }
 
     public function rollbackSingle(Migration $migration)
@@ -128,7 +129,8 @@ class RunMigrations
 
         if ($migrations->isEmpty()) {
             return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::warning', "No migrations found in batch $batch");
+                ->with('migrations-ui::danger-title', 'Cannot Roll Back')
+                ->with('migrations-ui::danger', "No migrations found in batch $batch.");
         }
 
         return $this->rollbackAndRedirect($migrations);
@@ -140,7 +142,8 @@ class RunMigrations
 
         if ($migrations->isEmpty()) {
             return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::warning', 'No applied migrations found');
+                ->with('migrations-ui::danger-title', 'Cannot Roll Back')
+                ->with('migrations-ui::danger', 'No applied migrations found.');
         }
 
         return $this->rollbackAndRedirect($migrations);
@@ -159,6 +162,7 @@ class RunMigrations
                 $builder->dropAllViews();
                 $types[] = 'views';
             } catch (LogicException $e) {
+                Session::flash('migrations-ui::warning-title', 'Cannot Drop Views');
                 Session::flash('migrations-ui::warning', $e->getMessage());
             }
         }
@@ -168,13 +172,14 @@ class RunMigrations
                 $builder->dropAllTypes();
                 $types[] = 'types';
             } catch (LogicException $e) {
+                Session::flash('migrations-ui::warning-title', 'Cannot Drop Types');
                 Session::flash('migrations-ui::warning', $e->getMessage());
             }
         }
 
         $this->migrator->getRepository()->createRepository();
 
-        $message = 'Dropped all ' . collect($types)->join(', ', ' & ');
+        $message = 'Dropped all ' . collect($types)->join(', ', ' & ') . '.';
         return $this->finishRefresh($message);
     }
 
@@ -182,7 +187,7 @@ class RunMigrations
     {
         $count = $this->rollback($this->migrations->applied())->count();
 
-        $message = $count === 1 ? 'Rolled back 1 migration' : "Rolled back $count migrations";
+        $message = $count === 1 ? 'Rolled back 1 migration.' : "Rolled back $count migrations.";
         return $this->finishRefresh($message);
     }
 
@@ -193,15 +198,15 @@ class RunMigrations
         $this->migrations->refresh();
 
         $count = $this->apply($this->migrations->pending())->count();
-        $messages[] = $count === 1 ? 'ran 1 migration' : "ran $count migrations";
+        $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
         $seeded = $this->runSeeder(Request::get('seed', false));
         if ($seeded) {
-            $messages[] = 'seeded the database';
+            $messages[] = 'Seeded the database.';
         }
 
         return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', collect($messages)->join(', ', ' and ') . $this->runtime());
+            ->with('migrations-ui::success', new HtmlString(collect($messages)->join('<br>') . $this->runtime()));
     }
 
     private function runSeeder(bool $enabled = true): bool
@@ -214,7 +219,8 @@ class RunMigrations
         $class = config('migrations-ui.seeder');
 
         if (!class_exists($class)) {
-            Session::flash('migrations-ui::danger', "Cannot find $class class");
+            Session::flash('migrations-ui::danger-title', 'Cannot Seed Database');
+            Session::flash('migrations-ui::danger', "Unable to find $class class.");
             return false;
         }
 
@@ -231,7 +237,7 @@ class RunMigrations
     public function seed()
     {
         if ($this->runSeeder()) {
-            Session::flash('migrations-ui::success', 'Database seeded' . $this->runtime());
+            Session::flash('migrations-ui::success', new HtmlString('Database Seeded' . $this->runtime()));
         }
 
         return redirect()->route('migrations-ui.home');
@@ -241,6 +247,6 @@ class RunMigrations
     {
         $runTime = round(microtime(true) - $this->startTime, 2);
 
-        return " ($runTime seconds)";
+        return "<br><small class='text-muted'>in $runTime seconds</small>";
     }
 }

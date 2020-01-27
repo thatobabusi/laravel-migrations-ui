@@ -145,7 +145,7 @@
                                                         Apply This Migration
                                                     </a>
                                                     <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.apply-all') }}">
-                                                        Apply All
+                                                        Apply All Pending
                                                     </a>
                                                 </div>
                                             @endif

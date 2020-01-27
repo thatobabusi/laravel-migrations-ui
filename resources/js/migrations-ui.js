@@ -1,7 +1,8 @@
-import 'bootstrap/js/dist/alert';
+// import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 // import 'bootstrap/js/dist/popover';
+import 'bootstrap/js/dist/toast';
 import 'bootstrap/js/dist/tooltip';
 
 import $ from 'jquery';
@@ -16,6 +17,7 @@ $(function () {
     // Initialise Bootstrap
     $('[data-toggle="tooltip"]').tooltip();
     // $('[data-toggle="popover"]').popover();
+    $('.toast').toast('show');
 
     // Links with alternative methods (e.g. POST)
     const token = $('meta[name="csrf-token"]').attr('content');
