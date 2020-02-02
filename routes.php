@@ -58,7 +58,7 @@ Route
             ->where('batch', '\d+')
             ->name('migrations-ui.rollback-batch');
 
-        // Single migrations
+        // Single migrations (must be after other routes)
         Route::get('{migration}', MigrationDetails::class)
             ->name('migrations-ui.migration-details');
 
