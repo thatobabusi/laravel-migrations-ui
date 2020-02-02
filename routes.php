@@ -3,7 +3,6 @@
 use DaveJamesMiller\MigrationsUI\Controllers\Asset;
 use DaveJamesMiller\MigrationsUI\Controllers\Home;
 use DaveJamesMiller\MigrationsUI\Controllers\MigrationDetails;
-use DaveJamesMiller\MigrationsUI\Controllers\NewMigration;
 use DaveJamesMiller\MigrationsUI\Controllers\RunMigrations;
 use DaveJamesMiller\MigrationsUI\CheckEnabled;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -58,10 +57,6 @@ Route
         Route::post('batch/{batch}/rollback', [RunMigrations::class, 'rollbackBatch'])
             ->where('batch', '\d+')
             ->name('migrations-ui.rollback-batch');
-
-        // New migration
-        Route::get('create', [NewMigration::class, 'create'])
-            ->name('migrations-ui.create');
 
         // Single migrations (must be after other routes)
         Route::get('{migration}', MigrationDetails::class)

@@ -23,14 +23,11 @@
 
                 <div class="card shadow-sm mb-3">
                     <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">
-                        <div class="float-right" style="margin: -6px 0;">
-                            <a href="{{ route('migrations-ui.create') }}" class="btn btn-sm btn-dark" style="width: 6.5em;">
-                                New
-                            </a>
-                        </div>
-                        <h6 class="m-0">
-                            Migrations
-                        </h6>
+                        <a href="https://laravel.com/docs/migrations" target="_blank" class="float-right text-white">
+                            <i class="fas fa-question-circle" aria-hidden="true"></i>
+                            Laravel Docs
+                        </a>
+                        <h6 class="m-0">Migrations</h6>
                     </div>
                     <table class="table table-hover bg-white mb-0">
                         <thead>
@@ -39,6 +36,9 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" class="align-middle font-weight-normal text-muted text-right">
+                                    {{--<a href="#" class="btn btn-sm btn-primary font-weight-bold" style="width: 6em;">
+                                        New
+                                    </a>--}}
                                     <div class="btn-group">
                                         <a class="btn btn-sm btn-warning" style="width: 5em;" data-method="post" href="{{ route('migrations-ui.fresh', ['seed' => true]) }}">
                                             Fresh
