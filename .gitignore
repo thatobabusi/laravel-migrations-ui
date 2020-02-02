@@ -1,3 +1,6 @@
+# Configuration
+/webpack.mix.local.js
+
 # PHP packages
 /composer.lock
 /vendor/

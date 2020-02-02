@@ -1,3 +1,5 @@
+@inject('helpers', 'DaveJamesMiller\MigrationsUI\Helpers')
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -15,10 +17,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Favicon borrowed from https://laravel.com/img/favicon/favicon-16x16.png --}}
-        <link rel="icon" href="{{ route('migrations-ui.asset', 'favicon.png') }}" type="image/png">
+        <link rel="icon" href="{{ $helpers->assetUrl('favicon.png') }}" type="image/png">
 
-        <link rel="stylesheet" href="{{ route('migrations-ui.asset', 'migrations-ui.css') }}">
-        <script src="{{ route('migrations-ui.asset', 'migrations-ui.js') }}" async></script>
+        <link rel="stylesheet" href="{{ $helpers->assetUrl('migrations-ui.css') }}">
+        <script src="{{ $helpers->assetUrl('migrations-ui.js') }}" async></script>
 
         @stack('head')
 
