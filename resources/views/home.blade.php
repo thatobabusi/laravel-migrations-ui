@@ -52,7 +52,7 @@
                                                 <small class="d-block text-muted">Drop tables &amp; apply all migrations</small>
                                             </a>
                                             <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.fresh', ['seed' => true]) }}">
-                                                Fresh + Seed
+                                                Fresh + Seed <small class="text-muted">(Default)</small>
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.refresh') }}">
@@ -64,8 +64,11 @@
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" data-method="post" href="{{ route('migrations-ui.seed') }}">
-                                                Seed Only
+                                                Seed only
                                             </a>
+                                            {{--<a class="dropdown-item" data-method="post" href="#">
+                                                Choose Seeders...
+                                            </a>--}}
                                         </div>
                                     </div>
                                 </th>
