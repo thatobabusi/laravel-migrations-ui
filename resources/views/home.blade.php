@@ -18,7 +18,6 @@
 
 @section('content')
     <div class="container-fluid mt-3">
-        @include('migrations-ui::_flash')
         <div class="row">
             <div class="col-xl">
 

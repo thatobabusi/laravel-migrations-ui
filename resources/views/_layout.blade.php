@@ -27,6 +27,8 @@
 
         @include('migrations-ui::_navbar')
 
+        @include('migrations-ui::_flash')
+
         @yield('content')
 
         @stack('footer')
