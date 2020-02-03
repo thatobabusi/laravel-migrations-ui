@@ -16,15 +16,15 @@ const path = require('path');
 mix
     .setPublicPath('build')
     .setResourceRoot('.') // Relative
-    .js('resources/js/migrations-ui.js', 'build')
-    .sass('resources/sass/migrations-ui.scss', 'build')
+    .js('resources/js/app.js', 'build')
+    .sass('resources/sass/app.scss', 'build')
     .copy('resources/img/favicon.png', 'build');
 
 if (mix.inProduction()) {
     mix.version();
 }
 
-// Local config
+// Local config for setting the hostname
 const localConfig = path.join(__dirname, 'webpack.mix.local.js');
 if (fs.existsSync(localConfig)) {
     require(localConfig);

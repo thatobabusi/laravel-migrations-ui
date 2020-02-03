@@ -48,13 +48,10 @@ $modal-lg: 97%;
 
 
 //--------------------------------------
-// Font Awesome
+// BootstrapVue
 //--------------------------------------
 
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/brands';
-//@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~bootstrap-vue';
 
 
 //--------------------------------------
@@ -68,10 +65,24 @@ $modal-lg: 97%;
 // Custom
 //--------------------------------------
 
-body {
-    min-height: 100vh;
-    padding-bottom: 34px;
-    position: relative;
+//body {
+//    min-height: 100vh;
+//    padding-bottom: 34px;
+//    position: relative;
+//}
+
+.loading {
+    @extend .display-4;
+    @extend .text-muted;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 0;
 }
 
 h6,
@@ -79,10 +90,12 @@ h6,
     font-weight: 600;
 }
 
-// Make split buttons actually appear split
 .btn-group > .btn.dropdown-toggle:not(:first-child),
 .btn-group > .btn-group:not(:first-child) > .btn.dropdown-toggle {
+    // Make split buttons actually appear split
     border-left: 1px solid rgba(0, 0, 0, 0.1);
+    // And make them work when the group has a fixed width
+    flex-grow: 0;
 }
 
 .table thead tr {

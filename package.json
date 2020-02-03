@@ -16,18 +16,24 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js --https --host=0.0.0.0 --disable-host-check"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^5.11.2",
+        "@fortawesome/fontawesome-svg-core": "^1.2.26",
+        "@fortawesome/free-brands-svg-icons": "^5.12.0",
+        "@fortawesome/free-solid-svg-icons": "^5.12.0",
+        "@fortawesome/vue-fontawesome": "^0.1.9",
         "axios": "^0.19",
-        "bootstrap": "^4.3.1",
+        "bootstrap": "^4.4.1",
+        "bootstrap-vue": "^2.4.0",
         "cross-env": "^5.1",
         "highlight.js": "^9.16.2",
         "jquery": "^3.4.1",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.13",
-        "popper.js": "^1.16.0",
+        "popper.js": "^1.16.1",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "vue": "^2.6.11",
+        "vue-meta": "^2.3.2",
+        "vue-router": "^3.1.5",
         "vue-template-compiler": "^2.6.10",
         "webpack": "^4.41.2"
     }

@@ -1,10 +1,7 @@
 <?php
 
-use DaveJamesMiller\MigrationsUI\Controllers\Asset;
-use DaveJamesMiller\MigrationsUI\Controllers\Home;
-use DaveJamesMiller\MigrationsUI\Controllers\MigrationDetails;
-use DaveJamesMiller\MigrationsUI\Controllers\RunMigrations;
 use DaveJamesMiller\MigrationsUI\CheckEnabled;
+use DaveJamesMiller\MigrationsUI\Controllers\Asset;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -28,44 +25,49 @@ Route
         Route::view('wireframes/create/step3', 'migrations-ui::wireframes.create.step3')->name('migrations-ui.wireframes.create.step3');
         Route::view('wireframes/create/step4', 'migrations-ui::wireframes.create.step4')->name('migrations-ui.wireframes.create.step4');
 
-        // Homepage
-        Route::get('/', Home::class)
-            ->name('migrations-ui.home');
-
         // Assets
         Route::get('assets/{path}', Asset::class)
             ->where('path', '.*')
             ->name('migrations-ui.asset');
 
-        // All migrations
-        Route::post('apply-all', [RunMigrations::class, 'applyAll'])
-            ->name('migrations-ui.apply-all');
+        // Frontend (SPA)
+        Route::view('{path?}', 'migrations-ui::app')
+            ->where('path', '.*')
+            ->name('migrations-ui');
 
-        Route::post('rollback-all', [RunMigrations::class, 'rollbackAll'])
-            ->name('migrations-ui.rollback-all');
-
-        Route::post('fresh', [RunMigrations::class, 'fresh'])
-            ->name('migrations-ui.fresh');
-
-        Route::post('refresh', [RunMigrations::class, 'refresh'])
-            ->name('migrations-ui.refresh');
-
-        Route::post('seed', [RunMigrations::class, 'seed'])
-            ->name('migrations-ui.seed');
-
-        // Batches
-        Route::post('batch/{batch}/rollback', [RunMigrations::class, 'rollbackBatch'])
-            ->where('batch', '\d+')
-            ->name('migrations-ui.rollback-batch');
-
-        // Single migrations (must be after other routes)
-        Route::get('{migration}', MigrationDetails::class)
-            ->name('migrations-ui.migration-details');
-
-        Route::post('{migration}/apply', [RunMigrations::class, 'applySingle'])
-            ->name('migrations-ui.apply');
-
-        Route::post('{migration}/rollback', [RunMigrations::class, 'rollbackSingle'])
-            ->name('migrations-ui.rollback');
+        // // Homepage
+        // Route::get('/', Home::class)
+        //     ->name('migrations-ui.home');
+        //
+        // // All migrations
+        // Route::post('apply-all', [RunMigrations::class, 'applyAll'])
+        //     ->name('migrations-ui.apply-all');
+        //
+        // Route::post('rollback-all', [RunMigrations::class, 'rollbackAll'])
+        //     ->name('migrations-ui.rollback-all');
+        //
+        // Route::post('fresh', [RunMigrations::class, 'fresh'])
+        //     ->name('migrations-ui.fresh');
+        //
+        // Route::post('refresh', [RunMigrations::class, 'refresh'])
+        //     ->name('migrations-ui.refresh');
+        //
+        // Route::post('seed', [RunMigrations::class, 'seed'])
+        //     ->name('migrations-ui.seed');
+        //
+        // // Batches
+        // Route::post('batch/{batch}/rollback', [RunMigrations::class, 'rollbackBatch'])
+        //     ->where('batch', '\d+')
+        //     ->name('migrations-ui.rollback-batch');
+        //
+        // // Single migrations (must be after other routes)
+        // Route::get('{migration}', MigrationDetails::class)
+        //     ->name('migrations-ui.migration-details');
+        //
+        // Route::post('{migration}/apply', [RunMigrations::class, 'applySingle'])
+        //     ->name('migrations-ui.apply');
+        //
+        // Route::post('{migration}/rollback', [RunMigrations::class, 'rollbackSingle'])
+        //     ->name('migrations-ui.rollback');
 
     });

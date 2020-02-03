@@ -5,10 +5,10 @@
     <head>
 
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>
-            @yield('title', 'NO TITLE SET')
+            Migrations
             &ndash;
             {{-- Include the application name to make it easier to distinguish multiple tabs --}}
             {{ config('app.name', 'Laravel') }}
@@ -19,21 +19,17 @@
         {{-- Favicon borrowed from https://laravel.com/img/favicon/favicon-16x16.png --}}
         <link rel="icon" href="{{ $helpers->assetUrl('favicon.png') }}" type="image/png">
 
-        <link rel="stylesheet" href="{{ $helpers->assetUrl('migrations-ui.css') }}">
-        <script src="{{ $helpers->assetUrl('migrations-ui.js') }}" async></script>
-
-        @stack('head')
+        <link rel="stylesheet" href="{{ $helpers->assetUrl('app.css') }}">
+        <script src="{{ $helpers->assetUrl('app.js') }}" defer></script>
 
     </head>
-    <body class="bg-light">
-
-        @include('migrations-ui::_navbar')
-
-        @include('migrations-ui::_flash')
-
-        @yield('content')
-
-        @stack('footer')
-
+    <body class="bg-light"
+        data-app-name="{{ config('app.name', 'Laravel') }}"
+        data-home-url="{{ url('/') }}"
+        data-url-base="{{ Request::getBasePath() . route('migrations-ui', [], false) }}"
+    >
+        <div id="app" class="loading">
+            Loading...
+        </div>
     </body>
 </html>
