@@ -1,3 +1,4 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const fs = require('fs');
 const mix = require('laravel-mix');
 const path = require('path');
@@ -15,14 +16,22 @@ const path = require('path');
 
 mix
     .setPublicPath('build')
-    .setResourceRoot('.') // Relative
+    .webpackConfig({
+        plugins: [new CleanWebpackPlugin()],
+    })
     .sourceMaps()
     .js('resources/js/app.js', 'build')
     .sass('resources/sass/app.scss', 'build')
     .copy('resources/img/favicon.png', 'build');
 
 if (mix.inProduction()) {
-    mix.version();
+    mix
+        .version()
+        .webpackConfig({
+            output: {
+                chunkFilename: 'chunk-[contenthash].js',
+            },
+        });
 }
 
 // Local config for setting the hostname

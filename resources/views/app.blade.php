@@ -24,6 +24,7 @@
 
     </head>
     <body class="bg-light"
+        data-asset-url="{{ str_replace('FILENAME', '', route('migrations-ui.asset', 'FILENAME')) }}"
         data-app-name="{{ config('app.name', 'Laravel') }}"
         data-base-url="{{ Request::getBasePath() . route('migrations-ui', [], false) }}"
         data-home-url="{{ url('/') }}"
