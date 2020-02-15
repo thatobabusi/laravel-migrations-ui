@@ -1,19 +1,23 @@
 <script>
-    import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
+    import {faQuestionCircle, faSpinner} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+    import {mapActions, mapState} from 'vuex';
     import FreshButton from './FreshButton';
     import MigrationsListRow from './MigrationsListRow';
 
     export default {
         name: 'MigrationsList',
         components: { MigrationsListRow, FreshButton, FontAwesomeIcon },
-        data() {
-            return {
-                migrations: [],
-            };
-        },
         computed: {
+            ...mapState('migrations', ['migrations', 'loading']),
             faQuestionCircle: () => faQuestionCircle,
+            faSpinner: () => faSpinner,
+        },
+        mounted() {
+            this.load();
+        },
+        methods: {
+            ...mapActions('migrations', ['load']),
         },
     }
 </script>
@@ -29,7 +33,7 @@
         </div>
         <table class="table table-hover bg-white mb-0">
 
-            <thead>
+            <thead v-if="!loading">
                 <tr>
                     <th scope="col">Date / Time</th>
                     <th scope="col">Name</th>
@@ -45,7 +49,15 @@
                 </tr>
             </thead>
 
-            <tbody v-if="migrations.length">
+            <tbody v-if="loading">
+                <tr>
+                    <td colspan="4" class="text-muted">
+                        <FontAwesomeIcon :icon="faSpinner" spin class="mr-2"></FontAwesomeIcon>
+                        Loading...
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else-if="migrations.length">
                 <MigrationsListRow v-for="migration of migrations" :key="migration.id" :migration="migration"></MigrationsListRow>
             </tbody>
             <tbody v-else>

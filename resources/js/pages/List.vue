@@ -1,10 +1,19 @@
 <script>
+    import {mapActions} from 'vuex';
     import MigrationsList from '../components/MigrationsList';
     import Navbar from '../components/Navbar';
     import TablesList from '../components/TablesList';
+    import refresh from '../mixins/refresh';
 
     export default {
         components: { MigrationsList, Navbar, TablesList },
+        mixins: [refresh],
+        methods: {
+            ...mapActions('migrations', ['load']),
+            refresh() {
+                this.load();
+            },
+        },
     }
 </script>
 

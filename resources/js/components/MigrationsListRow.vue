@@ -1,13 +1,13 @@
 <script>
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-    import {BDropdown, BDropdownItem, BDropdownDivider} from 'bootstrap-vue';
+    import {BDropdown, BDropdownDivider, BDropdownItem, VBTooltip} from 'bootstrap-vue';
 
     export default {
         name: 'MigrationsListRow',
         props: {
             migration: { type: Object, required: true },
         },
-        components: { BDropdown, BDropdownItem, BDropdownDivider, FontAwesomeIcon },
+        components: { BDropdown, BDropdownItem, BDropdownDivider },
+        directives: { BTooltip: VBTooltip },
         data() {
             return {
                 running: false,
@@ -17,34 +17,35 @@
 </script>
 
 <template>
-    <tr :class="migration.file ? '' : 'table-danger'">
+    <tr :class="migration.isMissing ? 'table-danger' : ''">
 
         <td class="align-middle">
-            <span v-if="migration.date">{{ migration.date }}</span>
-            <span v-else class="text-muted">(Unknown)</span>
-        </td>
-
-        <td class="align-middle">
-            <span data-toggle="tooltip" data-placement="top" :title="migration.relPath">
-                <a v-if="migration.file" href="#" data-toggle="modal" data-target="#migration-popup" :data-path="migration.relPath">
-                    {{ migration.title }}
-                </a>
-                <template v-else>
-                    {{ migration.title }}
-                    <span class="badge badge-danger">File Missing!</span>
-                </template>
+            <!-- The tooltip is around the date not the title because it interferes with moving the mouse over links -->
+            <span v-b-tooltip.right="migration.relPath">
+                <span v-if="migration.date">{{ migration.date }}</span>
+                <span v-else class="text-muted">(Unknown)</span>
             </span>
         </td>
 
         <td class="align-middle">
-            <span v-if="migration.batch" class="badge badge-pill badge-success">Applied &ndash; Batch {{ migration.batch }}</span>
+            <template v-if="migration.isMissing">
+                {{ migration.title }}
+                <span class="badge badge-danger">File Missing!</span>
+            </template>
+            <a v-else href="#" data-toggle="modal" data-target="#migration-popup" :data-path="migration.relPath">
+                {{ migration.title }}
+            </a>
+        </td>
+
+        <td class="align-middle">
+            <span v-if="migration.isApplied" class="badge badge-pill badge-success">Applied &ndash; Batch {{ migration.batch }}</span>
             <span v-else class="badge badge-pill badge-warning">Pending</span>
         </td>
 
         <td class="align-middle text-right">
             <div class="btn-group">
 
-                <template v-if="!migration.file">
+                <template v-if="migration.isMissing">
                     <!--
                     <a class="btn btn-sm btn-secondary" style="width: 5em;" data-method="post" href="#">
                         Fix
@@ -60,7 +61,7 @@
                     -->
                 </template>
 
-                <template v-else-if="migration.batch">
+                <template v-else-if="migration.isApplied">
                     <!--<a class="btn btn-sm btn-danger" style="width: 5em;">&lt;!&ndash;route('migrations-ui.rollback', $migration)&ndash;&gt;
                         Rollback
                     </a>

@@ -82,23 +82,25 @@
 import Vue from 'vue';
 import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
+import store from './store';
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
-    base: document.body.dataset.urlBase,
+    base: document.body.dataset.baseUrl,
     routes: require('./routes').default,
 });
 
 new Vue({
     el: '#app',
     name: 'App',
+    render: h => h('router-view'),
     metaInfo: {
         title: 'Migrations',
         titleTemplate: '%s – ' + document.body.dataset.appName,
     },
-    render: h => h('router-view'),
     router,
+    store,
 });

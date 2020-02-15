@@ -2,11 +2,11 @@
 
 namespace DaveJamesMiller\MigrationsUI;
 
-use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Contracts\Support\Arrayable;
 use LogicException;
 
-class Migration implements UrlRoutable
+class Migration implements Arrayable, UrlRoutable
 {
     /*** @var string */
     public $name;
@@ -33,9 +33,9 @@ class Migration implements UrlRoutable
         $this->name = $name;
         $this->file = $file;
 
-        if (preg_match('/^(\d{4}_\d{2}_\d{2}_\d{2}\d{2}\d{2})_(.+)$/', $name, $matches)) {
-            $this->date = CarbonImmutable::createFromFormat('Y_m_d_His', $matches[1]);
-            $this->title = $matches[2];
+        if (preg_match('/^(\d{4})_(\d{2})_(\d{2})_(\d{2})(\d{2})(\d{2})_(.+)$/', $name, $m)) {
+            $this->date = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
+            $this->title = $m[7];
         } else {
             $this->date = null;
             $this->title = $name;
@@ -63,6 +63,19 @@ class Migration implements UrlRoutable
         }
 
         return $this->file;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'date' => $this->date,
+            'title' => $this->title,
+            'batch' => $this->batch,
+            'isApplied' => $this->isApplied(),
+            'isMissing' => $this->isMissing(),
+            'relPath' => $this->relPath(),
+        ];
     }
 
     //--------------------------------------

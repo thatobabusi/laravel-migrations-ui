@@ -16,6 +16,7 @@ const path = require('path');
 mix
     .setPublicPath('build')
     .setResourceRoot('.') // Relative
+    .sourceMaps()
     .js('resources/js/app.js', 'build')
     .sass('resources/sass/app.scss', 'build')
     .copy('resources/img/favicon.png', 'build');

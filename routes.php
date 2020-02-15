@@ -1,7 +1,6 @@
 <?php
 
-use DaveJamesMiller\MigrationsUI\CheckEnabled;
-use DaveJamesMiller\MigrationsUI\Controllers\Asset;
+use DaveJamesMiller\MigrationsUI\Middleware\CheckEnabled;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -9,6 +8,7 @@ use Illuminate\Session\Middleware\StartSession;
 
 Route
     ::prefix(config('migrations-ui.path', 'migrations'))
+    ->namespace('DaveJamesMiller\MigrationsUI\Controllers')
     ->middleware([
         CheckEnabled::class,
         AddQueuedCookiesToResponse::class,
@@ -26,19 +26,25 @@ Route
         Route::view('wireframes/create/step4', 'migrations-ui::wireframes.create.step4')->name('migrations-ui.wireframes.create.step4');
 
         // Assets
-        Route::get('assets/{path}', Asset::class)
+        Route::get('assets/{path}', 'Asset')
             ->where('path', '.*')
             ->name('migrations-ui.asset');
+
+        // API
+        Route::prefix('api')->group(static function () {
+
+            Route::get('migrations', 'MigrationsController@index');
+
+            // Not found (to prevent it returning the HTML)
+            Route::any('{path?}', 'NotFound')->where('path', '.*');
+
+        });
 
         // Frontend (SPA)
         Route::view('{path?}', 'migrations-ui::app')
             ->where('path', '.*')
             ->name('migrations-ui');
 
-        // // Homepage
-        // Route::get('/', Home::class)
-        //     ->name('migrations-ui.home');
-        //
         // // All migrations
         // Route::post('apply-all', [RunMigrations::class, 'applyAll'])
         //     ->name('migrations-ui.apply-all');

@@ -20,16 +20,21 @@
         <link rel="icon" href="{{ $helpers->assetUrl('favicon.png') }}" type="image/png">
 
         <link rel="stylesheet" href="{{ $helpers->assetUrl('app.css') }}">
-        <script src="{{ $helpers->assetUrl('app.js') }}" defer></script>
 
     </head>
-    <body class="bg-light"
-        data-app-name="{{ config('app.name', 'Laravel') }}"
-        data-base-url="{{ Request::getBasePath() . route('migrations-ui', [], false) }}"
-        data-home-url="{{ url('/') }}"
-    >
-        <div id="app" class="loading">
-            Loading...
+    <body class="bg-light">
+
+        <div class="card m-4">
+            <div class="card-header">
+                <strong>Route Not Found</strong>
+            </div>
+            <div class="card-body">
+                <code>
+                    {{ Request::getMethod() }}
+                    {{ Request::getRequestUri() }}
+                </code>
+            </div>
         </div>
+
     </body>
 </html>
