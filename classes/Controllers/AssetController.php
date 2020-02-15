@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
-class Asset
+class AssetController
 {
     private const MIME_TYPES = [
         'css' => 'text/css',

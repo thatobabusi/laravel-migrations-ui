@@ -5,9 +5,6 @@
 // import 'bootstrap/js/dist/toast';
 // import 'bootstrap/js/dist/tooltip';
 //
-// import $ from 'jquery';
-// import hljs from 'highlight.js/lib/highlight';
-//
 // import hljs from 'highlight.js/lib/highlight';
 // import $ from 'jquery';
 //
@@ -18,7 +15,6 @@
 //
 // function setCode(code) {
 //     $code.text(code);
-//     hljs.highlightBlock($code[0]);
 // }
 //
 //
@@ -46,9 +42,6 @@
 //         },
 //     });
 // });
-//
-// // Configure highlight.js
-// hljs.registerLanguage('php', require('highlight.js/lib/languages/php'));
 //
 // $(function () {
 //     // Initialise Bootstrap
@@ -81,6 +74,7 @@
 
 import './setup';
 
+import App from './App';
 import Vue from 'vue';
 import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
@@ -96,12 +90,11 @@ const router = new VueRouter({
 });
 
 new Vue({
+    ...App,
     el: '#app',
-    name: 'App',
-    render: h => h('router-view'),
     metaInfo: {
-        title: 'Migrations',
         titleTemplate: '%s – ' + document.body.dataset.appName,
+        title: 'MISSING TITLE',
     },
     router,
     store,

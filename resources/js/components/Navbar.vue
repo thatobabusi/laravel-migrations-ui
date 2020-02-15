@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top">
 
         <!-- Logo -->
-        <router-link class="navbar-brand" :to="{name: 'list'}">
+        <router-link class="navbar-brand" to="/list">
             <FontAwesomeIcon :icon="faLaravel" size="lg" class="mr-2"></FontAwesomeIcon>
             <span class="sr-only">Laravel</span>
             Migrations

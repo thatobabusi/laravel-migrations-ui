@@ -4,7 +4,7 @@ namespace DaveJamesMiller\MigrationsUI\Controllers;
 
 use Illuminate\Http\Request;
 
-class NotFound
+class NotFoundController
 {
     public function __invoke($path, Request $request)
     {

@@ -1,18 +1,14 @@
 <script>
     import {faPlug, faDatabase} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+    import {mapState} from 'vuex';
+    import Spinner from './Spinner';
 
     export default {
         name: 'TablesList',
-        components: { FontAwesomeIcon },
-        data() {
-            return {
-                connection: 'TODO',
-                database: 'TODO',
-                tables: [],
-            };
-        },
+        components: { Spinner, FontAwesomeIcon },
         computed: {
+            ...mapState('list', ['connection', 'database', 'loading', 'tables']),
             faPlug: () => faPlug,
             faDatabase: () => faDatabase,
         },
@@ -30,14 +26,20 @@
             </span>
             </div>-->
             <!--<span data-toggle="modal" data-target="#exampleModal2">-->
-            <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
-                <FontAwesomeIcon :icon="faPlug" class="mr-1"></FontAwesomeIcon>
-                {{ connection }}
+            <span v-if="loading && !database" class="text-muted">
+                <Spinner class="mr-2"></Spinner>
+                Loading...
             </span>
-            <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
-                <FontAwesomeIcon :icon="faDatabase" class="mr-1"></FontAwesomeIcon>
-                {{ database }}
-            </span>
+            <template v-else>
+                <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
+                    <FontAwesomeIcon :icon="faPlug" class="mr-1"></FontAwesomeIcon>
+                    {{ connection }}
+                </span>
+                <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
+                    <FontAwesomeIcon :icon="faDatabase" class="mr-1"></FontAwesomeIcon>
+                    {{ database }}
+                </span>
+            </template>
             <!--</span>-->
         </div>
         <table class="table table-hover bg-white mb-0">
@@ -45,6 +47,7 @@
                 <tr>
                     <th scope="col">
                         Tables
+                        <Spinner v-if="loading" class="ml-1"></Spinner>
                     </th>
                     <!--<th scope="col" class="align-middle font-weight-normal text-muted text-right">
                     <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="New Migration: Create Table">
@@ -73,6 +76,14 @@
                         <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                     </td>-->
+                </tr>
+            </tbody>
+            <tbody v-else-if="loading">
+                <tr>
+                    <td colspan="4" class="text-muted">
+                        <FontAwesomeIcon :icon="faSpinner" spin class="mr-2"></FontAwesomeIcon>
+                        Loading...
+                    </td>
                 </tr>
             </tbody>
             <tbody v-else>

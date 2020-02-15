@@ -1,23 +1,17 @@
 <script>
-    import {faQuestionCircle, faSpinner} from '@fortawesome/free-solid-svg-icons';
+    import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-    import {mapActions, mapState} from 'vuex';
+    import {mapState} from 'vuex';
     import FreshButton from './FreshButton';
     import MigrationsListRow from './MigrationsListRow';
+    import Spinner from './Spinner';
 
     export default {
         name: 'MigrationsList',
-        components: { MigrationsListRow, FreshButton, FontAwesomeIcon },
+        components: { Spinner, MigrationsListRow, FreshButton, FontAwesomeIcon },
         computed: {
-            ...mapState('migrations', ['migrations', 'loading']),
+            ...mapState('list', ['loading', 'migrations']),
             faQuestionCircle: () => faQuestionCircle,
-            faSpinner: () => faSpinner,
-        },
-        mounted() {
-            this.load();
-        },
-        methods: {
-            ...mapActions('migrations', ['load']),
         },
     }
 </script>
@@ -29,11 +23,14 @@
                 <FontAwesomeIcon :icon="faQuestionCircle"></FontAwesomeIcon>
                 Laravel Docs
             </a>
-            <h6 class="m-0">Migrations</h6>
+            <h6 class="m-0">
+                Migrations
+                <Spinner v-if="loading" class="ml-1"></Spinner>
+            </h6>
         </div>
         <table class="table table-hover bg-white mb-0">
 
-            <thead v-if="!loading">
+            <thead>
                 <tr>
                     <th scope="col">Date / Time</th>
                     <th scope="col">Name</th>
@@ -49,16 +46,16 @@
                 </tr>
             </thead>
 
-            <tbody v-if="loading">
+            <tbody v-if="migrations.length">
+                <MigrationsListRow v-for="migration of migrations" :key="migration.id" :migration="migration"></MigrationsListRow>
+            </tbody>
+            <tbody v-else-if="loading">
                 <tr>
                     <td colspan="4" class="text-muted">
-                        <FontAwesomeIcon :icon="faSpinner" spin class="mr-2"></FontAwesomeIcon>
+                        <Spinner class="mr-2"></Spinner>
                         Loading...
                     </td>
                 </tr>
-            </tbody>
-            <tbody v-else-if="migrations.length">
-                <MigrationsListRow v-for="migration of migrations" :key="migration.id" :migration="migration"></MigrationsListRow>
             </tbody>
             <tbody v-else>
                 <tr>

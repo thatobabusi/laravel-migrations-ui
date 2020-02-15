@@ -1,18 +1,14 @@
 <script>
-    import {faSpinner} from '@fortawesome/free-solid-svg-icons';
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
     import {BDropdown, BDropdownItem, BDropdownDivider} from 'bootstrap-vue';
+    import Spinner from './Spinner';
 
     export default {
         name: 'FreshButton',
-        components: { BDropdown, BDropdownItem, BDropdownDivider, FontAwesomeIcon },
+        components: { Spinner, BDropdown, BDropdownItem, BDropdownDivider },
         data() {
             return {
                 running: false,
             };
-        },
-        computed: {
-            faSpinner: () => faSpinner,
         },
     }
 </script>
@@ -22,7 +18,7 @@
 
         <template v-slot:button-content>
             <template v-if="running">
-                <FontAwesomeIcon :icon="faSpinner" spin></FontAwesomeIcon>
+                <Spinner></Spinner>
             </template>
             <template v-else>Fresh</template>
         </template>

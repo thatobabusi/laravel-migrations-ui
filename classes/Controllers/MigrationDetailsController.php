@@ -7,7 +7,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
-class MigrationDetails extends Controller
+class MigrationDetailsController extends Controller
 {
     public function __invoke(Migration $migration)
     {
@@ -18,6 +18,7 @@ class MigrationDetails extends Controller
         }
 
         return [
+            'name' => $migration->name,
             'source' => $source,
         ];
     }

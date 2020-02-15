@@ -14,7 +14,7 @@
         <Navbar></Navbar>
         <div class="m-5 text-center">
             <p class="display-4">Page Not Found</p>
-            <p><router-link :to="{name: 'list'}">Home</router-link></p>
+            <p><router-link to="/list">Home</router-link></p>
         </div>
     </div>
 </template>

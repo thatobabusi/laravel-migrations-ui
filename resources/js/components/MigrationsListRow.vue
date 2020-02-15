@@ -32,9 +32,9 @@
                 {{ migration.title }}
                 <span class="badge badge-danger">File Missing!</span>
             </template>
-            <a v-else href="#" data-toggle="modal" data-target="#migration-popup" :data-path="migration.relPath">
+            <router-link v-else :to="`/migration-details/${migration.name}`" data-toggle="modal" data-target="#migration-popup" :data-path="migration.relPath">
                 {{ migration.title }}
-            </a>
+            </router-link>
         </td>
 
         <td class="align-middle">

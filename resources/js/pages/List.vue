@@ -8,11 +8,17 @@
     export default {
         components: { MigrationsList, Navbar, TablesList },
         mixins: [refresh],
+        mounted() {
+            this.load();
+        },
         methods: {
-            ...mapActions('migrations', ['load']),
+            ...mapActions('list', ['load']),
             refresh() {
                 this.load();
             },
+        },
+        metaInfo: {
+            title: 'Migrations',
         },
     }
 </script>

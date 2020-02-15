@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from './store';
 
 const api = axios.create({
     baseURL: document.body.dataset.baseUrl + '/api',
@@ -17,15 +18,7 @@ api.interceptors.response.use(
 
         // Display the full HTML error in a popup window
         if (error.response) {
-            const popup = window.open(
-                'about:blank',
-                'laravel_migrations_ui_error',
-                `width=${window.screen.width * 0.9},height=${window.screen.height * 0.85}`
-            );
-            popup.document.open();
-            popup.document.write(error.response.data);
-            popup.document.close();
-            popup.focus();
+            store.commit('errors/showError', error.response.data);
         }
 
         return Promise.reject(error);

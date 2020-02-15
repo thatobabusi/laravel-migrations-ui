@@ -32,9 +32,12 @@ export default [
         path: '/',
         redirect: '/list',
     }, {
-        name: 'list',
         path: '/list',
         component: () => loadingIndicator(import('./pages/List')),
+    }, {
+        path: '/migration-details/:name',
+        component: () => loadingIndicator(import('./pages/MigrationDetails')),
+        props: true,
     }, {
         path: '*',
         component: () => loadingIndicator(import('./pages/404')),

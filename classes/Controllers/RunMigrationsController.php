@@ -13,7 +13,7 @@ use Illuminate\Support\HtmlString;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 
-class RunMigrations
+class RunMigrationsController
 {
     /** @var \DaveJamesMiller\MigrationsUI\MigrationsRepository */
     private $migrations;
