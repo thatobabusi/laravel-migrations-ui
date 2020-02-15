@@ -16,9 +16,6 @@ const path = require('path');
 
 mix
     .setPublicPath('build')
-    .webpackConfig({
-        plugins: [new CleanWebpackPlugin()],
-    })
     .sourceMaps()
     .js('resources/js/app.js', 'build')
     .sass('resources/sass/app.scss', 'build')
@@ -26,6 +23,9 @@ mix
 
 if (mix.inProduction()) {
     mix
+        .webpackConfig({
+            plugins: [new CleanWebpackPlugin()],
+        })
         .version()
         .webpackConfig({
             output: {
