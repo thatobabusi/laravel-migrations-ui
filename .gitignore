@@ -10,6 +10,9 @@
 npm-debug.log
 yarn-error.log
 
+# HMR mode
+/build/hot
+
 # Test output
 /.phpunit.result.cache
 /build/logs/clover.xml
