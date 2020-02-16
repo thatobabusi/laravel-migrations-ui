@@ -3,7 +3,6 @@
     import {mapMutations, mapState} from 'vuex';
 
     export default {
-        name: 'ErrorModal',
         components: { BModal },
         computed: {
             ...mapState('errors', ['error']),

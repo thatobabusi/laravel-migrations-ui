@@ -1,5 +1,5 @@
 <script>
-    import {mapActions, mapState} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
     import Code from '../components/Code';
     import MigrationsList from '../components/MigrationsList';
     import Navbar from '../components/Navbar';
@@ -14,18 +14,21 @@
             name: { type: String, required: true },
         },
         computed: {
-            ...mapState('migration-details', ['loading', 'source']),
+            ...mapGetters('migrations', ['getMigration']),
+            migration() {
+                return this.getMigration(this.name);
+            },
         },
         watch: {
             name: 'refresh',
         },
         mounted() {
-            this.load(this.name);
+            this.loadDetails(this.name);
         },
         methods: {
-            ...mapActions('migration-details', ['load']),
+            ...mapActions('migrations', ['loadDetails']),
             refresh() {
-                this.load(this.name);
+                this.loadDetails(this.name);
             },
         },
         metaInfo() {
@@ -41,14 +44,14 @@
 
         <Navbar></Navbar>
 
-        <div class="card shadow-sm m-3">
+        <div class="card shadow-sm m-4">
             <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">
                 <h6 class="m-0">
-                    {{ name }}
-                    <Spinner v-if="loading" class="ml-1"></Spinner>
+                    {{ name }}.php
+                    <Spinner v-if="migration.loading" class="ml-1"></Spinner>
                 </h6>
             </div>
-            <Code class="m-0" :code="source || '# Loading...'"></Code>
+            <Code class="m-0 p-3" :code="migration.source || '# Loading...'"></Code>
         </div>
 
     </div>

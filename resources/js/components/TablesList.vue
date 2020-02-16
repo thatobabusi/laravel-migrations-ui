@@ -5,10 +5,9 @@
     import Spinner from './Spinner';
 
     export default {
-        name: 'TablesList',
         components: { Spinner, FontAwesomeIcon },
         computed: {
-            ...mapState('list', ['connection', 'database', 'loading', 'tables']),
+            ...mapState('migrations', ['connection', 'database', 'loading', 'tables']),
             faPlug: () => faPlug,
             faDatabase: () => faDatabase,
         },
@@ -16,7 +15,7 @@
 </script>
 
 <template>
-    <div class="card shadow-sm">
+    <div class="card shadow-sm my-4">
         <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">
             <!--<div class="float-right" style="margin: -6px 0;">
             <span data-toggle="modal" data-target="#exampleModal2">
@@ -81,7 +80,7 @@
             <tbody v-else-if="loading">
                 <tr>
                     <td colspan="4" class="text-muted">
-                        <FontAwesomeIcon :icon="faSpinner" spin class="mr-2"></FontAwesomeIcon>
+                        <Spinner></Spinner>
                         Loading...
                     </td>
                 </tr>

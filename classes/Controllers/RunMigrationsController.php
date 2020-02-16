@@ -47,28 +47,37 @@ class RunMigrationsController
         return $migrations;
     }
 
-    private function applyAndRedirect(Collection $migrations): Response
+    private function applyAndRespond(Collection $migrations): array
     {
         $this->apply($migrations);
 
         $count = count($migrations);
 
-        if ($migrations->count() === 1) {
-            $migration = $migrations->first();
+        // if ($migrations->count() === 1) {
+        //     $migration = $migrations->first();
+        //
+        //     return redirect()->route('migrations-ui.home')
+        //         ->with('migrations-ui::success-title', 'Applied Migration')
+        //         ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
+        // }
 
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::success-title', 'Applied Migration')
-                ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
-        }
+        // return redirect()->route('migrations-ui.home')
+        //     ->with('migrations-ui::success-title', 'Applied Migrations')
+        //     ->with('migrations-ui::success', new HtmlString("Ran $count migrations." . $this->runtime()));
 
-        return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success-title', 'Applied Migrations')
-            ->with('migrations-ui::success', new HtmlString("Ran $count migrations." . $this->runtime()));
+        $this->migrations->refresh();
+
+        return [
+            'connection' => config('database.default'),
+            'database' => DB::getDatabaseName(),
+            'migrations' => $this->migrations->all()->values(),
+            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+        ];
     }
 
     public function applySingle(Migration $migration)
     {
-        return $this->applyAndRedirect(collect([$migration]));
+        return $this->applyAndRespond(collect([$migration]));
     }
 
     public function applyAll()
@@ -81,7 +90,7 @@ class RunMigrationsController
                 ->with('migrations-ui::danger', 'No migrations are pending.');
         }
 
-        return $this->applyAndRedirect($migrations);
+        return $this->applyAndRespond($migrations);
     }
 
     private function rollback(Collection $migrations): Collection
@@ -99,28 +108,37 @@ class RunMigrationsController
         return $migrations;
     }
 
-    private function rollbackAndRedirect(Collection $migrations): Response
+    private function rollbackAndRespond(Collection $migrations): array
     {
         $this->rollback($migrations);
 
         $count = $migrations->count();
 
-        if ($count === 1) {
-            $migration = $migrations->first();
+        // if ($count === 1) {
+        //     $migration = $migrations->first();
+        //
+        //     return redirect()->route('migrations-ui.home')
+        //         ->with('migrations-ui::success-title', 'Rolled Back')
+        //         ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
+        // }
+        //
+        // return redirect()->route('migrations-ui.home')
+        //     ->with('migrations-ui::success-title', 'Rolled Back')
+        //     ->with('migrations-ui::success', new HtmlString("Rolled back $count migrations." . $this->runtime()));
 
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::success-title', 'Rolled Back')
-                ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
-        }
+        $this->migrations->refresh();
 
-        return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success-title', 'Rolled Back')
-            ->with('migrations-ui::success', new HtmlString("Rolled back $count migrations." . $this->runtime()));
+        return [
+            'connection' => config('database.default'),
+            'database' => DB::getDatabaseName(),
+            'migrations' => $this->migrations->all()->values(),
+            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+        ];
     }
 
     public function rollbackSingle(Migration $migration)
     {
-        return $this->rollbackAndRedirect(collect([$migration]));
+        return $this->rollbackAndRespond(collect([$migration]));
     }
 
     public function rollbackBatch(int $batch)
@@ -133,7 +151,7 @@ class RunMigrationsController
                 ->with('migrations-ui::danger', "No migrations found in batch $batch.");
         }
 
-        return $this->rollbackAndRedirect($migrations);
+        return $this->rollbackAndRespond($migrations);
     }
 
     public function rollbackAll()
@@ -146,7 +164,7 @@ class RunMigrationsController
                 ->with('migrations-ui::danger', 'No applied migrations found.');
         }
 
-        return $this->rollbackAndRedirect($migrations);
+        return $this->rollbackAndRespond($migrations);
     }
 
     public function fresh()

@@ -3,7 +3,6 @@
     import Spinner from './Spinner';
 
     export default {
-        name: 'FreshButton',
         components: { Spinner, BDropdown, BDropdownItem, BDropdownDivider },
         data() {
             return {
@@ -17,9 +16,7 @@
     <BDropdown style="width: 6.5em;" right size="sm" split variant="warning">
 
         <template v-slot:button-content>
-            <template v-if="running">
-                <Spinner></Spinner>
-            </template>
+            <Spinner v-if="running"></Spinner>
             <template v-else>Fresh</template>
         </template>
 

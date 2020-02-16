@@ -6,7 +6,16 @@ const api = axios.create({
     headers: {
         // Stop Laravel converting exceptions to JSON
         'Accept': 'text/html',
+    },
+});
+
+// Automatically add CSRF token
+api.interceptors.request.use(function (request) {
+    if (request.method.toLowerCase() !== 'get' && typeof request.data === 'object') {
+        request.data._token = document.body.dataset.csrfToken;
     }
+
+    return request;
 });
 
 // Global error handler

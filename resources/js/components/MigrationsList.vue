@@ -1,23 +1,25 @@
 <script>
     import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-    import {mapState} from 'vuex';
+    import {BDropdown, BDropdownDivider, BDropdownItem, VBTooltip} from 'bootstrap-vue';
+    import {mapGetters, mapState} from 'vuex';
     import FreshButton from './FreshButton';
-    import MigrationsListRow from './MigrationsListRow';
+    import RunButton from './RunButton';
     import Spinner from './Spinner';
 
     export default {
-        name: 'MigrationsList',
-        components: { Spinner, MigrationsListRow, FreshButton, FontAwesomeIcon },
+        components: { BDropdown, BDropdownItem, BDropdownDivider, RunButton, FontAwesomeIcon, FreshButton, Spinner },
+        directives: { BTooltip: VBTooltip },
         computed: {
-            ...mapState('list', ['loading', 'migrations']),
+            ...mapState('migrations', ['loading']),
+            ...mapGetters('migrations', { migrations: 'getAllMigrations' }),
             faQuestionCircle: () => faQuestionCircle,
         },
     }
 </script>
 
 <template>
-    <div class="card shadow-sm mb-3">
+    <div class="card shadow-sm my-4">
         <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">
             <a href="https://laravel.com/docs/migrations" target="_blank" class="float-right text-white">
                 <FontAwesomeIcon :icon="faQuestionCircle"></FontAwesomeIcon>
@@ -47,7 +49,35 @@
             </thead>
 
             <tbody v-if="migrations.length">
-                <MigrationsListRow v-for="migration of migrations" :key="migration.id" :migration="migration"></MigrationsListRow>
+                <tr v-for="migration in migrations" :key="migration.name" :class="migration.isMissing ? 'table-danger' : ''">
+
+                    <td class="align-middle">
+                        <span v-if="migration.date">{{ migration.date }}</span>
+                        <span v-else class="text-muted">(Unknown)</span>
+                    </td>
+
+                    <td class="align-middle">
+                        <span v-b-tooltip.right="migration.relPath" class="pr-1">
+                            <template v-if="migration.isMissing">
+                                {{ migration.title }}
+                                <span class="badge badge-danger">File Missing!</span>
+                            </template>
+                            <router-link v-else :to="`/migration-details/${migration.name}`" data-toggle="modal" data-target="#migration-popup" :data-path="migration.relPath">
+                                {{ migration.title }}
+                            </router-link>
+                        </span>
+                    </td>
+
+                    <td class="align-middle">
+                        <span v-if="migration.isApplied" class="badge badge-pill badge-success">Applied &ndash; Batch {{ migration.batch }}</span>
+                        <span v-else class="badge badge-pill badge-warning">Pending</span>
+                    </td>
+
+                    <td class="align-middle text-right">
+                        <RunButton :migration="migration"></RunButton>
+                    </td>
+
+                </tr>
             </tbody>
             <tbody v-else-if="loading">
                 <tr>

@@ -12,7 +12,7 @@
             this.load();
         },
         methods: {
-            ...mapActions('list', ['load']),
+            ...mapActions('migrations', ['load']),
             refresh() {
                 this.load();
             },
@@ -67,7 +67,7 @@
 
         </div>-->
 
-        <div class="container-fluid mt-3">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xl">
                     <MigrationsList></MigrationsList>
@@ -77,22 +77,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<div class="modal fade" id="migration-popup" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="migration-popup-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-0">
-                        <pre id="migration-popup-code" class="m-0 p-3 language-php"></pre>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 
     </div>
 </template>

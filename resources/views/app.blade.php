@@ -14,8 +14,6 @@
             {{ config('app.name', 'Laravel') }}
         </title>
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
         {{-- Favicon borrowed from https://laravel.com/img/favicon/favicon-16x16.png --}}
         <link rel="icon" href="{{ $helpers->assetUrl('favicon.png') }}" type="image/png">
 

@@ -5,10 +5,10 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
-$text-muted: $gray-500;
 $code-color: #000;
-
+$grid-gutter-width: 1.5rem; // Matches .m-4
 $modal-xl: 97vw;
+$text-muted: $gray-500;
 
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/root';
@@ -65,11 +65,10 @@ $modal-xl: 97vw;
 // Custom
 //--------------------------------------
 
-//body {
-//    min-height: 100vh;
-//    padding-bottom: 34px;
-//    position: relative;
-//}
+html {
+    // Always show scrollbar
+    overflow-y: scroll;
+}
 
 .loading {
     @extend .display-4;
@@ -83,6 +82,12 @@ $modal-xl: 97vw;
     top: 0;
     width: 100vw;
     z-index: 0;
+}
+
+.row {
+    // Make the left/right margins equal to the gutter widths
+    margin-left: 0;
+    margin-right: 0;
 }
 
 h6,
