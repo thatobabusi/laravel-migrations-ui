@@ -142,38 +142,43 @@ class RunMigrationsController
         /** @see \Illuminate\Database\Console\WipeCommand::handle() */
         $types = ['tables'];
 
+        // Drop views
         if (config('migrations-ui.fresh.views')) {
             try {
                 $builder->dropAllViews();
                 $types[] = 'views';
             } catch (LogicException $e) {
-                Session::flash('migrations-ui::warning-title', 'Cannot Drop Views');
-                Session::flash('migrations-ui::warning', $e->getMessage());
+                $this->response->withWarning('Cannot Drop Views', $e->getMessage());
             }
         }
 
+        // Drop tables
         $builder->dropAllTables();
 
+        // Drop types (Postgres only)
         if (config('migrations-ui.fresh.types')) {
             try {
                 $builder->dropAllTypes();
                 $types[] = 'types';
             } catch (LogicException $e) {
-                Session::flash('migrations-ui::warning-title', 'Cannot Drop Types');
-                Session::flash('migrations-ui::warning', $e->getMessage());
+                $this->response->withWarning('Cannot Drop Types', $e->getMessage());
             }
         }
 
+        // Re-create the migrations table
         $this->migrator->getRepository()->createRepository();
 
+        // Run migrations & seeders (if requested)
         $message = 'Dropped all ' . collect($types)->join(', ', ' & ') . '.';
         return $this->finishRefresh('Fresh', $message);
     }
 
     public function refresh()
     {
+        // Rollback all migrations
         $count = $this->rollback($this->migrations->applied());
 
+        // Run migrations & seeders (if requested)
         $message = $count === 1 ? 'Rolled back 1 migration.' : "Rolled back $count migrations.";
         return $this->finishRefresh('Refresh', $message);
     }
