@@ -12,6 +12,18 @@ const fields = [
     'running',
 ];
 
+/**
+ * @property {string} name
+ * @property {string} date
+ * @property {string} title
+ * @property {Number|null} batch
+ * @property {boolean} isApplied
+ * @property {boolean} isMissing
+ * @property {string} relPath
+ * @property {string} source
+ * @property {boolean} loading
+ * @property {boolean} running
+ */
 export default class Migration {
     constructor(name) {
         for (let field of fields) {

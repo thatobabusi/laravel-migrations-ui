@@ -12,6 +12,7 @@ export default new Vue({
             migrationNames: [],
             queue: [],
             queueRunning: false,
+            running: false,
             tables: [],
         };
     },
@@ -21,6 +22,16 @@ export default new Vue({
         },
     },
     methods: {
+        async fresh(seed) {
+            this.running = true;
+
+            try {
+                const response = await api.post('fresh', { seed });
+                this.setAll(response.data);
+            } finally {
+                this.running = false;
+            }
+        },
         getMigration(name) {
             if (!(name in this.migrationDetails)) {
                 Vue.set(this.migrationDetails, name, new Migration(name));
@@ -50,16 +61,25 @@ export default new Vue({
                 migration.loading = false;
             }
         },
-        async processQueue() {
-            if (this.queueRunning) return;
+        async refresh(seed) {
+            this.running = true;
 
-            this.queueRunning = true;
-
-            while (this.queue.length > 0) {
-                //
+            try {
+                const response = await api.post('refresh', { seed });
+                this.setAll(response.data);
+            } finally {
+                this.running = false;
             }
+        },
+        async seed() {
+            this.running = true;
 
-            this.queueRunning = false;
+            try {
+                const response = await api.post('seed' );
+                this.setAll(response.data);
+            } finally {
+                this.running = false;
+            }
         },
         async runSingle(name, type) {
             const migration = this.getMigration(name);

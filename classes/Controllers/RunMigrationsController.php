@@ -216,15 +216,24 @@ class RunMigrationsController
         $this->migrations->refresh();
 
         $count = $this->apply($this->migrations->pending())->count();
-        $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
+        // $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
         $seeded = $this->runSeeder(Request::get('seed', false));
-        if ($seeded) {
-            $messages[] = 'Seeded the database.';
-        }
+        // if ($seeded) {
+        //     $messages[] = 'Seeded the database.';
+        // }
+        //
+        // return redirect()->route('migrations-ui.home')
+        //     ->with('migrations-ui::success', new HtmlString(collect($messages)->join('<br>') . $this->runtime()));
 
-        return redirect()->route('migrations-ui.home')
-            ->with('migrations-ui::success', new HtmlString(collect($messages)->join('<br>') . $this->runtime()));
+        $this->migrations->refresh();
+
+        return [
+            'connection' => config('database.default'),
+            'database' => DB::getDatabaseName(),
+            'migrations' => $this->migrations->all()->values(),
+            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+        ];
     }
 
     private function runSeeder(bool $enabled = true): bool
@@ -258,7 +267,14 @@ class RunMigrationsController
             Session::flash('migrations-ui::success', new HtmlString('Database Seeded' . $this->runtime()));
         }
 
-        return redirect()->route('migrations-ui.home');
+        // return redirect()->route('migrations-ui.home');
+
+        return [
+            'connection' => config('database.default'),
+            'database' => DB::getDatabaseName(),
+            'migrations' => $this->migrations->all()->values(),
+            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+        ];
     }
 
     private function runtime()
