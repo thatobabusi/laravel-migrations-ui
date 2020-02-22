@@ -14,7 +14,7 @@
 </script>
 
 <template>
-    <BDropdown style="width: 6.5em;" right size="sm" split variant="warning" @click="migrations.fresh(true)">
+    <BDropdown style="width: 6.5em;" right size="sm" split variant="warning" :disabled="migrations.running" @click="migrations.fresh(true)">
 
         <template v-slot:button-content>
             <Spinner v-if="migrations.running"></Spinner>

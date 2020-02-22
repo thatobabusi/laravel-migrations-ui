@@ -14,6 +14,9 @@
             };
         },
         computed: {
+            running() {
+                return this.migrations.running || this.migration.running;
+            },
             variant() {
                 if (this.migration.isMissing) {
                     return 'secondary'; // Grey
@@ -45,10 +48,10 @@
 </script>
 
 <template>
-    <BDropdown style="width: 6.5em;" right size="sm" split :variant="variant" @click="runDefault">
+    <BDropdown style="width: 6.5em;" right size="sm" split :variant="variant" :disabled="running" @click="runDefault">
 
         <template v-slot:button-content>
-            <Spinner v-if="migration.running"></Spinner>
+            <Spinner v-if="running"></Spinner>
             <template v-else-if="migration.isMissing">Fix</template>
             <template v-else-if="migration.isApplied">Rollback</template>
             <template v-else>Apply</template>
