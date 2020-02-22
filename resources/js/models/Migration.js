@@ -1,16 +1,4 @@
-const fields = [
-    'name',
-    'date',
-    'title',
-    'batch',
-    'isApplied',
-    'isMissing',
-    'relPath',
-    'source',
-
-    'loading',
-    'running',
-];
+import Model from './Model';
 
 /**
  * @property {string} name
@@ -24,23 +12,29 @@ const fields = [
  * @property {boolean} loading
  * @property {boolean} running
  */
-export default class Migration
+export default class Migration extends Model
 {
+    _fields = [
+        'name',
+        'date',
+        'title',
+        'batch',
+        'isApplied',
+        'isMissing',
+        'relPath',
+        'source',
+
+        'loading',
+        'running',
+    ];
+
     constructor(name) {
-        for (let field of fields) {
-            this[field] = null;
-        }
+        super();
 
-        this.name = name;
-        this.loading = false;
-        this.running = false;
-    }
-
-    fill(data) {
-        for (let field of fields) {
-            if (field in data) {
-                this[field] = data[field];
-            }
-        }
+        this.init({
+            name,
+            loading: false,
+            running: false,
+        });
     }
 }
