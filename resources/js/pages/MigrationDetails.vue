@@ -2,13 +2,14 @@
     import Code from '../components/Code';
     import MigrationsList from '../components/MigrationsList';
     import Navbar from '../components/Navbar';
+    import RunButton from '../components/RunButton';
     import Spinner from '../components/Spinner';
     import TablesList from '../components/TablesList';
     import refresh from '../mixins/refresh';
     import migrations from '../stores/migrations';
 
     export default {
-        components: { Spinner, Code, MigrationsList, Navbar, TablesList },
+        components: { RunButton, Spinner, Code, MigrationsList, Navbar, TablesList },
         mixins: [refresh],
         props: {
             name: { type: String, required: true },
@@ -46,7 +47,13 @@
 <template>
     <div>
 
-        <Navbar></Navbar>
+        <Navbar>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <RunButton :migration="migration"></RunButton>
+                </li>
+            </ul>
+        </Navbar>
 
         <div class="card shadow-sm m-4">
             <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">

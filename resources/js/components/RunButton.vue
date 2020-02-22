@@ -7,6 +7,7 @@
         components: { Spinner, BDropdown, BDropdownItem, BDropdownDivider },
         props: {
             migration: { type: Object, required: true },
+            size: { type: String, default: '' },
         },
         data() {
             return {
@@ -57,13 +58,13 @@
 </script>
 
 <template>
-    <BDropdown style="width: 6.5em;" right size="sm" split :variant="variant" :disabled="running" @click="runDefault">
+    <BDropdown right :size="size" split :variant="variant" :disabled="running" @click="runDefault">
 
         <template v-slot:button-content>
             <Spinner v-if="running"></Spinner>
             <template v-else-if="migration.isMissing">Fix</template>
             <template v-else-if="migration.isApplied">Rollback</template>
-            <template v-else>Apply</template>
+            <template v-else>Migrate</template>
         </template>
 
         <template v-if="migration.isMissing">
@@ -73,14 +74,14 @@
         </template>
 
         <template v-else-if="migration.isApplied">
-            <BDropdownItem @click="rollbackSingle">Rollback This Migration</BDropdownItem>
-            <BDropdownItem @click="rollbackBatch">Rollback Batch {{ migration.batch }}</BDropdownItem>
-            <BDropdownItem @click="rollbackAll">Rollback All</BDropdownItem>
+            <BDropdownItem @click="rollbackSingle">This Migration</BDropdownItem>
+            <BDropdownItem @click="rollbackBatch">Batch {{ migration.batch }}</BDropdownItem>
+            <BDropdownItem @click="rollbackAll">All Migrations</BDropdownItem>
         </template>
 
         <template v-else>
-            <BDropdownItem @click="applySingle">Apply This Migration</BDropdownItem>
-            <BDropdownItem @click="applyAll">Apply All Pending</BDropdownItem>
+            <BDropdownItem @click="applySingle">This Migration</BDropdownItem>
+            <BDropdownItem @click="applyAll">All Pending</BDropdownItem>
         </template>
 
     </BDropdown>

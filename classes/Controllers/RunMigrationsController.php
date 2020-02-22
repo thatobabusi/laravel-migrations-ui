@@ -60,10 +60,10 @@ class RunMigrationsController
         if ($migrations->count() === 1) {
             $migration = $migrations->first();
 
-            return $this->response->withSuccess('Applied Migration', $migration->name, $this->runtime());
+            return $this->response->withSuccess('Migrated', $migration->name, $this->runtime());
         }
 
-        return $this->response->withSuccess('Applied Migrations', "Ran $count migrations.", $this->runtime());
+        return $this->response->withSuccess('Migrated', "Applied $count migrations.", $this->runtime());
     }
 
     public function applySingle(Migration $migration)
@@ -106,7 +106,7 @@ class RunMigrationsController
         if ($count === 1) {
             $migration = $migrations->first();
 
-            return $this->response->withSuccess('Rolled Back Migration', $migration->name, $this->runtime());
+            return $this->response->withSuccess('Rolled Back', $migration->name, $this->runtime());
         }
 
         return $this->response->withSuccess('Rolled Back', "Rolled back $count migrations.", $this->runtime());

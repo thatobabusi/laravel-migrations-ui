@@ -16,6 +16,13 @@
     }
 </script>
 
+<style lang="scss">
+    .navbar {
+        // Make the dropdown menus appear over toasts
+        z-index: 1200;
+    }
+</style>
+
 <template>
     <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top">
 
@@ -28,7 +35,7 @@
             {{ appName }}
         </router-link>
 
-        <slot name="right">
+        <slot>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" :href="homeUrl">Back to Application</a>
