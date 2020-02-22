@@ -42,20 +42,18 @@ class RunMigrationsController
         $this->migrator->requireFiles($files);
     }
 
-    private function migrate(Collection $migrations): Collection
+    private function migrate(Collection $migrations): int
     {
         $this->load($migrations);
 
         $this->migrator->runPending($migrations->pluck('name')->all());
 
-        return $migrations;
+        return count($migrations);
     }
 
     private function migrateAndRespond(Collection $migrations)
     {
-        $this->migrate($migrations);
-
-        $count = count($migrations);
+        $count = $this->migrate($migrations);
 
         if ($migrations->count() === 1) {
             $migration = $migrations->first();
@@ -82,7 +80,7 @@ class RunMigrationsController
         return $this->migrateAndRespond($migrations);
     }
 
-    private function rollback(Collection $migrations): Collection
+    private function rollback(Collection $migrations): int
     {
         $this->load($migrations);
 
@@ -94,14 +92,12 @@ class RunMigrationsController
             []
         );
 
-        return $migrations;
+        return count($migrations);
     }
 
     private function rollbackAndRespond(Collection $migrations)
     {
-        $this->rollback($migrations);
-
-        $count = $migrations->count();
+        $count = $this->rollback($migrations);
 
         if ($count === 1) {
             $migration = $migrations->first();
@@ -176,7 +172,7 @@ class RunMigrationsController
 
     public function refresh()
     {
-        $count = $this->rollback($this->migrations->applied())->count();
+        $count = $this->rollback($this->migrations->applied());
 
         $message = $count === 1 ? 'Rolled back 1 migration.' : "Rolled back $count migrations.";
         return $this->finishRefresh('Refresh', $message);
@@ -186,7 +182,7 @@ class RunMigrationsController
     {
         $messages = [$message];
 
-        $count = $this->migrate($this->migrations->pending())->count();
+        $count = $this->migrate($this->migrations->pending());
         $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
         if (Request::get('seed', false) && $this->runSeeder()) {
