@@ -4,13 +4,18 @@ namespace DaveJamesMiller\MigrationsUI\Responses;
 
 use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Repositories\TablesRepository;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\DatabaseManager;
+use Throwable;
 
 class OverviewResponse implements Responsable
 {
     /** @var array */
     private $toasts = [];
+
+    /** @var array|null */
+    private $error;
 
     public static function make(): self
     {
@@ -44,17 +49,32 @@ class OverviewResponse implements Responsable
         return $this;
     }
 
+    public function withException(string $title, Throwable $e)
+    {
+        $html = app(ExceptionHandler::class)->render(request(), $e)->getContent();
+
+        $this->error = compact('title', 'html');
+
+        return $this;
+    }
+
     public function toResponse($request)
     {
+        $db = app(DatabaseManager::class);
+
         $response = [
-            'connection' => config('database.default'),
-            'database' => DB::getDatabaseName(),
+            'connection' => $db->getDefaultConnection(),
+            'database' => $db->getDatabaseName(),
             'migrations' => app(MigrationsRepository::class)->all()->values(),
             'tables' => app(TablesRepository::class)->all()->values(),
         ];
 
         if ($this->toasts) {
             $response['toasts'] = $this->toasts;
+        }
+
+        if ($this->error) {
+            $response['error'] = $this->error;
         }
 
         return $response;

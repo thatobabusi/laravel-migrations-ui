@@ -1,5 +1,6 @@
 <script>
     import Code from '../components/Code';
+    import FreshButton from '../components/FreshButton';
     import MigrationsList from '../components/MigrationsList';
     import Navbar from '../components/Navbar';
     import RunButton from '../components/RunButton';
@@ -9,7 +10,7 @@
     import migrations from '../stores/migrations';
 
     export default {
-        components: { RunButton, Spinner, Code, MigrationsList, Navbar, TablesList },
+        components: { FreshButton, RunButton, Spinner, Code, MigrationsList, Navbar, TablesList },
         mixins: [refresh],
         props: {
             name: { type: String, required: true },
@@ -49,6 +50,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <RunButton :migration="migration" width="8em"></RunButton>
+                    <FreshButton width="7em"></FreshButton>
                 </li>
             </ul>
         </Navbar>

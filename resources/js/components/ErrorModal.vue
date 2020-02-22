@@ -35,7 +35,7 @@
 </script>
 
 <template>
-    <BModal :visible="!!errors.html" @hide="errors.hide" size="xl" title="Error" body-class="p-0" hide-footer>
+    <BModal :visible="!!errors.html" @hide="errors.hide" size="xl" :title="errors.title" body-class="p-0" hide-footer>
         <iframe class="error-modal-iframe" ref="iframe"></iframe>
     </BModal>
 </template>

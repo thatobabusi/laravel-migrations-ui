@@ -27,7 +27,7 @@ api.interceptors.response.use(
 
         // Display the full HTML error in a popup window
         if (error.response) {
-            errors.show(error.response.data);
+            errors.show(`Error in ${error.request.responseURL}`, error.response.data);
         }
 
         return Promise.reject(error);

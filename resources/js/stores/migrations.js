@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import api from '../api';
 import Migration from '../models/Migration';
+import errors from './errors';
 import toasts from './toasts';
 
 export default new Vue({
@@ -156,6 +157,11 @@ export default new Vue({
             // Display any toast messages attached to the data
             if (data.toasts) {
                 toasts.show(data.toasts);
+            }
+
+            // If it failed, show the error message
+            if (data.error) {
+                errors.show(data.error.title, data.error.html);
             }
         },
     },

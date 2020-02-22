@@ -10,8 +10,8 @@ use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
 use LogicException;
+use Throwable;
 
 class RunMigrationsController
 {
@@ -26,6 +26,9 @@ class RunMigrationsController
 
     /** @var float */
     private $startTime;
+
+    /** @var string|null */
+    private $currentAction;
 
     public function __construct(MigrationsRepository $migrations, Migrator $migrator)
     {
@@ -50,15 +53,22 @@ class RunMigrationsController
 
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
+            $this->currentAction = "{$migration->name} (up)";
             $this->migrator->runUp($migration->file, $batch, false);
         }
+
+        $this->currentAction = null;
 
         return count($migrations);
     }
 
     private function migrateAndRespond(Collection $migrations)
     {
-        $count = $this->migrate($migrations);
+        try {
+            $count = $this->migrate($migrations);
+        } catch (Throwable $e) {
+            return $this->response->withException('Error in ' . $this->currentAction, $e);
+        }
 
         if ($migrations->count() === 1) {
             $migration = $migrations->first();
@@ -91,6 +101,8 @@ class RunMigrationsController
 
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
+            $this->currentAction = "{$migration->name} (down)";
+
             $this->migrator->runDown(
                 $migration->file,
                 (object)['migration' => $migration->name],
@@ -98,12 +110,18 @@ class RunMigrationsController
             );
         }
 
+        $this->currentAction = null;
+
         return count($migrations);
     }
 
     private function rollbackAndRespond(Collection $migrations)
     {
-        $count = $this->rollback($migrations);
+        try {
+            $count = $this->rollback($migrations);
+        } catch (Throwable $e) {
+            return $this->response->withException('Error in ' . $this->currentAction, $e);
+        }
 
         if ($count === 1) {
             $migration = $migrations->first();
@@ -193,11 +211,21 @@ class RunMigrationsController
     {
         $messages = [$message];
 
-        $count = $this->migrate($this->migrations->pending());
-        $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
+        try {
+            // Run all migrations
+            $count = $this->migrate($this->migrations->pending());
+            $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
-        if (Request::get('seed', false) && $this->runSeeder()) {
-            $messages[] = 'Seeded the database.';
+            // Seed the database (if requested)
+            if (Request::get('seed', false)) {
+                $this->currentAction = 'seeders';
+                if ($this->runSeeder()) {
+                    $messages[] = 'Seeded the database.';
+                }
+                $this->currentAction = null;
+            }
+        } catch (Throwable $e) {
+            return $this->response->withException('Error in ' . $this->currentAction, $e);
         }
 
         return $this->response->withSuccess($type, implode("\n", $messages), $this->runtime());
