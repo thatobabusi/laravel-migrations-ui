@@ -58,7 +58,7 @@
 </script>
 
 <template>
-    <BDropdown right :size="size" split :variant="variant" :disabled="running" @click="runDefault">
+    <BDropdown v-if="!migration.isMissing" right :size="size" split :variant="variant" :disabled="running" @click="runDefault">
 
         <template v-slot:button-content>
             <Spinner v-if="running"></Spinner>
@@ -68,6 +68,7 @@
         </template>
 
         <template v-if="migration.isMissing">
+            <!-- TODO -->
             <BDropdownItem>Recreate File</BDropdownItem>
             <BDropdownItem>Update Filename</BDropdownItem>
             <BDropdownItem>Delete Record</BDropdownItem>

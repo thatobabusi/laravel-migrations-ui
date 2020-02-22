@@ -5,8 +5,6 @@ import Model from './Model';
  * @property {string} date
  * @property {string} title
  * @property {Number|null} batch
- * @property {boolean} isApplied
- * @property {boolean} isMissing
  * @property {string} relPath
  * @property {string} source
  * @property {boolean} loading
@@ -19,8 +17,6 @@ export default class Migration extends Model
         'date',
         'title',
         'batch',
-        'isApplied',
-        'isMissing',
         'relPath',
         'source',
 
@@ -36,5 +32,13 @@ export default class Migration extends Model
             loading: false,
             running: false,
         });
+    }
+
+    get isApplied() {
+        return this.batch !== null;
+    }
+
+    get isMissing() {
+        return this.relPath === null;
     }
 }

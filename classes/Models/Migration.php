@@ -45,16 +45,6 @@ class Migration implements Arrayable, UrlRoutable
         $this->title = str_replace('_', ' ', $this->title);
     }
 
-    public function isApplied(): bool
-    {
-        return $this->batch !== null;
-    }
-
-    public function isMissing(): bool
-    {
-        return $this->file === null;
-    }
-
     public function relPath(): ?string
     {
         $base = base_path() . DIRECTORY_SEPARATOR;
@@ -73,8 +63,6 @@ class Migration implements Arrayable, UrlRoutable
             'date' => $this->date,
             'title' => $this->title,
             'batch' => $this->batch,
-            'isApplied' => $this->isApplied(),
-            'isMissing' => $this->isMissing(),
             'relPath' => $this->relPath(),
         ];
     }
