@@ -52,6 +52,9 @@
                         Tables
                         <Spinner v-if="migrations.loading" class="ml-1"></Spinner>
                     </th>
+                    <th scope="col">
+                        Rows
+                    </th>
                     <!--<th scope="col" class="align-middle font-weight-normal text-muted text-right">
                     <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="New Migration: Create Table">
                         <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
@@ -63,7 +66,10 @@
                 <tr v-for="table in migrations.tables">
                     <td class="align-middle">
                         <!--<a href="#">{{ table }}</a>-->
-                        {{ table }}
+                        {{ table.name }}
+                    </td>
+                    <td class="align-middle">
+                        {{ table.rows }}
                     </td>
                     <!--<td class="align-middle text-right">
                     <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="View Structure">

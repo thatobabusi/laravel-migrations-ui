@@ -5,6 +5,7 @@ namespace DaveJamesMiller\MigrationsUI\Controllers;
 use DaveJamesMiller\MigrationsUI\Migration;
 use DaveJamesMiller\MigrationsUI\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Migrator;
+use DaveJamesMiller\MigrationsUI\TablesRepository;
 use DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
@@ -24,10 +25,14 @@ class RunMigrationsController
     /** @var float */
     private $startTime;
 
-    public function __construct(MigrationsRepository $migrations, Migrator $migrator)
+    /** @var \DaveJamesMiller\MigrationsUI\TablesRepository */
+    private $tables;
+
+    public function __construct(MigrationsRepository $migrations, Migrator $migrator, TablesRepository $tables)
     {
         $this->migrations = $migrations;
         $this->migrator = $migrator;
+        $this->tables = $tables;
         $this->startTime = microtime(true);
     }
 
@@ -66,12 +71,13 @@ class RunMigrationsController
         //     ->with('migrations-ui::success', new HtmlString("Ran $count migrations." . $this->runtime()));
 
         $this->migrations->refresh();
+        $this->tables->refresh();
 
         return [
             'connection' => config('database.default'),
             'database' => DB::getDatabaseName(),
             'migrations' => $this->migrations->all()->values(),
-            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+            'tables' => $this->tables->all()->values(),
         ];
     }
 
@@ -127,12 +133,13 @@ class RunMigrationsController
         //     ->with('migrations-ui::success', new HtmlString("Rolled back $count migrations." . $this->runtime()));
 
         $this->migrations->refresh();
+        $this->tables->refresh();
 
         return [
             'connection' => config('database.default'),
             'database' => DB::getDatabaseName(),
             'migrations' => $this->migrations->all()->values(),
-            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+            'tables' => $this->tables->all()->values(),
         ];
     }
 
@@ -214,6 +221,7 @@ class RunMigrationsController
         $messages = [$message];
 
         $this->migrations->refresh();
+        $this->tables->refresh();
 
         $count = $this->apply($this->migrations->pending())->count();
         // $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
@@ -227,12 +235,13 @@ class RunMigrationsController
         //     ->with('migrations-ui::success', new HtmlString(collect($messages)->join('<br>') . $this->runtime()));
 
         $this->migrations->refresh();
+        $this->tables->refresh();
 
         return [
             'connection' => config('database.default'),
             'database' => DB::getDatabaseName(),
             'migrations' => $this->migrations->all()->values(),
-            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+            'tables' => $this->tables->all()->values(),
         ];
     }
 
@@ -273,7 +282,7 @@ class RunMigrationsController
             'connection' => config('database.default'),
             'database' => DB::getDatabaseName(),
             'migrations' => $this->migrations->all()->values(),
-            'tables' => DB::getDoctrineSchemaManager()->listTableNames(),
+            'tables' => $this->tables->all()->values(),
         ];
     }
 

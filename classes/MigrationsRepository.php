@@ -15,9 +15,6 @@ class MigrationsRepository
 
     public function __construct(Migrator $migrator)
     {
-        // TODO: Support for other database connections?
-        //$migrator->setConnection($connection);
-
         $this->migrator = $migrator;
 
         $this->refresh();
