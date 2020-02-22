@@ -1,7 +1,9 @@
 <script>
     import ErrorModal from './components/ErrorModal';
+    import Toasts from './components/Toasts';
+
     export default {
-        components: { ErrorModal },
+        components: { ErrorModal, Toasts },
     }
 </script>
 
@@ -9,5 +11,6 @@
     <div>
         <RouterView></RouterView>
         <ErrorModal></ErrorModal>
+        <Toasts></Toasts>
     </div>
 </template>

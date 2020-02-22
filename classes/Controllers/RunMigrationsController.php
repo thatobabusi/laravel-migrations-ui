@@ -2,37 +2,36 @@
 
 namespace DaveJamesMiller\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Migration;
-use DaveJamesMiller\MigrationsUI\MigrationsRepository;
+use DaveJamesMiller\MigrationsUI\Exceptions\SeederException;
 use DaveJamesMiller\MigrationsUI\Migrator;
-use DaveJamesMiller\MigrationsUI\TablesRepository;
-use DB;
+use DaveJamesMiller\MigrationsUI\Models\Migration;
+use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
+use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\HtmlString;
 use LogicException;
-use Symfony\Component\HttpFoundation\Response;
 
 class RunMigrationsController
 {
-    /** @var \DaveJamesMiller\MigrationsUI\MigrationsRepository */
+    /** @var \DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository */
     private $migrations;
 
     /** @var \DaveJamesMiller\MigrationsUI\Migrator */
     private $migrator;
 
+    /** @var \DaveJamesMiller\MigrationsUI\Responses\OverviewResponse */
+    private $response;
+
     /** @var float */
     private $startTime;
 
-    /** @var \DaveJamesMiller\MigrationsUI\TablesRepository */
-    private $tables;
-
-    public function __construct(MigrationsRepository $migrations, Migrator $migrator, TablesRepository $tables)
+    public function __construct(MigrationsRepository $migrations, Migrator $migrator)
     {
         $this->migrations = $migrations;
         $this->migrator = $migrator;
-        $this->tables = $tables;
+        $this->response = OverviewResponse::make();
         $this->startTime = microtime(true);
     }
 
@@ -52,33 +51,19 @@ class RunMigrationsController
         return $migrations;
     }
 
-    private function applyAndRespond(Collection $migrations): array
+    private function applyAndRespond(Collection $migrations)
     {
         $this->apply($migrations);
 
         $count = count($migrations);
 
-        // if ($migrations->count() === 1) {
-        //     $migration = $migrations->first();
-        //
-        //     return redirect()->route('migrations-ui.home')
-        //         ->with('migrations-ui::success-title', 'Applied Migration')
-        //         ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
-        // }
+        if ($migrations->count() === 1) {
+            $migration = $migrations->first();
 
-        // return redirect()->route('migrations-ui.home')
-        //     ->with('migrations-ui::success-title', 'Applied Migrations')
-        //     ->with('migrations-ui::success', new HtmlString("Ran $count migrations." . $this->runtime()));
+            return $this->response->withSuccess('Applied Migration', $migration->name, $this->runtime());
+        }
 
-        $this->migrations->refresh();
-        $this->tables->refresh();
-
-        return [
-            'connection' => config('database.default'),
-            'database' => DB::getDatabaseName(),
-            'migrations' => $this->migrations->all()->values(),
-            'tables' => $this->tables->all()->values(),
-        ];
+        return $this->response->withSuccess('Applied Migrations', "Ran $count migrations.", $this->runtime());
     }
 
     public function applySingle(Migration $migration)
@@ -91,9 +76,7 @@ class RunMigrationsController
         $migrations = $this->migrations->pending();
 
         if ($migrations->isEmpty()) {
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::danger-title', 'Cannot Apply Migrations')
-                ->with('migrations-ui::danger', 'No migrations are pending.');
+            return OverviewResponse::make()->withError('Cannot Apply Migrations', 'No migrations are pending.');
         }
 
         return $this->applyAndRespond($migrations);
@@ -114,33 +97,19 @@ class RunMigrationsController
         return $migrations;
     }
 
-    private function rollbackAndRespond(Collection $migrations): array
+    private function rollbackAndRespond(Collection $migrations)
     {
         $this->rollback($migrations);
 
         $count = $migrations->count();
 
-        // if ($count === 1) {
-        //     $migration = $migrations->first();
-        //
-        //     return redirect()->route('migrations-ui.home')
-        //         ->with('migrations-ui::success-title', 'Rolled Back')
-        //         ->with('migrations-ui::success', new HtmlString(e($migration->name) . $this->runtime()));
-        // }
-        //
-        // return redirect()->route('migrations-ui.home')
-        //     ->with('migrations-ui::success-title', 'Rolled Back')
-        //     ->with('migrations-ui::success', new HtmlString("Rolled back $count migrations." . $this->runtime()));
+        if ($count === 1) {
+            $migration = $migrations->first();
 
-        $this->migrations->refresh();
-        $this->tables->refresh();
+            return $this->response->withSuccess('Rolled Back Migration', $migration->name, $this->runtime());
+        }
 
-        return [
-            'connection' => config('database.default'),
-            'database' => DB::getDatabaseName(),
-            'migrations' => $this->migrations->all()->values(),
-            'tables' => $this->tables->all()->values(),
-        ];
+        return $this->response->withSuccess('Rolled Back', "Rolled back $count migrations.", $this->runtime());
     }
 
     public function rollbackSingle(Migration $migration)
@@ -153,9 +122,7 @@ class RunMigrationsController
         $migrations = $this->migrations->batch($batch);
 
         if ($migrations->isEmpty()) {
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::danger-title', 'Cannot Roll Back')
-                ->with('migrations-ui::danger', "No migrations found in batch $batch.");
+            return OverviewResponse::make()->withError('Cannot Roll Back', "No migrations found in batch $batch.");
         }
 
         return $this->rollbackAndRespond($migrations);
@@ -166,20 +133,17 @@ class RunMigrationsController
         $migrations = $this->migrations->applied();
 
         if ($migrations->isEmpty()) {
-            return redirect()->route('migrations-ui.home')
-                ->with('migrations-ui::danger-title', 'Cannot Roll Back')
-                ->with('migrations-ui::danger', 'No applied migrations found.');
+            return OverviewResponse::make()->withError('Cannot Roll Back', "No applied migrations found.");
         }
 
         return $this->rollbackAndRespond($migrations);
     }
 
-    public function fresh()
+    public function fresh(DatabaseManager $db)
     {
-        $builder = DB::getSchemaBuilder();
+        $builder = $db->getSchemaBuilder();
 
         /** @see \Illuminate\Database\Console\WipeCommand::handle() */
-        $builder->dropAllTables();
         $types = ['tables'];
 
         if (config('migrations-ui.fresh.views')) {
@@ -191,6 +155,8 @@ class RunMigrationsController
                 Session::flash('migrations-ui::warning', $e->getMessage());
             }
         }
+
+        $builder->dropAllTables();
 
         if (config('migrations-ui.fresh.types')) {
             try {
@@ -205,7 +171,7 @@ class RunMigrationsController
         $this->migrator->getRepository()->createRepository();
 
         $message = 'Dropped all ' . collect($types)->join(', ', ' & ') . '.';
-        return $this->finishRefresh($message);
+        return $this->finishRefresh('Fresh', $message);
     }
 
     public function refresh()
@@ -213,50 +179,30 @@ class RunMigrationsController
         $count = $this->rollback($this->migrations->applied())->count();
 
         $message = $count === 1 ? 'Rolled back 1 migration.' : "Rolled back $count migrations.";
-        return $this->finishRefresh($message);
+        return $this->finishRefresh('Refresh', $message);
     }
 
-    private function finishRefresh($message)
+    private function finishRefresh($type, $message)
     {
         $messages = [$message];
 
-        $this->migrations->refresh();
-        $this->tables->refresh();
-
         $count = $this->apply($this->migrations->pending())->count();
-        // $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
+        $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
-        $seeded = $this->runSeeder(Request::get('seed', false));
-        // if ($seeded) {
-        //     $messages[] = 'Seeded the database.';
-        // }
-        //
-        // return redirect()->route('migrations-ui.home')
-        //     ->with('migrations-ui::success', new HtmlString(collect($messages)->join('<br>') . $this->runtime()));
-
-        $this->migrations->refresh();
-        $this->tables->refresh();
-
-        return [
-            'connection' => config('database.default'),
-            'database' => DB::getDatabaseName(),
-            'migrations' => $this->migrations->all()->values(),
-            'tables' => $this->tables->all()->values(),
-        ];
-    }
-
-    private function runSeeder(bool $enabled = true): bool
-    {
-        if (!$enabled) {
-            return false;
+        if (Request::get('seed', false) && $this->runSeeder()) {
+            $messages[] = 'Seeded the database.';
         }
 
+        return $this->response->withSuccess($type, implode("\n", $messages), $this->runtime());
+    }
+
+    private function runSeeder()
+    {
         /** @see \DatabaseSeeder */
         $class = config('migrations-ui.seeder');
 
         if (!class_exists($class)) {
-            Session::flash('migrations-ui::danger-title', 'Cannot Seed Database');
-            Session::flash('migrations-ui::danger', "Unable to find $class class.");
+            $this->response->withError('Cannot Seed Database', "Unable to find $class class.");
             return false;
         }
 
@@ -273,23 +219,14 @@ class RunMigrationsController
     public function seed()
     {
         if ($this->runSeeder()) {
-            Session::flash('migrations-ui::success', new HtmlString('Database Seeded' . $this->runtime()));
+            $this->response->withSuccess('Seed', 'Database seeded', $this->runtime());
         }
 
-        // return redirect()->route('migrations-ui.home');
-
-        return [
-            'connection' => config('database.default'),
-            'database' => DB::getDatabaseName(),
-            'migrations' => $this->migrations->all()->values(),
-            'tables' => $this->tables->all()->values(),
-        ];
+        return $this->response;
     }
 
     private function runtime()
     {
-        $runTime = round(microtime(true) - $this->startTime, 2);
-
-        return "<br><small class='text-muted'>in $runTime seconds</small>";
+        return round(microtime(true) - $this->startTime, 2);
     }
 }

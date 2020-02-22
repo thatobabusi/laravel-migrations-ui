@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import api from '../api';
 import Migration from '../models/Migration';
+import toasts from './toasts';
 
 export default new Vue({
     data() {
@@ -22,14 +23,14 @@ export default new Vue({
         },
     },
     methods: {
-        async fresh(seed) {
-            this.running = true;
+        async load() {
+            this.loading = true;
 
             try {
-                const response = await api.post('fresh', { seed });
-                this.setAll(response.data);
+                const response = await api.get('list');
+                this.setOverview(response.data);
             } finally {
-                this.running = false;
+                this.loading = false;
             }
         },
         getMigration(name) {
@@ -39,14 +40,14 @@ export default new Vue({
 
             return this.migrationDetails[name];
         },
-        async load() {
-            this.loading = true;
+        async fresh(seed) {
+            this.running = true;
 
             try {
-                const response = await api.get('list');
-                this.setAll(response.data);
+                const response = await api.post('fresh', { seed });
+                this.setOverview(response.data);
             } finally {
-                this.loading = false;
+                this.running = false;
             }
         },
         async loadDetails(name) {
@@ -56,7 +57,7 @@ export default new Vue({
 
             try {
                 const response = await api.get(`migration-details/${name}`);
-                migration.update(response.data);
+                migration.fill(response.data);
             } finally {
                 migration.loading = false;
             }
@@ -66,7 +67,7 @@ export default new Vue({
 
             try {
                 const response = await api.post('refresh', { seed });
-                this.setAll(response.data);
+                this.setOverview(response.data);
             } finally {
                 this.running = false;
             }
@@ -75,26 +76,69 @@ export default new Vue({
             this.running = true;
 
             try {
-                const response = await api.post('seed' );
-                this.setAll(response.data);
+                const response = await api.post('seed');
+                this.setOverview(response.data);
             } finally {
                 this.running = false;
             }
         },
-        async runSingle(name, type) {
-            const migration = this.getMigration(name);
+        async applyAll() {
+            const migrations = this.allMigrations.filter(migration => !migration.isApplied);
 
+            migrations.forEach(migration => migration.running = true);
+
+            try {
+                const response = await api.post('apply-all');
+                this.setOverview(response.data);
+            } finally {
+                migrations.forEach(migration => migration.running = false);
+            }
+        },
+        async applySingle(migration) {
             migration.running = true;
 
             try {
-                // 'type' can be 'apply' or 'rollback'
-                const response = await api.post(`${type}-single/${name}`);
-                this.setAll(response.data);
+                const response = await api.post(`apply-single/${migration.name}`);
+                this.setOverview(response.data);
             } finally {
                 migration.running = false;
             }
         },
-        setAll(data) {
+        async rollbackAll() {
+            const migrations = this.allMigrations.filter(migration => migration.isApplied);
+
+            migrations.forEach(migration => migration.running = true);
+
+            try {
+                const response = await api.post('rollback-all');
+                this.setOverview(response.data);
+            } finally {
+                migrations.forEach(migration => migration.running = false);
+            }
+        },
+        async rollbackBatch(batch) {
+            const migrations = this.allMigrations.filter(migration => migration.batch === batch);
+
+            migrations.forEach(migration => migration.running = true);
+
+            try {
+                const response = await api.post(`rollback-batch/${batch}`);
+                this.setOverview(response.data);
+            } finally {
+                migrations.forEach(migration => migration.running = false);
+            }
+        },
+        async rollbackSingle(migration) {
+            migration.running = true;
+
+            try {
+                const response = await api.post(`rollback-single/${migration.name}`);
+                this.setOverview(response.data);
+            } finally {
+                migration.running = false;
+            }
+        },
+        setOverview(data) {
             this.connection = data.connection;
             this.database = data.database;
             this.tables = data.tables;
@@ -104,10 +148,15 @@ export default new Vue({
 
             for (let migration of data.migrations) {
                 migrationNames.push(migration.name);
-                this.getMigration(migration.name).update(migration);
+                this.getMigration(migration.name).fill(migration);
             }
 
             this.migrationNames = migrationNames;
+
+            // Display any toast messages attached to the data
+            if (data.toasts) {
+                toasts.show(data.toasts);
+            }
         },
     },
 });

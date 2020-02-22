@@ -1,8 +1,9 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI;
+namespace DaveJamesMiller\MigrationsUI\Repositories;
 
-use Illuminate\Contracts\Foundation\Application;
+use DaveJamesMiller\MigrationsUI\Migrator;
+use DaveJamesMiller\MigrationsUI\Models\Migration;
 use Illuminate\Support\Collection;
 
 class MigrationsRepository
@@ -10,17 +11,12 @@ class MigrationsRepository
     /** @var \DaveJamesMiller\MigrationsUI\Migrator */
     private $migrator;
 
-    /** @var \Illuminate\Support\Collection */
-    private $migrations;
-
     public function __construct(Migrator $migrator)
     {
         $this->migrator = $migrator;
-
-        $this->refresh();
     }
 
-    public function refresh()
+    private function load()
     {
         // Find all the migration files
         /** @see \Illuminate\Database\Console\Migrations\StatusCommand::getAllMigrationFiles() */
@@ -40,22 +36,12 @@ class MigrationsRepository
             }
         }
 
-        $this->migrations = $migrations;
+        return $migrations;
     }
 
     public function all(): Collection
     {
-        return $this->migrations->sortByDesc('name');
-    }
-
-    public function get($name): ?Migration
-    {
-        return $this->migrations->get($name);
-    }
-
-    public function pending(): Collection
-    {
-        return $this->all()->where('batch', '===', null);
+        return $this->load()->sortByDesc('name');
     }
 
     public function applied(): Collection
@@ -66,5 +52,15 @@ class MigrationsRepository
     public function batch(int $batch): Collection
     {
         return $this->all()->where('batch', '===', $batch);
+    }
+
+    public function pending(): Collection
+    {
+        return $this->all()->where('batch', '===', null);
+    }
+
+    public function get($name): ?Migration
+    {
+        return $this->load()->get($name);
     }
 }

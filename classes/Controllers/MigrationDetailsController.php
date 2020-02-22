@@ -2,7 +2,7 @@
 
 namespace DaveJamesMiller\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Migration;
+use DaveJamesMiller\MigrationsUI\Models\Migration;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;

@@ -28,11 +28,20 @@
             },
         },
         methods: {
+            applyAll() {
+                return this.migrations.applyAll();
+            },
             applySingle() {
-                return this.migrations.runSingle(this.migration.name, 'apply');
+                return this.migrations.applySingle(this.migration);
+            },
+            rollbackAll() {
+                return this.migrations.rollbackAll();
+            },
+            rollbackBatch() {
+                return this.migrations.rollbackBatch(this.migration.batch);
             },
             rollbackSingle() {
-                return this.migrations.runSingle(this.migration.name, 'rollback');
+                return this.migrations.rollbackSingle(this.migration);
             },
             runDefault() {
                 if (this.migration.isMissing) {
@@ -65,13 +74,13 @@
 
         <template v-else-if="migration.isApplied">
             <BDropdownItem @click="rollbackSingle">Rollback This Migration</BDropdownItem>
-            <BDropdownItem>Rollback Batch {{ migration.batch }}</BDropdownItem>
-            <BDropdownItem>Rollback All</BDropdownItem>
+            <BDropdownItem @click="rollbackBatch">Rollback Batch {{ migration.batch }}</BDropdownItem>
+            <BDropdownItem @click="rollbackAll">Rollback All</BDropdownItem>
         </template>
 
         <template v-else>
             <BDropdownItem @click="applySingle">Apply This Migration</BDropdownItem>
-            <BDropdownItem>Apply All Pending</BDropdownItem>
+            <BDropdownItem @click="applyAll">Apply All Pending</BDropdownItem>
         </template>
 
     </BDropdown>

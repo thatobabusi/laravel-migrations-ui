@@ -24,7 +24,8 @@ const fields = [
  * @property {boolean} loading
  * @property {boolean} running
  */
-export default class Migration {
+export default class Migration
+{
     constructor(name) {
         for (let field of fields) {
             this[field] = null;
@@ -35,7 +36,7 @@ export default class Migration {
         this.running = false;
     }
 
-    update(data) {
+    fill(data) {
         for (let field of fields) {
             if (field in data) {
                 this[field] = data[field];
