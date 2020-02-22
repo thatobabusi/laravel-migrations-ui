@@ -46,17 +46,17 @@ class MigrationsRepository
 
     public function applied(): Collection
     {
-        return $this->all()->where('batch', '!==', null);
+        return $this->load()->where('batch', '!==', null)->sortByDesc('name');
     }
 
     public function batch(int $batch): Collection
     {
-        return $this->all()->where('batch', '===', $batch);
+        return $this->load()->where('batch', '===', $batch)->sortByDesc('name');
     }
 
     public function pending(): Collection
     {
-        return $this->all()->where('batch', '===', null);
+        return $this->load()->where('batch', '===', null)->sortBy('name');
     }
 
     public function get($name): ?Migration
