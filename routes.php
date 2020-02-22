@@ -37,8 +37,8 @@ Route
 
             Route::get('list', 'ListController');
             Route::get('migration-details/{migration}', 'MigrationDetailsController');
-            Route::post('apply-all', 'RunMigrationsController@applyAll');
-            Route::post('apply-single/{migration}', 'RunMigrationsController@applySingle');
+            Route::post('migrate-all', 'RunMigrationsController@migrateAll');
+            Route::post('migrate-single/{migration}', 'RunMigrationsController@migrateSingle');
             Route::post('rollback-all', 'RunMigrationsController@rollbackAll');
             Route::post('rollback-batch/{batch}', 'RunMigrationsController@rollbackBatch')->where('batch', '\d+');
             Route::post('rollback-single/{migration}', 'RunMigrationsController@rollbackSingle');

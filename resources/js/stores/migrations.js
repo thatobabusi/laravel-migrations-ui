@@ -82,23 +82,23 @@ export default new Vue({
                 this.running = false;
             }
         },
-        async applyAll() {
+        async migrateAll() {
             const migrations = this.allMigrations.filter(migration => !migration.isApplied);
 
             migrations.forEach(migration => migration.running = true);
 
             try {
-                const response = await api.post('apply-all');
+                const response = await api.post('migrate-all');
                 this.setOverview(response.data);
             } finally {
                 migrations.forEach(migration => migration.running = false);
             }
         },
-        async applySingle(migration) {
+        async migrateSingle(migration) {
             migration.running = true;
 
             try {
-                const response = await api.post(`apply-single/${migration.name}`);
+                const response = await api.post(`migrate-single/${migration.name}`);
                 this.setOverview(response.data);
             } finally {
                 migration.running = false;

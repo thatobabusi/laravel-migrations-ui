@@ -42,7 +42,7 @@ class RunMigrationsController
         $this->migrator->requireFiles($files);
     }
 
-    private function apply(Collection $migrations): Collection
+    private function migrate(Collection $migrations): Collection
     {
         $this->load($migrations);
 
@@ -51,9 +51,9 @@ class RunMigrationsController
         return $migrations;
     }
 
-    private function applyAndRespond(Collection $migrations)
+    private function migrateAndRespond(Collection $migrations)
     {
-        $this->apply($migrations);
+        $this->migrate($migrations);
 
         $count = count($migrations);
 
@@ -63,23 +63,23 @@ class RunMigrationsController
             return $this->response->withSuccess('Migrated', $migration->name, $this->runtime());
         }
 
-        return $this->response->withSuccess('Migrated', "Applied $count migrations.", $this->runtime());
+        return $this->response->withSuccess('Migrated', "Ran $count migrations.", $this->runtime());
     }
 
-    public function applySingle(Migration $migration)
+    public function migrateSingle(Migration $migration)
     {
-        return $this->applyAndRespond(collect([$migration]));
+        return $this->migrateAndRespond(collect([$migration]));
     }
 
-    public function applyAll()
+    public function migrateAll()
     {
         $migrations = $this->migrations->pending();
 
         if ($migrations->isEmpty()) {
-            return OverviewResponse::make()->withError('Cannot Apply Migrations', 'No migrations are pending.');
+            return OverviewResponse::make()->withError('Cannot Run Migrations', 'No migrations are pending.');
         }
 
-        return $this->applyAndRespond($migrations);
+        return $this->migrateAndRespond($migrations);
     }
 
     private function rollback(Collection $migrations): Collection
@@ -186,7 +186,7 @@ class RunMigrationsController
     {
         $messages = [$message];
 
-        $count = $this->apply($this->migrations->pending())->count();
+        $count = $this->migrate($this->migrations->pending())->count();
         $messages[] = $count === 1 ? 'Ran 1 migration.' : "Ran $count migrations.";
 
         if (Request::get('seed', false) && $this->runSeeder()) {

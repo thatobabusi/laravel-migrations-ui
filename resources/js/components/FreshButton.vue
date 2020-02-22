@@ -26,7 +26,7 @@
 
         <BDropdownItem @click="migrations.fresh(false)">
             Fresh
-            <small class="d-block text-muted">Drop tables &amp; apply all migrations</small>
+            <small class="d-block text-muted">Drop tables &amp; run all migrations</small>
         </BDropdownItem>
 
         <BDropdownItem @click="migrations.fresh(true)">
@@ -37,7 +37,7 @@
 
         <BDropdownItem @click="migrations.refresh(false)">
             Refresh
-            <small class="d-block text-muted">Rollback &amp; apply all migrations</small>
+            <small class="d-block text-muted">Rollback &amp; re-run all migrations</small>
         </BDropdownItem>
 
         <BDropdownItem @click="migrations.refresh(true)">

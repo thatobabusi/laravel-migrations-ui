@@ -29,11 +29,11 @@
             },
         },
         methods: {
-            applyAll() {
-                return this.migrations.applyAll();
+            migrateAll() {
+                return this.migrations.migrateAll();
             },
-            applySingle() {
-                return this.migrations.applySingle(this.migration);
+            migrateSingle() {
+                return this.migrations.migrateSingle(this.migration);
             },
             rollbackAll() {
                 return this.migrations.rollbackAll();
@@ -50,7 +50,7 @@
                 } else if (this.migration.isApplied) {
                     this.rollbackSingle();
                 } else {
-                    this.applySingle();
+                    this.migrateSingle();
                 }
             },
         },
@@ -81,8 +81,8 @@
         </template>
 
         <template v-else>
-            <BDropdownItem @click="applySingle">This Migration</BDropdownItem>
-            <BDropdownItem @click="applyAll">All Pending</BDropdownItem>
+            <BDropdownItem @click="migrateSingle">This Migration</BDropdownItem>
+            <BDropdownItem @click="migrateAll">All Pending</BDropdownItem>
         </template>
 
     </BDropdown>
