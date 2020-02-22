@@ -1,11 +1,13 @@
 <script>
     import {faDatabase, faPlug} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+    import {VBTooltip} from 'bootstrap-vue';
     import migrations from '../stores/migrations';
     import Spinner from './Spinner';
 
     export default {
         components: { Spinner, FontAwesomeIcon },
+        directives: { BTooltip: VBTooltip },
         data() {
             return {
                 migrations,
@@ -23,7 +25,7 @@
         <div class="card-header bg-secondary text-white" style="line-height: 1.2; padding-left: 0.80em; padding-right: 0.80em;">
             <!--<div class="float-right" style="margin: -6px 0;">
             <span data-toggle="modal" data-target="#exampleModal2">
-                <button class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="Switch Database">
+                <button class="btn btn-sm btn-dark" v-b-tooltip="Switch Database">
                     <i class="fas fa-fw fa-database" aria-hidden="true"></i>
                 </button>
             </span>
@@ -34,11 +36,11 @@
                 Loading...
             </span>
             <template v-else>
-                <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Connection">
+                <span style="cursor: default;" v-b-tooltip="'Connection'">
                     <FontAwesomeIcon :icon="faPlug" class="mr-1"></FontAwesomeIcon>
                     {{ migrations.connection }}
                 </span>
-                <span style="cursor: default;" data-toggle="tooltip" data-placement="top" title="Database" class="ml-3">
+                <span style="cursor: default;" v-b-tooltip="'Database'" class="ml-3">
                     <FontAwesomeIcon :icon="faDatabase" class="mr-1"></FontAwesomeIcon>
                     {{ migrations.database }}
                 </span>
@@ -56,7 +58,7 @@
                         Rows
                     </th>
                     <!--<th scope="col" class="align-middle font-weight-normal text-muted text-right">
-                    <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="New Migration: Create Table">
+                    <button class="btn btn-sm btn-primary" v-b-tooltip="New Migration: Create Table">
                         <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     </button>
                 </th>-->
@@ -72,16 +74,16 @@
                         {{ table.rows }}
                     </td>
                     <!--<td class="align-middle text-right">
-                    <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="View Structure">
+                    <button class="btn btn-sm btn-success" v-b-tooltip="View Structure">
                         <i class="fas fa-fw fa-search" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="New Migration: Modify">
+                    <button class="btn btn-sm btn-warning" v-b-tooltip="New Migration: Modify">
                         <i class="fas fa-fw fa-pen" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="New Migration: Rename">
+                    <button class="btn btn-sm btn-secondary" v-b-tooltip="New Migration: Rename">
                         <i class="fas fa-fw fa-i-cursor" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="New Migration: Drop">
+                    <button class="btn btn-sm btn-danger" v-b-tooltip="New Migration: Drop">
                         <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </button>
                     </td>-->
