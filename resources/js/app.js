@@ -17,9 +17,5 @@ const router = new VueRouter({
 new Vue({
     ...App,
     el: '#app',
-    metaInfo: {
-        titleTemplate: '%s – ' + document.body.dataset.appName,
-        title: 'MISSING TITLE',
-    },
     router,
 });

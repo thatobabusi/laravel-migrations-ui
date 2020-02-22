@@ -4,6 +4,13 @@
 
     export default {
         components: { ErrorModal, Toasts },
+        metaInfo: {
+            titleTemplate(title) {
+                return [title, 'Migrations', document.body.dataset.appName]
+                    .filter(Boolean)
+                    .join(' – ');
+            },
+        },
     }
 </script>
 

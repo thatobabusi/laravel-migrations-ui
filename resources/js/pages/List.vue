@@ -22,9 +22,6 @@
                 this.migrations.load();
             },
         },
-        metaInfo: {
-            title: 'Migrations',
-        },
     }
 </script>
 

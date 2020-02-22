@@ -4,7 +4,7 @@
     export default {
         components: { Navbar },
         metaInfo: {
-            title: 'Page Not Found – Migrations',
+            title: 'Page Not Found',
         },
     }
 </script>

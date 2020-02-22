@@ -37,9 +37,7 @@
             },
         },
         metaInfo() {
-            return {
-                title: `Migration Details: ${this.name}`,
-            };
+            return { title: this.name };
         },
     }
 </script>

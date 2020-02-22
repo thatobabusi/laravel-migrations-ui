@@ -2,9 +2,6 @@
     import Navbar from '../components/Navbar';
     export default {
         components: { Navbar },
-        metaInfo: {
-            title: 'Loading... — Migrations',
-        },
     }
 </script>
 
