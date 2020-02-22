@@ -1,32 +1,33 @@
 <script>
     import {BModal} from 'bootstrap-vue';
-    import {mapMutations, mapState} from 'vuex';
+    import errors from '../stores/errors';
 
     export default {
         components: { BModal },
-        computed: {
-            ...mapState('errors', ['error']),
+        data() {
+            return {
+                errors,
+            };
         },
         mounted() {
             this.setContent();
         },
         watch: {
-            error() {
+            'errors.html': function() {
                 this.setContent();
             },
         },
         methods: {
-            ...mapMutations('errors', ['hideError']),
             async setContent() {
                 // Not sure why but two next ticks are needed
                 await this.$nextTick();
                 await this.$nextTick();
 
-                if (!this.error) return;
+                if (!this.errors.html) return;
 
                 const iframeDocument = this.$refs.iframe.contentWindow.document;
                 iframeDocument.open();
-                iframeDocument.write(this.error);
+                iframeDocument.write(this.errors.html);
                 iframeDocument.close();
             },
         },
@@ -34,7 +35,7 @@
 </script>
 
 <template>
-    <BModal :visible="!!error" @hide="hideError" size="xl" title="Error" body-class="p-0" hide-footer>
+    <BModal :visible="!!errors.html" @hide="errors.hide" size="xl" title="Error" body-class="p-0" hide-footer>
         <iframe class="error-modal-iframe" ref="iframe"></iframe>
     </BModal>
 </template>

@@ -78,7 +78,6 @@ import App from './App';
 import Vue from 'vue';
 import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
-import store from './store';
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
@@ -97,5 +96,4 @@ new Vue({
         title: 'MISSING TITLE',
     },
     router,
-    store,
 });

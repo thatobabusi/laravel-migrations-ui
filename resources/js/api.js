@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from './store';
+import errors from './stores/errors';
 
 const api = axios.create({
     baseURL: document.body.dataset.baseUrl + '/api',
@@ -27,7 +27,7 @@ api.interceptors.response.use(
 
         // Display the full HTML error in a popup window
         if (error.response) {
-            store.commit('errors/showError', error.response.data);
+            errors.show(error.response.data);
         }
 
         return Promise.reject(error);

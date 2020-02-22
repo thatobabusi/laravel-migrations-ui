@@ -1,12 +1,17 @@
 <script>
     import {BDropdown, BDropdownDivider, BDropdownItem} from 'bootstrap-vue';
-    import {mapActions} from 'vuex';
+    import migrations from '../stores/migrations';
     import Spinner from './Spinner';
 
     export default {
         components: { Spinner, BDropdown, BDropdownItem, BDropdownDivider },
         props: {
             migration: { type: Object, required: true },
+        },
+        data() {
+            return {
+                migrations,
+            };
         },
         computed: {
             variant() {
@@ -20,12 +25,11 @@
             },
         },
         methods: {
-            ...mapActions('migrations', ['runSingle']),
             applySingle() {
-                return this.runSingle({ name: this.migration.name, type: 'apply' });
+                return this.migrations.runSingle(this.migration.name, 'apply');
             },
             rollbackSingle() {
-                return this.runSingle({ name: this.migration.name, type: 'rollback' });
+                return this.migrations.runSingle(this.migration.name, 'rollback');
             },
             runDefault() {
                 if (this.migration.isMissing) {

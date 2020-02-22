@@ -1,11 +1,11 @@
 <script>
-    import {mapActions, mapGetters} from 'vuex';
     import Code from '../components/Code';
     import MigrationsList from '../components/MigrationsList';
     import Navbar from '../components/Navbar';
     import Spinner from '../components/Spinner';
     import TablesList from '../components/TablesList';
     import refresh from '../mixins/refresh';
+    import migrations from '../stores/migrations';
 
     export default {
         components: { Spinner, Code, MigrationsList, Navbar, TablesList },
@@ -13,22 +13,26 @@
         props: {
             name: { type: String, required: true },
         },
+        data() {
+            return {
+                migrations,
+            };
+        },
+
         computed: {
-            ...mapGetters('migrations', ['getMigration']),
             migration() {
-                return this.getMigration(this.name);
+                return this.migrations.getMigration(this.name);
             },
         },
         watch: {
             name: 'refresh',
         },
         mounted() {
-            this.loadDetails(this.name);
+            this.migrations.loadDetails(this.name);
         },
         methods: {
-            ...mapActions('migrations', ['loadDetails']),
             refresh() {
-                this.loadDetails(this.name);
+                this.migrations.loadDetails(this.name);
             },
         },
         metaInfo() {

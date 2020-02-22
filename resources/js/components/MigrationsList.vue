@@ -2,7 +2,7 @@
     import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
     import {BDropdown, BDropdownDivider, BDropdownItem, VBTooltip} from 'bootstrap-vue';
-    import {mapGetters, mapState} from 'vuex';
+    import migrations from '../stores/migrations';
     import FreshButton from './FreshButton';
     import RunButton from './RunButton';
     import Spinner from './Spinner';
@@ -10,9 +10,12 @@
     export default {
         components: { BDropdown, BDropdownItem, BDropdownDivider, RunButton, FontAwesomeIcon, FreshButton, Spinner },
         directives: { BTooltip: VBTooltip },
+        data() {
+            return {
+                migrations,
+            };
+        },
         computed: {
-            ...mapState('migrations', ['loading']),
-            ...mapGetters('migrations', { migrations: 'getAllMigrations' }),
             faQuestionCircle: () => faQuestionCircle,
         },
     }
@@ -27,7 +30,7 @@
             </a>
             <h6 class="m-0">
                 Migrations
-                <Spinner v-if="loading" class="ml-1"></Spinner>
+                <Spinner v-if="migrations.loading" class="ml-1"></Spinner>
             </h6>
         </div>
         <table class="table table-hover bg-white mb-0">
@@ -48,8 +51,8 @@
                 </tr>
             </thead>
 
-            <tbody v-if="migrations.length">
-                <tr v-for="migration in migrations" :key="migration.name" :class="migration.isMissing ? 'table-danger' : ''">
+            <tbody v-if="migrations.allMigrations.length">
+                <tr v-for="migration in migrations.allMigrations" :key="migration.name" :class="migration.isMissing ? 'table-danger' : ''">
 
                     <td class="align-middle">
                         <span v-if="migration.date">{{ migration.date }}</span>
@@ -79,7 +82,7 @@
 
                 </tr>
             </tbody>
-            <tbody v-else-if="loading">
+            <tbody v-else-if="migrations.loading">
                 <tr>
                     <td colspan="4" class="text-muted">
                         <Spinner class="mr-2"></Spinner>
