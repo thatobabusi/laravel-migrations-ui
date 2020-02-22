@@ -46,7 +46,7 @@
                             New
                         </a>
                         -->
-                        <FreshButton size="sm" style="width: 6.5em;"></FreshButton>
+                        <FreshButton size="sm" width="6.5em"></FreshButton>
                     </th>
                 </tr>
             </thead>
@@ -77,7 +77,7 @@
                     </td>
 
                     <td class="align-middle text-right">
-                        <RunButton :migration="migration" size="sm" style="width: 6.5em;"></RunButton>
+                        <RunButton :migration="migration" size="sm" width="6.5em"></RunButton>
                     </td>
 
                 </tr>

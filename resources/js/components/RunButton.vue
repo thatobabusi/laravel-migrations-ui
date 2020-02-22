@@ -8,6 +8,7 @@
         props: {
             migration: { type: Object, required: true },
             size: { type: String, default: '' },
+            width: { type: String, default: undefined },
         },
         data() {
             return {
@@ -58,7 +59,7 @@
 </script>
 
 <template>
-    <BDropdown v-if="!migration.isMissing" right :size="size" split :variant="variant" :disabled="running" @click="runDefault">
+    <BDropdown v-if="!migration.isMissing" right :size="size" :style="{ width }" split :variant="variant" :disabled="running" @click="runDefault">
 
         <template v-slot:button-content>
             <Spinner v-if="running"></Spinner>

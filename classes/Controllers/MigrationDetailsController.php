@@ -11,15 +11,14 @@ class MigrationDetailsController extends Controller
 {
     public function __invoke(Migration $migration)
     {
+        $response = $migration->toArray();
+
         try {
-            $source = File::get($migration->file);
+            $response['source'] = File::get($migration->file);
         } catch (FileNotFoundException $e) {
-            $source = "# FILE NOT FOUND:\n# {$migration->file}";
+            $response['source'] = "# FILE NOT FOUND:\n# {$migration->file}";
         }
 
-        return [
-            'name' => $migration->name,
-            'source' => $source,
-        ];
+        return $response;
     }
 }

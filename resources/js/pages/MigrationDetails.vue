@@ -48,7 +48,7 @@
         <Navbar>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <RunButton :migration="migration"></RunButton>
+                    <RunButton :migration="migration" width="8em"></RunButton>
                 </li>
             </ul>
         </Navbar>

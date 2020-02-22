@@ -7,6 +7,7 @@
         components: { Spinner, BDropdown, BDropdownItem, BDropdownDivider },
         props: {
             size: { type: String, default: '' },
+            width: { type: String, default: undefined },
         },
         data() {
             return {
@@ -17,7 +18,7 @@
 </script>
 
 <template>
-    <BDropdown right :size="size" split variant="warning" :disabled="migrations.running" @click="migrations.fresh(true)">
+    <BDropdown right :size="size" :style="{ width }" split variant="warning" :disabled="migrations.running" @click="migrations.fresh(true)">
 
         <template v-slot:button-content>
             <Spinner v-if="migrations.running"></Spinner>
