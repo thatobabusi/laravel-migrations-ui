@@ -10,6 +10,8 @@ export const state = {
     loading: false,
     migrationDetails: {},
     migrationNames: [],
+    queue: [],
+    queueRunning: false,
     tables: [],
 };
 
@@ -52,6 +54,9 @@ export const mutations = {
     setMigrationDetails(state, data) {
         getMigrationDetails(state, data.name).update(data);
     },
+    setQueueRunning(state, running) {
+        state.queueRunning = running;
+    },
 };
 
 export const actions = {
@@ -74,6 +79,20 @@ export const actions = {
         } finally {
             commit('setMigrationDetails', { name, loading: false });
         }
+    },
+    async processQueue({ commit, dispatch, state }) {
+        if (state.queueRunning) return;
+
+        commit('setQueueRunning', true);
+
+        while (state.queue.length > 0) {
+            await dispatch('processQueueItem');
+        }
+
+        commit('setQueueRunning', false);
+    },
+    async processQueueItem({ commit, state }) {
+        //
     },
     async runSingle({ commit }, { name, type }) {
         commit('setMigrationDetails', { name, running: true });
