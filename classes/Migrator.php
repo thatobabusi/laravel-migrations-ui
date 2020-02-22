@@ -6,18 +6,23 @@ use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 
 class Migrator extends BaseMigrator
 {
-    // Several methods in the base class are protected so they can't be called
-    // any other way, and they're complicated enough that I don't want to
-    // recreate them.
-
     public function allPaths()
     {
         /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
         return array_merge($this->paths(), [app()->databasePath('migrations')]);
     }
 
-    public function rollbackMigrations(array $migrations, $paths, array $options)
+    // These methods in the base class are protected, but they're complicated
+    // enough that I don't want to recreate them, and the higher-level public
+    // methods (runPending(), rollback()) are not flexible enough.
+
+    public function runUp($file, $batch, $pretend)
     {
-        return parent::rollbackMigrations($migrations, $paths, $options);
+        parent::runUp($file, $batch, $pretend);
+    }
+
+    public function runDown($file, $migration, $pretend)
+    {
+        parent::runDown($file, $migration, $pretend);
     }
 }

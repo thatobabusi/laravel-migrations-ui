@@ -46,7 +46,12 @@ class RunMigrationsController
     {
         $this->load($migrations);
 
-        $this->migrator->runPending($migrations->pluck('name')->all());
+        $batch = $this->migrator->getRepository()->getNextBatchNumber();
+
+        /** @var Migration $migration */
+        foreach ($migrations as $migration) {
+            $this->migrator->runUp($migration->file, $batch, false);
+        }
 
         return count($migrations);
     }
@@ -84,13 +89,14 @@ class RunMigrationsController
     {
         $this->load($migrations);
 
-        $this->migrator->rollbackMigrations(
-            $migrations->map(static function (Migration $migration) {
-                return ['migration' => $migration->name];
-            })->all(),
-            $this->migrator->allPaths(),
-            []
-        );
+        /** @var Migration $migration */
+        foreach ($migrations as $migration) {
+            $this->migrator->runDown(
+                $migration->file,
+                (object)['migration' => $migration->name],
+                false
+            );
+        }
 
         return count($migrations);
     }
