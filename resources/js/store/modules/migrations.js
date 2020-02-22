@@ -13,7 +13,7 @@ export const state = {
     tables: [],
 };
 
-function getMigrationDetails(name) {
+function getMigrationDetails(state, name) {
     if (!(name in state.migrationDetails)) {
         Vue.set(state.migrationDetails, name, new Migration(name));
     }
@@ -26,7 +26,7 @@ export const getters = {
         return state.migrationNames.map(name => state.migrationDetails[name]);
     },
     getMigration(state) {
-        return name => getMigrationDetails(name);
+        return name => getMigrationDetails(state, name);
     },
 };
 
@@ -41,7 +41,7 @@ export const mutations = {
 
         for (let migration of data.migrations) {
             migrationNames.push(migration.name);
-            getMigrationDetails(migration.name).update(migration);
+            getMigrationDetails(state, migration.name).update(migration);
         }
 
         state.migrationNames = migrationNames;
@@ -50,7 +50,7 @@ export const mutations = {
         state.loading = loading;
     },
     setMigrationDetails(state, data) {
-        getMigrationDetails(data.name).update(data);
+        getMigrationDetails(state, data.name).update(data);
     },
 };
 
