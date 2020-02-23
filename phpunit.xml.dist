@@ -43,7 +43,7 @@
 
     <!-- Better exception handling -->
     <listeners>
-        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener" />
+        <listener class="MigrationsUITests\Listener" />
     </listeners>
 
 </phpunit>
