@@ -28,20 +28,20 @@ class ListControllerTest extends TestCase
             'tables',
         ]);
 
-        $this->assertIsString($response->json('connection'));
-        $this->assertIsString($response->json('database'));
+        $this->assertIsString($response->json('connection'), 'connection should be a string');
+        $this->assertIsString($response->json('database'), 'database should be a string');
 
-        $this->assertSame([], $response->json('migrations'));
+        $this->assertSame([], $response->json('migrations'), 'migrations does not match');
 
         $this->assertSame([
             ['name' => 'migrations', 'rows' => 0],
-        ], $response->json('tables'));
+        ], $response->json('tables'), 'tables does not match');
     }
 
     public function testOneMigrationNotRun()
     {
         // === Arrange ===
-        $this->migrate(__DIR__ . '/migrations/one', false);
+        $this->setMigrationPath(__DIR__ . '/migrations/one');
 
         // === Act ===
         $response = $this->get('/migrations/api/list');
@@ -56,8 +56,8 @@ class ListControllerTest extends TestCase
             'tables',
         ]);
 
-        $this->assertIsString($response->json('connection'));
-        $this->assertIsString($response->json('database'));
+        $this->assertIsString($response->json('connection'), 'connection should be a string');
+        $this->assertIsString($response->json('database'), 'database should be a string');
 
         $this->assertSame([
             [
@@ -68,17 +68,18 @@ class ListControllerTest extends TestCase
                 // Absolute path because it's outside the project root
                 'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
             ],
-        ], $response->json('migrations'));
+        ], $response->json('migrations'), 'migrations does not match');
 
         $this->assertSame([
             ['name' => 'migrations', 'rows' => 0],
-        ], $response->json('tables'));
+        ], $response->json('tables'), 'tables does not match');
     }
 
     public function testOneMigrationHasRun()
     {
         // === Arrange ===
-        $this->migrate(__DIR__ . '/migrations/one');
+        $this->setMigrationPath(__DIR__ . '/migrations/one');
+        $this->markAsRun('2014_10_12_000000_create_examples_table');
 
         // === Act ===
         $response = $this->get('/migrations/api/list');
@@ -93,8 +94,8 @@ class ListControllerTest extends TestCase
             'tables',
         ]);
 
-        $this->assertIsString($response->json('connection'));
-        $this->assertIsString($response->json('database'));
+        $this->assertIsString($response->json('connection'), 'connection should be a string');
+        $this->assertIsString($response->json('database'), 'database should be a string');
 
         $this->assertSame([
             [
@@ -105,19 +106,19 @@ class ListControllerTest extends TestCase
                 // Absolute path because it's outside the project root
                 'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
             ],
-        ], $response->json('migrations'));
+        ], $response->json('migrations'), 'migrations does not match');
 
         $this->assertSame([
-            ['name' => 'examples', 'rows' => 0],
             ['name' => 'migrations', 'rows' => 1],
-        ], $response->json('tables'));
+        ], $response->json('tables'), 'tables does not match');
     }
 
     public function testThreeMigrations()
     {
         // === Arrange ===
-        $this->migrate(__DIR__ . '/migrations/three', '2014_10_12_000000_create_users_table');
-        $this->migrate(__DIR__ . '/migrations/three', '2014_10_12_100000_create_password_resets_table');
+        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $this->markAsRun('2014_10_12_000000_create_users_table', 1);
+        $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
 
         // === Act ===
         $response = $this->get('/migrations/api/list');
@@ -132,8 +133,8 @@ class ListControllerTest extends TestCase
             'tables',
         ]);
 
-        $this->assertIsString($response->json('connection'));
-        $this->assertIsString($response->json('database'));
+        $this->assertIsString($response->json('connection'), 'connection should be a string');
+        $this->assertIsString($response->json('database'), 'database should be a string');
 
         $this->assertSame([
             [
@@ -160,12 +161,10 @@ class ListControllerTest extends TestCase
                 // Absolute path because it's outside the project root
                 'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
             ],
-        ], $response->json('migrations'));
+        ], $response->json('migrations'), 'migrations does not match');
 
         $this->assertSame([
             ['name' => 'migrations', 'rows' => 2],
-            ['name' => 'password_resets', 'rows' => 0],
-            ['name' => 'users', 'rows' => 0],
-        ], $response->json('tables'));
+        ], $response->json('tables'), 'tables does not match');
     }
 }

@@ -6,6 +6,7 @@ use DaveJamesMiller\MigrationsUI\MigrationsUIServiceProvider;
 use DaveJamesMiller\MigrationsUI\Migrator;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 
 abstract class TestCase extends TestbenchTestCase
@@ -37,31 +38,13 @@ abstract class TestCase extends TestbenchTestCase
         $this->withoutExceptionHandling();
     }
 
-    /**
-     * Register migrations path and run the migrations.
-     *
-     * @param string $path The path to register
-     * @param boolean|string|array $run Optional migrations to run (default is all migrations)
-     */
-    protected function migrate(string $path, $run = true): void
+    protected function setMigrationPath(string $path)
     {
-        // Register path
         app(Migrator::class)->path($path);
+    }
 
-        // Run migrations
-        if ($run === false) {
-            return;
-        }
-
-        if ($run === true) {
-            $paths = [$path];
-        } else {
-            $paths = [];
-            foreach (Arr::wrap($run) as $file) {
-                $paths[] = "$path/$file.php";
-            }
-        }
-
-        $this->loadMigrationsFrom(['--path' => $paths]);
+    protected function markAsRun(string $migration, int $batch = 1): void
+    {
+        DB::table('migrations')->insert(compact('migration', 'batch'));
     }
 }
