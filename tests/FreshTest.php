@@ -2,6 +2,7 @@
 
 namespace MigrationsUITests;
 
+use Illuminate\Support\Facades\App;
 use MigrationsUITests\Util\UsersTableExceptionSeeder;
 use MigrationsUITests\Util\UsersTableSeeder;
 
@@ -194,7 +195,12 @@ class FreshTest extends TestCase
 
         $this->assertSame('warning', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Cannot Drop Types', $response->json('toasts.0.title'), 'toasts.0.title');
-        $this->assertSame('This database driver does not support dropping all types.', $response->json('toasts.0.message'), 'toasts.0.message');
+
+        if (version_compare(App::version(), '5.8', '<')) {
+            $this->assertSame('Not supported in Laravel 5.7 and below.', $response->json('toasts.0.message'), 'toasts.0.message');
+        } else {
+            $this->assertSame('This database driver does not support dropping all types.', $response->json('toasts.0.message'), 'toasts.0.message');
+        }
 
         $this->assertSame('success', $response->json('toasts.1.variant'), 'toasts.1.variant');
         $this->assertSame('Fresh', $response->json('toasts.1.title'), 'toasts.1.title');

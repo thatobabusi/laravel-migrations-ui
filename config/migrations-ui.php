@@ -31,7 +31,8 @@ return [
     | Fresh
     |--------------------------------------------------------------------------
     |
-    | Drop views and/or types (Postgres only) when running Fresh?
+    | Drop database views and/or types (Postgres & Laravel >= 5.8 only) when
+    | running Fresh?
     |
     */
 

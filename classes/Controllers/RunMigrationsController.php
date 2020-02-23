@@ -190,14 +190,18 @@ class RunMigrationsController
 
         // Drop types (Postgres only)
         if (config('migrations-ui.fresh.types')) {
-            try {
-                $builder->dropAllTypes();
-                // @codeCoverageIgnoreStart
-                // We only test with MySQL not Postgres, and that doesn't support dropping types
-                $types[] = 'types';
-                // @codeCoverageIgnoreEnd
-            } catch (LogicException $e) {
-                $this->response->withWarning('Cannot Drop Types', $e->getMessage());
+            if (method_exists($builder, 'dropAllTypes')) {
+                try {
+                    $builder->dropAllTypes();
+                    // @codeCoverageIgnoreStart
+                    // We only test with MySQL not Postgres, and that doesn't support dropping types
+                    $types[] = 'types';
+                    // @codeCoverageIgnoreEnd
+                } catch (LogicException $e) {
+                    $this->response->withWarning('Cannot Drop Types', $e->getMessage());
+                }
+            } else {
+                $this->response->withWarning('Cannot Drop Types', 'Not supported in Laravel 5.7 and below.');
             }
         }
 
