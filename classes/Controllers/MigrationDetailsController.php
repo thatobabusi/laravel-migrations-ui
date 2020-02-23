@@ -7,6 +7,9 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
+/**
+ * @see \MigrationsUITests\MigrationDetailsTest
+ */
 class MigrationDetailsController extends Controller
 {
     public function __invoke(Migration $migration)
