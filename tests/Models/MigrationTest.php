@@ -3,13 +3,14 @@
 namespace MigrationsUITests\Models;
 
 use DaveJamesMiller\MigrationsUI\Models\Migration;
+use Illuminate\Support\Facades\App;
 use MigrationsUITests\TestCase;
 
 class MigrationTest extends TestCase
 {
     public function testStandardMigration()
     {
-        $file = dirname(__DIR__, 2) . '/vendor/orchestra/testbench-core/laravel/database/migrations/2020_01_02_030405_test_migration.php';
+        $file = App::databasePath('migrations/2020_01_02_030405_test_migration.php');
 
         $migration = new Migration('2020_01_02_030405_test_migration', $file);
 
@@ -22,7 +23,7 @@ class MigrationTest extends TestCase
 
     public function testNoDate()
     {
-        $file = dirname(__DIR__, 2) . '/vendor/orchestra/testbench-core/laravel/database/migrations/invalid_test_migration.php';
+        $file = App::databasePath('migrations/invalid_test_migration.php');
 
         $migration = new Migration('invalid_test_migration', $file);
 
