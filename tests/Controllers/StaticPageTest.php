@@ -1,6 +1,8 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers;
+
+use MigrationsUITests\TestCase;
 
 class StaticPageTest extends TestCase
 {

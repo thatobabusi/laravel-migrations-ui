@@ -19,6 +19,10 @@
     <!-- List of files with tests inside -->
     <testsuites>
         <testsuite name="Package Test Suite">
+            <!-- Run fast tests first -->
+            <directory suffix="Test.php">tests/Models/</directory>
+            <directory suffix="Test.php">tests/Middleware/</directory>
+            <!-- Then everything else -->
             <directory suffix="Test.php">tests/</directory>
         </testsuite>
     </testsuites>

@@ -1,8 +1,9 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use MigrationsUITests\TestCase;
 
 /**
  * @see \DaveJamesMiller\MigrationsUI\Controllers\ListController
@@ -41,7 +42,7 @@ class ListTest extends TestCase
     public function testOneMigrationNotRun()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/one');
+        $path = $this->setMigrationPath('one');
 
         // === Act ===
         $response = $this->get('/migrations/api/list');
@@ -66,7 +67,7 @@ class ListTest extends TestCase
                 'title' => 'create examples table',
                 'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_examples_table.php",
             ],
         ], $response->json('migrations'), 'migrations does not match');
 
@@ -78,7 +79,7 @@ class ListTest extends TestCase
     public function testOneMigrationHasRun()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/one');
+        $path = $this->setMigrationPath('one');
         $this->markAsRun('2014_10_12_000000_create_examples_table');
 
         // === Act ===
@@ -104,7 +105,7 @@ class ListTest extends TestCase
                 'title' => 'create examples table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_examples_table.php",
             ],
         ], $response->json('migrations'), 'migrations does not match');
 
@@ -116,7 +117,7 @@ class ListTest extends TestCase
     public function testThreeMigrations()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
         $this->markAsRun('2014_10_12_000000_create_users_table', 1);
         $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
 
@@ -143,7 +144,7 @@ class ListTest extends TestCase
                 'title' => 'create failed jobs table',
                 'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table',
@@ -151,7 +152,7 @@ class ListTest extends TestCase
                 'title' => 'create password resets table',
                 'batch' => 2,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table',
@@ -159,7 +160,7 @@ class ListTest extends TestCase
                 'title' => 'create users table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table.php",
             ],
         ], $response->json('migrations'), 'migrations does not match');
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use MigrationsUITests\TestCase;
 
 /**
  * @see \DaveJamesMiller\MigrationsUI\Controllers\MigrationDetailsController
@@ -14,7 +15,7 @@ class MigrationDetailsTest extends TestCase
     public function testMigrationNotRun()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
 
         // === Act ===
         $response = $this->get('/migrations/api/migration-details/2014_10_12_100000_create_password_resets_table');
@@ -28,15 +29,15 @@ class MigrationDetailsTest extends TestCase
             'title' => 'create password resets table',
             'batch' => null,
             // Absolute path because it's outside the project root
-            'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
-            'source' => file_get_contents(__DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php'),
+            'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
+            'source' => file_get_contents("$path/2014_10_12_100000_create_password_resets_table.php"),
         ], $response->json());
     }
 
     public function testMigrationHasBeenRun()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
         $this->markAsRun('2014_10_12_100000_create_password_resets_table');
 
         // === Act ===
@@ -51,15 +52,15 @@ class MigrationDetailsTest extends TestCase
             'title' => 'create password resets table',
             'batch' => 1,
             // Absolute path because it's outside the project root
-            'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
-            'source' => file_get_contents(__DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php'),
+            'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
+            'source' => file_get_contents("$path/2014_10_12_100000_create_password_resets_table.php"),
         ], $response->json());
     }
 
     public function testMigrationSourceMissing()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/empty');
+        $path = $this->setMigrationPath('empty');
         $this->markAsRun('2014_10_12_100000_file_is_missing');
 
         // === Act ===
@@ -82,7 +83,7 @@ class MigrationDetailsTest extends TestCase
     public function testMigrationDoesNotExist()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/empty');
+        $path = $this->setMigrationPath('empty');
 
         // === Act ===
         $response = $this->withExceptionHandling()

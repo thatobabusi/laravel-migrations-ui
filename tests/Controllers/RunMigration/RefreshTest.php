@@ -1,7 +1,8 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers\RunMigration;
 
+use MigrationsUITests\TestCase;
 use MigrationsUITests\Util\UsersTableExceptionSeeder;
 use MigrationsUITests\Util\UsersTableSeeder;
 
@@ -15,7 +16,7 @@ class RefreshTest extends TestCase
     public function testSuccess()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
         $this->markAsRun('2014_10_12_000000_create_users_table', 1);
         $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
 
@@ -59,7 +60,7 @@ class RefreshTest extends TestCase
                 'title' => 'create failed jobs table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table',
@@ -67,7 +68,7 @@ class RefreshTest extends TestCase
                 'title' => 'create password resets table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table',
@@ -75,7 +76,7 @@ class RefreshTest extends TestCase
                 'title' => 'create users table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table.php",
             ],
         ], $response->json('migrations'), 'migrations');
 
@@ -91,7 +92,7 @@ class RefreshTest extends TestCase
     public function testError()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/exceptions');
+        $path = $this->setMigrationPath('exceptions');
         $this->markAsRun('2014_10_12_000000_create_users_table_ex', 1);
 
         $this->createTable('users');
@@ -131,7 +132,7 @@ class RefreshTest extends TestCase
                 'title' => 'create failed jobs table ex',
                 'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2019_08_19_000000_create_failed_jobs_table_ex.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table_ex.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table_ex',
@@ -139,7 +140,7 @@ class RefreshTest extends TestCase
                 'title' => 'create password resets table ex',
                 'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2014_10_12_100000_create_password_resets_table_ex.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table_ex.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table_ex',
@@ -147,7 +148,7 @@ class RefreshTest extends TestCase
                 'title' => 'create users table ex',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2014_10_12_000000_create_users_table_ex.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table_ex.php",
             ],
         ], $response->json('migrations'), 'migrations');
 
@@ -162,7 +163,7 @@ class RefreshTest extends TestCase
     public function testWithSeed()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
         $this->markAsRun('2014_10_12_000000_create_users_table', 1);
         $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
 
@@ -209,7 +210,7 @@ class RefreshTest extends TestCase
                 'title' => 'create failed jobs table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table',
@@ -217,7 +218,7 @@ class RefreshTest extends TestCase
                 'title' => 'create password resets table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table',
@@ -225,7 +226,7 @@ class RefreshTest extends TestCase
                 'title' => 'create users table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table.php",
             ],
         ], $response->json('migrations'), 'migrations');
 
@@ -241,7 +242,7 @@ class RefreshTest extends TestCase
     public function testWithSeedError()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $path = $this->setMigrationPath('three');
         $this->markAsRun('2014_10_12_000000_create_users_table', 1);
         $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
 
@@ -285,7 +286,7 @@ class RefreshTest extends TestCase
                 'title' => 'create failed jobs table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table',
@@ -293,7 +294,7 @@ class RefreshTest extends TestCase
                 'title' => 'create password resets table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table',
@@ -301,7 +302,7 @@ class RefreshTest extends TestCase
                 'title' => 'create users table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table.php",
             ],
         ], $response->json('migrations'), 'migrations');
 

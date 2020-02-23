@@ -133,8 +133,13 @@ abstract class TestCase extends TestbenchTestCase
         DB::table('migrations')->insert(compact('migration', 'batch'));
     }
 
-    protected function setMigrationPath(string $path)
+    protected function setMigrationPath(string $path): string
     {
-        app(Migrator::class)->path($path);
+        $fullPath = __DIR__ . '/migrations/' . $path;
+
+        // Add to the migrator search paths
+        app(Migrator::class)->path($fullPath);
+
+        return $fullPath;
     }
 }

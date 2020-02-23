@@ -1,6 +1,8 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers;
+
+use MigrationsUITests\TestCase;
 
 class AssetTest extends TestCase
 {
@@ -21,7 +23,7 @@ class AssetTest extends TestCase
         $response->assertOk();
         $response->assertHeader('Content-Type', $type);
 
-        $this->expectOutputString(file_get_contents(__DIR__ . "/../build/$name"));
+        $this->expectOutputString(file_get_contents(__DIR__ . "/../../build/$name"));
         $response->sendContent();
     }
 

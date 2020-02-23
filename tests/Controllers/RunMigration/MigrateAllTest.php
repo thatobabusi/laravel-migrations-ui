@@ -1,35 +1,31 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers\RunMigration;
+
+use MigrationsUITests\TestCase;
 
 /**
  * @see \DaveJamesMiller\MigrationsUI\Controllers\RunMigrationsController
  */
-class RollbackBatchTest extends TestCase
+class MigrateAllTest extends TestCase
 {
     protected $migrateFresh = true;
 
     public function testSuccess()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
-        $this->markAsRun('2014_10_12_000000_create_users_table', 1);
-        $this->markAsRun('2014_10_12_100000_create_password_resets_table', 2);
-        $this->markAsRun('2019_08_19_000000_create_failed_jobs_table', 2);
-
-        $this->createTable('users');
-        $this->createTable('password_resets');
-        $this->createTable('failed_jobs');
+        $path = $this->setMigrationPath('three');
+        $this->markAsRun('2014_10_12_000000_create_users_table');
 
         // === Act ===
-        $response = $this->post('/migrations/api/rollback-batch/2');
+        $response = $this->post('/migrations/api/migrate-all');
 
         // === Assert ===
         $response->assertOk();
 
-        $this->assertTableExists('users');
-        $this->assertTableDoesntExist('password_resets');
-        $this->assertTableDoesntExist('failed_jobs');
+        $this->assertTableExists('password_resets');
+        $this->assertTableExists('failed_jobs');
+        $this->assertTableDoesntExist('users');
 
         $response->assertJsonStructure([
             'connection',
@@ -45,8 +41,8 @@ class RollbackBatchTest extends TestCase
         $this->assertIsString($response->json('database'), 'database');
 
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
-        $this->assertSame('Rolled Back', $response->json('toasts.0.title'), 'toasts.0.title');
-        $this->assertSame('Rolled back 2 migrations.', $response->json('toasts.0.message'), 'toasts.0.message');
+        $this->assertSame('Migrated', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame('Ran 2 migrations.', $response->json('toasts.0.message'), 'toasts.0.message');
         $this->assertIsFloat($response->json('toasts.0.runtime'), 'toasts.0.runtime');
 
         $this->assertSame([
@@ -54,17 +50,17 @@ class RollbackBatchTest extends TestCase
                 'name' => '2019_08_19_000000_create_failed_jobs_table',
                 'date' => '2019-08-19 00:00:00',
                 'title' => 'create failed jobs table',
-                'batch' => null,
+                'batch' => 2,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table',
                 'date' => '2014-10-12 10:00:00',
                 'title' => 'create password resets table',
-                'batch' => null,
+                'batch' => 2,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table',
@@ -72,38 +68,33 @@ class RollbackBatchTest extends TestCase
                 'title' => 'create users table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table.php",
             ],
         ], $response->json('migrations'), 'migrations');
 
         $this->assertSame([
-            ['name' => 'migrations', 'rows' => 1],
-            ['name' => 'users', 'rows' => 0],
+            ['name' => 'failed_jobs', 'rows' => 0],
+            ['name' => 'migrations', 'rows' => 3],
+            ['name' => 'password_resets', 'rows' => 0],
         ], $response->json('tables'), 'tables');
     }
 
     public function testError()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/exceptions');
-        $this->markAsRun('2014_10_12_000000_create_users_table_ex', 1);
-        $this->markAsRun('2014_10_12_100000_create_password_resets_table_ex', 2);
-        $this->markAsRun('2019_08_19_000000_create_failed_jobs_table_ex', 2);
-
-        $this->createTable('users');
-        $this->createTable('password_resets');
-        $this->createTable('failed_jobs');
+        $path = $this->setMigrationPath('exceptions');
+        $this->markAsRun('2014_10_12_000000_create_users_table_ex');
 
         // === Act ===
         $response = $this->withExceptionHandling()
-            ->post('/migrations/api/rollback-batch/2');
+            ->post('/migrations/api/migrate-all');
 
         // === Assert ===
         $response->assertOk();
 
-        $this->assertTableExists('users');
-        $this->assertTableDoesntExist('password_resets');
+        $this->assertTableExists('password_resets');
         $this->assertTableDoesntExist('failed_jobs');
+        $this->assertTableDoesntExist('users');
 
         $response->assertJsonStructure([
             'connection',
@@ -114,7 +105,7 @@ class RollbackBatchTest extends TestCase
         ]);
 
         // Strings are split so they don't appear in the backtrace
-        $this->assertSame('Error' . ' in 2014_10_12_100000_create_password_resets_table_ex (down method)', $response->json('error.title'), 'error.title');
+        $this->assertSame('Error' . ' in 2014_10_12_100000_create_password_resets_table_ex (up method)', $response->json('error.title'), 'error.title');
         $this->assertStringContainsString('Exception:' . ' Test up exception in file', $response->json('error.html'), 'error.html');
 
         $this->assertIsString($response->json('connection'), 'connection');
@@ -127,15 +118,15 @@ class RollbackBatchTest extends TestCase
                 'title' => 'create failed jobs table ex',
                 'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2019_08_19_000000_create_failed_jobs_table_ex.php',
+                'relPath' => "$path/2019_08_19_000000_create_failed_jobs_table_ex.php",
             ],
             [
                 'name' => '2014_10_12_100000_create_password_resets_table_ex',
                 'date' => '2014-10-12 10:00:00',
                 'title' => 'create password resets table ex',
-                'batch' => 2,
+                'batch' => null,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2014_10_12_100000_create_password_resets_table_ex.php',
+                'relPath' => "$path/2014_10_12_100000_create_password_resets_table_ex.php",
             ],
             [
                 'name' => '2014_10_12_000000_create_users_table_ex',
@@ -143,24 +134,24 @@ class RollbackBatchTest extends TestCase
                 'title' => 'create users table ex',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/exceptions/2014_10_12_000000_create_users_table_ex.php',
+                'relPath' => "$path/2014_10_12_000000_create_users_table_ex.php",
             ],
         ], $response->json('migrations'), 'migrations');
 
         $this->assertSame([
-            ['name' => 'migrations', 'rows' => 2],
-            ['name' => 'users', 'rows' => 0],
+            ['name' => 'migrations', 'rows' => 1],
+            ['name' => 'password_resets', 'rows' => 0],
         ], $response->json('tables'), 'tables');
     }
 
-    public function testNoMigrationsInBatch()
+    public function testNoPendingMigrations()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/one');
+        $path = $this->setMigrationPath('one');
         $this->markAsRun('2014_10_12_000000_create_examples_table');
 
         // === Act ===
-        $response = $this->post('/migrations/api/rollback-batch/2');
+        $response = $this->post('/migrations/api/migrate-all');
 
         // === Assert ===
         $response->assertOk();
@@ -179,8 +170,8 @@ class RollbackBatchTest extends TestCase
         $this->assertIsString($response->json('database'), 'database');
 
         $this->assertSame('danger', $response->json('toasts.0.variant'), 'toasts.0.variant');
-        $this->assertSame('Cannot Roll Back', $response->json('toasts.0.title'), 'toasts.0.title');
-        $this->assertSame('No migrations found in batch 2.', $response->json('toasts.0.message'), 'toasts.0.message');
+        $this->assertSame('Cannot Run Migrations', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame('No migrations are pending.', $response->json('toasts.0.message'), 'toasts.0.message');
 
         $this->assertSame([
             [
@@ -189,7 +180,7 @@ class RollbackBatchTest extends TestCase
                 'title' => 'create examples table',
                 'batch' => 1,
                 // Absolute path because it's outside the project root
-                'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
+                'relPath' => "$path/2014_10_12_000000_create_examples_table.php",
             ],
         ], $response->json('migrations'), 'migrations');
 

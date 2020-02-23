@@ -1,6 +1,8 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Middleware;
+
+use MigrationsUITests\TestCase;
 
 class EnabledOrDisabledTest extends TestCase
 {

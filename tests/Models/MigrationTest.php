@@ -1,14 +1,15 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Models;
 
 use DaveJamesMiller\MigrationsUI\Models\Migration;
+use MigrationsUITests\TestCase;
 
-class MigrationModelTest extends TestCase
+class MigrationTest extends TestCase
 {
-    public function testDateParse()
+    public function testStandardMigration()
     {
-        $file = dirname(__DIR__) . '/vendor/orchestra/testbench-core/laravel/database/migrations/2020_01_02_030405_test_migration.php';
+        $file = dirname(__DIR__, 2) . '/vendor/orchestra/testbench-core/laravel/database/migrations/2020_01_02_030405_test_migration.php';
 
         $migration = new Migration('2020_01_02_030405_test_migration', $file);
 
@@ -19,9 +20,9 @@ class MigrationModelTest extends TestCase
         $this->assertSame('database/migrations/2020_01_02_030405_test_migration.php', $migration->relPath(), 'relPath()');
     }
 
-    public function testDateBlank()
+    public function testNoDate()
     {
-        $file = dirname(__DIR__) . '/vendor/orchestra/testbench-core/laravel/database/migrations/invalid_test_migration.php';
+        $file = dirname(__DIR__, 2) . '/vendor/orchestra/testbench-core/laravel/database/migrations/invalid_test_migration.php';
 
         $migration = new Migration('invalid_test_migration', $file);
 

@@ -1,9 +1,10 @@
 <?php
 
-namespace MigrationsUITests;
+namespace MigrationsUITests\Controllers\RunMigration;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use MigrationsUITests\TestCase;
 use MigrationsUITests\Util\UsersTableExceptionSeeder;
 use MigrationsUITests\Util\UsersTableSeeder;
 
