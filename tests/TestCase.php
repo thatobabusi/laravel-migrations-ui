@@ -14,12 +14,20 @@ use PHPUnit\Framework\Constraint\Constraint;
 abstract class TestCase extends TestbenchTestCase
 {
     protected $enableDebugging = true;
+    protected $migrateFresh = false;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->withoutExceptionHandling();
+
+        // Can't use RefreshDatabase because it tries to use transactions
+        // Can't use DatabaseMigrations because it calls migrate:rollback which is expected to fail
+        // Can't easily make a custom trait because they're hard-coded in setUpTheTestEnvironmentTraits()
+        if ($this->migrateFresh) {
+            $this->artisan('migrate:fresh');
+        }
     }
 
     protected function getPackageProviders($app)

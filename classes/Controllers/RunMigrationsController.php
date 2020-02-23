@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Request;
 use LogicException;
 use RuntimeException;
 
-/**
- * @see \MigrationsUITests\RunMigrationsTest
- * @see \MigrationsUITests\RunMigrationsExceptionsTest
- */
 class RunMigrationsController
 {
     /** @var \DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository */
