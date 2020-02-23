@@ -157,7 +157,7 @@ class MigrateSingleTest extends TestCase
 
         // Strings are split so they don't appear in the backtrace
         $this->assertSame('Error' . ' in 2014_10_12_000000_parse_error (up method)', $response->json('error.title'), 'error.title');
-        $this->assertStringContainsString('FatalThrowableError:' . ' syntax error, unexpected end of file, expecting &#039;{&#039; in file', $response->json('error.html'), 'error.html');
+        $this->assertStringContainsString('syntax error,' . ' unexpected end of file, expecting &#039;{&#039; in file', $response->json('error.html'), 'error.html');
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');

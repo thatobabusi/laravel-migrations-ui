@@ -53,7 +53,8 @@ class OverviewResponse implements Responsable
 
     public function withException(string $title, Throwable $e)
     {
-        if (!($e instanceof Exception)) {
+        // In Laravel 6.x and below the exception handler can't deal with Throwable's
+        if (!$e instanceof Exception && class_exists(FatalThrowableError::class)) {
             $e = new FatalThrowableError($e);
         }
 
