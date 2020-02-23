@@ -1,5 +1,5 @@
 # Configuration
-/webpack.mix.local.js
+/.env
 
 # PHP packages
 /composer.lock
@@ -13,7 +13,8 @@ yarn-error.log
 # HMR mode
 /build/hot
 
-# Test output
+# Tests
+/phpunit.dist.xml
 /.phpunit.result.cache
 /build/logs/clover.xml
 /test-coverage/

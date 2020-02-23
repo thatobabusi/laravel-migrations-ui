@@ -10,6 +10,7 @@
 /*.md export-ignore
 /*.xml export-ignore
 /*.yml export-ignore
+/.env.example export-ignore
 /package.json export-ignore
 /webpack.*.js export-ignore
 

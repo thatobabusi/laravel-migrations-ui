@@ -34,8 +34,14 @@ if (mix.inProduction()) {
         });
 }
 
-// Local config for setting the hostname
-const localConfig = path.join(__dirname, 'webpack.mix.local.js');
-if (fs.existsSync(localConfig)) {
-    require(localConfig);
+// Set hostname & port for hot module reloading, if set in .env
+require('dotenv').config();
+
+if (process.env.WEBPACK_HMR_HOST) {
+    mix.options({
+        hmrOptions: {
+            host: process.env.WEBPACK_HMR_HOST,
+            port: process.env.WEBPACK_HMR_PORT,
+        }
+    });
 }

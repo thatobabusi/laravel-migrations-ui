@@ -16,11 +16,17 @@ class MigrationsRepository
         $this->migrator = $migrator;
     }
 
+    private function allPaths()
+    {
+        /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
+        return array_merge($this->migrator->paths(), [app()->databasePath('migrations')]);
+    }
+
     private function load()
     {
         // Find all the migration files
         /** @see \Illuminate\Database\Console\Migrations\StatusCommand::getAllMigrationFiles() */
-        $migrations = collect($this->migrator->getMigrationFiles($this->migrator->allPaths()))
+        $migrations = collect($this->migrator->getMigrationFiles($this->allPaths()))
             ->map(static function (string $file, string $name) {
                 return new Migration($name, $file);
             });

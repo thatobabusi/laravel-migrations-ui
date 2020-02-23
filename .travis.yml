@@ -6,6 +6,9 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
+services:
+  - mysql
+
 php:
   - 7.4
   - 7.3
@@ -27,6 +30,7 @@ matrix:
     - { env: Laravel=6.x, php: 7.1 }
 
 install:
+  - cp .env.travis .env
   - travis_retry composer require --dev "laravel/framework:${Laravel}" --no-interaction
 
 script:
