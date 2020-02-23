@@ -177,8 +177,11 @@ class RunMigrationsController
             try {
                 $builder->dropAllViews();
                 $types[] = 'views';
+                // @codeCoverageIgnoreStart
+                // None of the standard drivers throw an exception, only the base class
             } catch (LogicException $e) {
                 $this->response->withWarning('Cannot Drop Views', $e->getMessage());
+                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -189,7 +192,10 @@ class RunMigrationsController
         if (config('migrations-ui.fresh.types')) {
             try {
                 $builder->dropAllTypes();
+                // @codeCoverageIgnoreStart
+                // We only test with MySQL not Postgres, and that doesn't support dropping types
                 $types[] = 'types';
+                // @codeCoverageIgnoreEnd
             } catch (LogicException $e) {
                 $this->response->withWarning('Cannot Drop Types', $e->getMessage());
             }

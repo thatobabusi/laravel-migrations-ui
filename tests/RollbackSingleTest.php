@@ -40,6 +40,7 @@ class RollbackSingleTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Rolled Back', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame('2014_10_12_000000_create_users_table', $response->json('toasts.0.message'), 'toasts.0.message');

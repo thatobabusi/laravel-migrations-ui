@@ -161,7 +161,7 @@ If backwards-incompatible changes cause the **minimum** supported versions of La
 
 *This section is for maintainers only.*
 
-- Ensure the unit tests are updated ~~and have 100% coverage~~ (eventually)
+- Ensure the unit tests are updated and have 100% coverage (for PHP code)
 - Build assets in production mode (`yarn build`) and commit if anything has changed
 - Update the [test app](https://github.com/davejamesmiller/laravel-packages-test), if appropriate, and test it manually
 - Ensure the [README](README.md) is up to date, including:

@@ -46,6 +46,7 @@ class SeedTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Seed', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame('Database seeded', $response->json('toasts.0.message'), 'toasts.0.message');
@@ -56,6 +57,40 @@ class SeedTest extends TestCase
         $this->assertSame([
             ['name' => 'migrations', 'rows' => 0],
             ['name' => 'users', 'rows' => 5],
+        ], $response->json('tables'), 'tables');
+    }
+
+    public function testClassMissing()
+    {
+        // === Arrange ===
+
+        // === Act ===
+        $response = $this->postJson('/migrations/api/seed');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'toasts' => [
+                ['variant', 'title', 'message'],
+            ],
+        ]);
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame('danger', $response->json('toasts.0.variant'), 'toasts.0.variant');
+        $this->assertSame('Cannot Seed Database', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame('Unable to find DatabaseSeeder class.', $response->json('toasts.0.message'), 'toasts.0.message');
+
+        $this->assertSame([], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'migrations', 'rows' => 0],
         ], $response->json('tables'), 'tables');
     }
 

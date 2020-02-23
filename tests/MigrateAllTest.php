@@ -37,6 +37,7 @@ class MigrateAllTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Migrated', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame('Ran 2 migrations.', $response->json('toasts.0.message'), 'toasts.0.message');
@@ -138,6 +139,51 @@ class MigrateAllTest extends TestCase
         $this->assertSame([
             ['name' => 'migrations', 'rows' => 1],
             ['name' => 'password_resets', 'rows' => 0],
+        ], $response->json('tables'), 'tables');
+    }
+
+    public function testNoPendingMigrations()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/one');
+        $this->markAsRun('2014_10_12_000000_create_examples_table');
+
+        // === Act ===
+        $response = $this->post('/migrations/api/migrate-all');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'toasts' => [
+                ['variant', 'title', 'message'],
+            ],
+        ]);
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame('danger', $response->json('toasts.0.variant'), 'toasts.0.variant');
+        $this->assertSame('Cannot Run Migrations', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame('No migrations are pending.', $response->json('toasts.0.message'), 'toasts.0.message');
+
+        $this->assertSame([
+            [
+                'name' => '2014_10_12_000000_create_examples_table',
+                'date' => '2014-10-12 00:00:00',
+                'title' => 'create examples table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/one/2014_10_12_000000_create_examples_table.php',
+            ],
+        ], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'migrations', 'rows' => 1],
         ], $response->json('tables'), 'tables');
     }
 }

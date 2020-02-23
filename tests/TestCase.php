@@ -24,9 +24,10 @@ abstract class TestCase extends TestbenchTestCase
 
         // Can't use RefreshDatabase because it tries to use transactions
         // Can't use DatabaseMigrations because it calls migrate:rollback which is expected to fail
+        // Also we need it to drop views as well as tables
         // Can't easily make a custom trait because they're hard-coded in setUpTheTestEnvironmentTraits()
         if ($this->migrateFresh) {
-            $this->artisan('migrate:fresh');
+            $this->artisan('migrate:fresh', ['--drop-views' => true]);
         }
     }
 
@@ -78,11 +79,53 @@ abstract class TestCase extends TestbenchTestCase
         };
     }
 
+    protected function assertViewExists(string $table, string $message = '')
+    {
+        $this->assertThat($table, $this->isView(), $message);
+    }
+
+    protected function assertViewDoesntExist(string $table, string $message = '')
+    {
+        $this->assertThat($table, $this->logicalNot($this->isView()), $message);
+    }
+
+    private function isView()
+    {
+        return new class extends Constraint {
+            protected function matches($view): bool
+            {
+                // Only tested in MySQL
+                return (bool)DB::selectOne(
+                    'SELECT 1 FROM information_schema.tables WHERE table_schema = ? AND table_name = ? AND table_type = ?',
+                    [DB::getDatabaseName(), $view, 'VIEW']
+                );
+            }
+
+            public function toString(): string
+            {
+                return 'view exists';
+            }
+        };
+    }
+
     protected function createTable(string $table): void
     {
         Schema::create($table, static function (Blueprint $table) {
             $table->bigIncrements('id');
         });
+
+        // Sanity check
+        $this->assertTableExists($table);
+    }
+
+    protected function createView(string $view): void
+    {
+        $name = DB::getQueryGrammar()->wrap($view);
+
+        DB::statement("CREATE VIEW $name AS SELECT 1 AS id");
+
+        // Sanity check
+        $this->assertViewExists($view);
     }
 
     protected function markAsRun(string $migration, int $batch = 1): void

@@ -34,6 +34,7 @@ class MigrateSingleTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Migrated', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame('2014_10_12_100000_create_password_resets_table', $response->json('toasts.0.message'), 'toasts.0.message');

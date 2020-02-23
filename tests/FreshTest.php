@@ -42,10 +42,164 @@ class FreshTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Fresh', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame("Dropped all tables.\nRan 3 migrations.", $response->json('toasts.0.message'), 'toasts.0.message');
         $this->assertIsFloat($response->json('toasts.0.runtime'), 'toasts.0.runtime');
+
+        $this->assertSame([
+            [
+                'name' => '2019_08_19_000000_create_failed_jobs_table',
+                'date' => '2019-08-19 00:00:00',
+                'title' => 'create failed jobs table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+            ],
+            [
+                'name' => '2014_10_12_100000_create_password_resets_table',
+                'date' => '2014-10-12 10:00:00',
+                'title' => 'create password resets table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+            ],
+            [
+                'name' => '2014_10_12_000000_create_users_table',
+                'date' => '2014-10-12 00:00:00',
+                'title' => 'create users table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+            ],
+        ], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'failed_jobs', 'rows' => 0],
+            ['name' => 'migrations', 'rows' => 3],
+            ['name' => 'password_resets', 'rows' => 0],
+            ['name' => 'users', 'rows' => 0],
+        ], $response->json('tables'), 'tables');
+    }
+
+    public function testWithViews()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/three');
+
+        $this->createTable('dummy');
+        $this->createView('dummy_view');
+
+        config(['migrations-ui.fresh.views' => true]);
+
+        // === Act ===
+        $response = $this->post('/migrations/api/fresh');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $this->assertTableExists('users');
+        $this->assertTableExists('password_resets');
+        $this->assertTableExists('failed_jobs');
+        $this->assertTableDoesntExist('dummy');
+        $this->assertViewDoesntExist('dummy_view');
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'toasts' => [
+                ['variant', 'title', 'message', 'runtime'],
+            ],
+        ]);
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
+        $this->assertSame('Fresh', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame("Dropped all tables & views.\nRan 3 migrations.", $response->json('toasts.0.message'), 'toasts.0.message');
+        $this->assertIsFloat($response->json('toasts.0.runtime'), 'toasts.0.runtime');
+
+        $this->assertSame([
+            [
+                'name' => '2019_08_19_000000_create_failed_jobs_table',
+                'date' => '2019-08-19 00:00:00',
+                'title' => 'create failed jobs table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2019_08_19_000000_create_failed_jobs_table.php',
+            ],
+            [
+                'name' => '2014_10_12_100000_create_password_resets_table',
+                'date' => '2014-10-12 10:00:00',
+                'title' => 'create password resets table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php',
+            ],
+            [
+                'name' => '2014_10_12_000000_create_users_table',
+                'date' => '2014-10-12 00:00:00',
+                'title' => 'create users table',
+                'batch' => 1,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/three/2014_10_12_000000_create_users_table.php',
+            ],
+        ], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'failed_jobs', 'rows' => 0],
+            ['name' => 'migrations', 'rows' => 3],
+            ['name' => 'password_resets', 'rows' => 0],
+            ['name' => 'users', 'rows' => 0],
+        ], $response->json('tables'), 'tables');
+    }
+
+    public function testWithTypes()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/three');
+
+        $this->createTable('dummy');
+
+        config(['migrations-ui.fresh.types' => true]);
+
+        // === Act ===
+        $response = $this->post('/migrations/api/fresh');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $this->assertTableExists('users');
+        $this->assertTableExists('password_resets');
+        $this->assertTableExists('failed_jobs');
+        $this->assertTableDoesntExist('dummy');
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'toasts' => [
+                ['variant', 'title', 'message'],
+                ['variant', 'title', 'message', 'runtime'],
+            ],
+        ]);
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame('warning', $response->json('toasts.0.variant'), 'toasts.0.variant');
+        $this->assertSame('Cannot Drop Types', $response->json('toasts.0.title'), 'toasts.0.title');
+        $this->assertSame('This database driver does not support dropping all types.', $response->json('toasts.0.message'), 'toasts.0.message');
+
+        $this->assertSame('success', $response->json('toasts.1.variant'), 'toasts.1.variant');
+        $this->assertSame('Fresh', $response->json('toasts.1.title'), 'toasts.1.title');
+        $this->assertSame("Dropped all tables.\nRan 3 migrations.", $response->json('toasts.1.message'), 'toasts.1.message');
+        $this->assertIsFloat($response->json('toasts.1.runtime'), 'toasts.1.runtime');
 
         $this->assertSame([
             [
@@ -115,6 +269,7 @@ class FreshTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Fresh', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame("Dropped all tables.\nRan 3 migrations.\nSeeded the database.", $response->json('toasts.0.message'), 'toasts.0.message');

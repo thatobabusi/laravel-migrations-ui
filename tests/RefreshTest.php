@@ -48,6 +48,7 @@ class RefreshTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Refresh', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame("Rolled back 2 migrations.\nRan 3 migrations.", $response->json('toasts.0.message'), 'toasts.0.message');
@@ -197,6 +198,7 @@ class RefreshTest extends TestCase
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');
+
         $this->assertSame('success', $response->json('toasts.0.variant'), 'toasts.0.variant');
         $this->assertSame('Refresh', $response->json('toasts.0.title'), 'toasts.0.title');
         $this->assertSame("Rolled back 2 migrations.\nRan 3 migrations.\nSeeded the database.", $response->json('toasts.0.message'), 'toasts.0.message');
