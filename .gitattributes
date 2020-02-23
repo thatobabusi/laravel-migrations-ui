@@ -8,8 +8,11 @@
 
 /*.lock export-ignore
 /*.md export-ignore
+/*.png export-ignore
 /*.xml export-ignore
+/*.xml.dist export-ignore
 /*.yml export-ignore
+/.babelrc export-ignore
 /.env.example export-ignore
 /package.json export-ignore
 /webpack.*.js export-ignore
@@ -17,6 +20,7 @@
 /resources/img/ export-ignore
 /resources/js/ export-ignore
 /resources/sass/ export-ignore
+/resources/views/wireframes/ export-ignore
 /scripts/ export-ignore
 /tests/ export-ignore
 
