@@ -200,6 +200,11 @@ If you get really stuck, I suggest you:
 *Laravel Migrations UI uses [Semantic Versioning](http://semver.org/).*
 
 
+### [v1.0.1](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.1) (Sun 23 Feb 2020)
+
+- Bug fix for Laravel 5.6, 5.7 (`Collection` class didn't have a `join()` method)
+
+
 ### [v1.0.0](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.0) (Sat 22 Feb 2020)
 
 - First stable release
