@@ -5,7 +5,6 @@ namespace MigrationsUITests;
 use DaveJamesMiller\MigrationsUI\MigrationsUIServiceProvider;
 use DaveJamesMiller\MigrationsUI\Migrator;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 
@@ -13,12 +12,17 @@ abstract class TestCase extends TestbenchTestCase
 {
     protected $enablePackage = true;
 
-    protected function getEnvironmentSetUp($app)
+    protected function resolveApplicationConfiguration($app)
     {
         // Load .env file
         $app->useEnvironmentPath(__DIR__ . '/..');
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
 
+        // Load configuration files
+        parent::resolveApplicationConfiguration($app);
+
+        // Enable the package, except in the EnabledOrDisabledTest where we want
+        // the default settings
         if ($this->enablePackage) {
             config(['migrations-ui.enabled' => true]);
         }
