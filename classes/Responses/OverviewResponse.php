@@ -4,10 +4,10 @@ namespace DaveJamesMiller\MigrationsUI\Responses;
 
 use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Repositories\TablesRepository;
+use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\DatabaseManager;
-use Throwable;
 
 class OverviewResponse implements Responsable
 {
@@ -49,7 +49,7 @@ class OverviewResponse implements Responsable
         return $this;
     }
 
-    public function withException(string $title, Throwable $e)
+    public function withException(string $title, Exception $e)
     {
         $html = app(ExceptionHandler::class)->render(request(), $e)->getContent();
 

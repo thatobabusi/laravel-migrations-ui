@@ -2,17 +2,19 @@
 
 namespace DaveJamesMiller\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Exceptions\SeederException;
 use DaveJamesMiller\MigrationsUI\Migrator;
 use DaveJamesMiller\MigrationsUI\Models\Migration;
 use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
+use Exception;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use LogicException;
-use Throwable;
 
+/**
+ * @see \MigrationsUITests\RunMigrationsControllerTest
+ */
 class RunMigrationsController
 {
     /** @var \DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository */
@@ -66,7 +68,7 @@ class RunMigrationsController
     {
         try {
             $count = $this->migrate($migrations);
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             return $this->response->withException('Error in ' . $this->currentAction, $e);
         }
 
@@ -119,7 +121,7 @@ class RunMigrationsController
     {
         try {
             $count = $this->rollback($migrations);
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             return $this->response->withException('Error in ' . $this->currentAction, $e);
         }
 
@@ -227,7 +229,7 @@ class RunMigrationsController
                 }
                 $this->currentAction = null;
             }
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             return $this->response->withException('Error in ' . $this->currentAction, $e);
         }
 

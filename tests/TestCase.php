@@ -4,13 +4,25 @@ namespace MigrationsUITests;
 
 use DaveJamesMiller\MigrationsUI\MigrationsUIServiceProvider;
 use DaveJamesMiller\MigrationsUI\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 
 abstract class TestCase extends TestbenchTestCase
 {
     protected $enablePackage = true;
+
+    protected static function assertTableExists(string $table)
+    {
+        static::assertTrue(Schema::hasTable($table), "Expected '$table' table to exist");
+    }
+
+    protected static function assertTableDoesntExist(string $table)
+    {
+        static::assertFalse(Schema::hasTable($table), "Expected '$table' table not to exist");
+    }
 
     protected function resolveApplicationConfiguration($app)
     {
@@ -50,5 +62,12 @@ abstract class TestCase extends TestbenchTestCase
     protected function markAsRun(string $migration, int $batch = 1): void
     {
         DB::table('migrations')->insert(compact('migration', 'batch'));
+    }
+
+    protected function createTable(string $table): void
+    {
+        Schema::create($table, static function (Blueprint $table) {
+            $table->bigIncrements('id');
+        });
     }
 }
