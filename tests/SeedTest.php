@@ -124,8 +124,8 @@ class SeedTest extends TestCase
         ]);
 
         // Strings are split so they don't appear in the backtrace
-        $this->assertSame('Error'.' in Database Seeder', $response->json('error.title'), 'error.title');
-        $this->assertStringContainsString('Exception:'.' Test seed exception in file', $response->json('error.html'), 'error.html');
+        $this->assertSame('Error' . ' in Database Seeder', $response->json('error.title'), 'error.title');
+        $this->assertStringContainsString('Exception:' . ' Test seed exception in file', $response->json('error.html'), 'error.html');
 
         $this->assertIsString($response->json('connection'), 'connection');
         $this->assertIsString($response->json('database'), 'database');

@@ -169,7 +169,7 @@ class RollbackSingleTest extends TestCase
         ]);
 
         // Strings are split so they don't appear in the backtrace
-        $this->assertSame('Err' . 'or', $response->json('error.title'), 'error.title');
+        $this->assertSame('Error' . ' in 2014_10_12_100000_file_is_missing (down method)', $response->json('error.title'), 'error.title');
         $this->assertStringContainsString('Exception:' . ' Cannot load migration &#039;2014_10_12_100000_file_is_missing&#039; as it was not found on disk', $response->json('error.html'), 'error.html');
 
         $this->assertIsString($response->json('connection'), 'connection');
