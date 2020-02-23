@@ -59,7 +59,7 @@ class MigrationDetailsTest extends TestCase
     public function testMigrationSourceMissing()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $this->setMigrationPath(__DIR__ . '/migrations/empty');
         $this->markAsRun('2014_10_12_100000_file_is_missing');
 
         // === Act ===
@@ -82,7 +82,7 @@ class MigrationDetailsTest extends TestCase
     public function testMigrationDoesNotExist()
     {
         // === Arrange ===
-        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $this->setMigrationPath(__DIR__ . '/migrations/empty');
 
         // === Act ===
         $response = $this->withExceptionHandling()

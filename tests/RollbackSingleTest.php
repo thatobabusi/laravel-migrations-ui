@@ -145,4 +145,47 @@ class RollbackSingleTest extends TestCase
             ['name' => 'users', 'rows' => 0],
         ], $response->json('tables'), 'tables');
     }
+
+    public function testMissingFile()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/empty');
+        $this->markAsRun('2014_10_12_100000_file_is_missing');
+
+        // === Act ===
+        $response = $this->withExceptionHandling()
+            ->post('/migrations/api/rollback-single/2014_10_12_100000_file_is_missing');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'error' => ['title', 'html'],
+        ]);
+
+        // Strings are split so they don't appear in the backtrace
+        $this->assertSame('Err' . 'or', $response->json('error.title'), 'error.title');
+        $this->assertStringContainsString('Exception:' . ' Cannot load migration &#039;2014_10_12_100000_file_is_missing&#039; as it was not found on disk', $response->json('error.html'), 'error.html');
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame([
+            [
+                'name' => '2014_10_12_100000_file_is_missing',
+                'date' => '2014-10-12 10:00:00',
+                'title' => 'file is missing',
+                'batch' => 1,
+                'relPath' => null,
+            ],
+        ], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'migrations', 'rows' => 1],
+        ], $response->json('tables'), 'tables');
+    }
 }

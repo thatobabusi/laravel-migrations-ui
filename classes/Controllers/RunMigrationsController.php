@@ -41,7 +41,7 @@ class RunMigrationsController
     private function load(Collection $migrations): void
     {
         if ($migration = $migrations->firstWhere('file', null)) {
-            throw new RuntimeException("Cannot load migration '{$migration->name}' as it was not found on disk.");
+            throw new RuntimeException("Cannot load migration '{$migration->name}' as it was not found on disk");
         }
 
         $files = $migrations->pluck('file')->all();
@@ -71,7 +71,8 @@ class RunMigrationsController
         try {
             $count = $this->migrate($migrations);
         } catch (Exception $e) {
-            return $this->response->withException('Error in ' . $this->currentAction, $e);
+            $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
+            return $this->response->withException($title, $e);
         }
 
         if ($migrations->count() === 1) {
@@ -124,7 +125,8 @@ class RunMigrationsController
         try {
             $count = $this->rollback($migrations);
         } catch (Exception $e) {
-            return $this->response->withException('Error in ' . $this->currentAction, $e);
+            $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
+            return $this->response->withException($title, $e);
         }
 
         if ($count === 1) {
@@ -232,7 +234,8 @@ class RunMigrationsController
                 $this->currentAction = null;
             }
         } catch (Exception $e) {
-            return $this->response->withException('Error in ' . $this->currentAction, $e);
+            $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
+            return $this->response->withException($title, $e);
         }
 
         return $this->response->withSuccess($type, implode("\n", $messages), $this->runtime());
