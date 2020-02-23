@@ -134,4 +134,47 @@ class MigrateSingleTest extends TestCase
             ['name' => 'password_resets', 'rows' => 0],
         ], $response->json('tables'), 'tables');
     }
+
+    public function testParseError()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/parse-error');
+
+        // === Act ===
+        $response = $this->withExceptionHandling()
+            ->post('/migrations/api/migrate-single/2014_10_12_000000_parse_error');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'connection',
+            'database',
+            'migrations',
+            'tables',
+            'error' => ['title', 'html'],
+        ]);
+
+        // Strings are split so they don't appear in the backtrace
+        $this->assertSame('Error' . ' in 2014_10_12_000000_parse_error (up method)', $response->json('error.title'), 'error.title');
+        $this->assertStringContainsString('FatalThrowableError:' . ' syntax error, unexpected end of file, expecting &#039;{&#039; in file', $response->json('error.html'), 'error.html');
+
+        $this->assertIsString($response->json('connection'), 'connection');
+        $this->assertIsString($response->json('database'), 'database');
+
+        $this->assertSame([
+            [
+                'name' => '2014_10_12_000000_parse_error',
+                'date' => '2014-10-12 00:00:00',
+                'title' => 'parse error',
+                'batch' => null,
+                // Absolute path because it's outside the project root
+                'relPath' => __DIR__ . '/migrations/parse-error/2014_10_12_000000_parse_error.php',
+            ],
+        ], $response->json('migrations'), 'migrations');
+
+        $this->assertSame([
+            ['name' => 'migrations', 'rows' => 0],
+        ], $response->json('tables'), 'tables');
+    }
 }

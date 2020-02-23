@@ -6,12 +6,13 @@ use DaveJamesMiller\MigrationsUI\Migrator;
 use DaveJamesMiller\MigrationsUI\Models\Migration;
 use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
 use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
-use Exception;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use LogicException;
 use RuntimeException;
+use Throwable;
 
 class RunMigrationsController
 {
@@ -38,26 +39,23 @@ class RunMigrationsController
         $this->startTime = microtime(true);
     }
 
-    private function load(Collection $migrations): void
+    private function load(Migration $migration): void
     {
-        if ($migration = $migrations->firstWhere('file', null)) {
+        if (!$migration->file) {
             throw new RuntimeException("Cannot load migration '{$migration->name}' as it was not found on disk");
         }
 
-        $files = $migrations->pluck('file')->all();
-
-        $this->migrator->requireFiles($files);
+        File::requireOnce($migration->file);
     }
 
     private function migrate(Collection $migrations): int
     {
-        $this->load($migrations);
-
         $batch = $this->migrator->getRepository()->getNextBatchNumber();
 
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
             $this->currentAction = "{$migration->name} (up method)";
+            $this->load($migration);
             $this->migrator->runUp($migration->file, $batch, false);
         }
 
@@ -70,7 +68,7 @@ class RunMigrationsController
     {
         try {
             $count = $this->migrate($migrations);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
             return $this->response->withException($title, $e);
         }
@@ -102,11 +100,11 @@ class RunMigrationsController
 
     private function rollback(Collection $migrations): int
     {
-        $this->load($migrations);
-
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
             $this->currentAction = "{$migration->name} (down method)";
+
+            $this->load($migration);
 
             $this->migrator->runDown(
                 $migration->file,
@@ -124,7 +122,7 @@ class RunMigrationsController
     {
         try {
             $count = $this->rollback($migrations);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
             return $this->response->withException($title, $e);
         }
@@ -243,7 +241,7 @@ class RunMigrationsController
                 }
                 $this->currentAction = null;
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $title = $this->currentAction ? 'Error in ' . $this->currentAction : 'Error';
             return $this->response->withException($title, $e);
         }
@@ -277,7 +275,7 @@ class RunMigrationsController
             if ($this->runSeeder()) {
                 $this->response->withSuccess('Seed', 'Database seeded', $this->runtime());
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return $this->response->withException('Error in Database Seeder', $e);
         }
 
