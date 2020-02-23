@@ -8,7 +8,7 @@ use MigrationsUITests\Util\UsersTableSeeder;
 /**
  * @see \DaveJamesMiller\MigrationsUI\Controllers\RunMigrationsController
  */
-class RunMigrationsControllerTest extends TestCase
+class RunMigrationsTest extends TestCase
 {
     use DatabaseMigrations;
 

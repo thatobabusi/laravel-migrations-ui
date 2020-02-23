@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Request;
 use LogicException;
 
 /**
- * @see \MigrationsUITests\RunMigrationsControllerTest
+ * @see \MigrationsUITests\RunMigrationsTest
  */
 class RunMigrationsController
 {

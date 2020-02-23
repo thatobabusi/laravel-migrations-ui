@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 /**
  * @see \DaveJamesMiller\MigrationsUI\Controllers\ListController
  */
-class ListControllerTest extends TestCase
+class ListTest extends TestCase
 {
     use RefreshDatabase;
 

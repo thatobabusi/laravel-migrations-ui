@@ -6,7 +6,7 @@ use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
 use Illuminate\Routing\Controller;
 
 /**
- * @see \MigrationsUITests\ListControllerTest
+ * @see \MigrationsUITests\ListTest
  */
 class ListController extends Controller
 {
