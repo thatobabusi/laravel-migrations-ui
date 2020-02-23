@@ -71,11 +71,13 @@ class Migration implements Arrayable, UrlRoutable
     // UrlRoutable
     //--------------------------------------
 
+    /** @codeCoverageIgnore */
     public function getRouteKeyName()
     {
         throw new LogicException("Laravel doesn't actually use this method outside the Model class, yet it's in the interface :-/");
     }
 
+    /** @codeCoverageIgnore */
     public function getRouteKey()
     {
         return $this->name;
@@ -88,6 +90,7 @@ class Migration implements Arrayable, UrlRoutable
     }
 
     // Note: This method was added in Laravel 7
+    /** @codeCoverageIgnore */
     public function resolveChildRouteBinding($childType, $value, $field)
     {
         throw new LogicException('Child route bindings not supported');

@@ -8,7 +8,9 @@ class Helpers
     {
         // Roughly based on \Illuminate\Foundation\Mix but works with custom routes
         if (file_exists($hotFile = __DIR__ . '/../build/hot')) {
+            // @codeCoverageIgnoreStart
             return trim(file_get_contents($hotFile)) . $filename;
+            // @codeCoverageIgnoreEnd
         }
 
         if (file_exists($manifestFile = __DIR__ . '/../build/mix-manifest.json')) {

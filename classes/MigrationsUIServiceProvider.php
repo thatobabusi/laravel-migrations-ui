@@ -18,7 +18,9 @@ class MigrationsUIServiceProvider extends ServiceProvider
         // default it's only registered in the console and unit tests.
         // Note: singletonIf() is not available until Laravel 6.0.
         $this->app->bindIf('migrator', static function () {
+            // @codeCoverageIgnoreStart
             return null;
+            // @codeCoverageIgnoreEnd
         }, true);
 
         // Register custom migrator class to override the built-in one.

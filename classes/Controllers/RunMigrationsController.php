@@ -199,7 +199,9 @@ class RunMigrationsController
                     $this->response->withWarning('Cannot Drop Types', $e->getMessage());
                 }
             } else {
+                // @codeCoverageIgnoreStart
                 $this->response->withWarning('Cannot Drop Types', 'Not supported in Laravel 5.7 and below.');
+                // @codeCoverageIgnoreEnd
             }
         }
 
