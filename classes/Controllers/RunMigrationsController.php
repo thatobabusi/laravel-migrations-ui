@@ -11,9 +11,11 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use LogicException;
+use RuntimeException;
 
 /**
  * @see \MigrationsUITests\RunMigrationsTest
+ * @see \MigrationsUITests\RunMigrationsExceptionsTest
  */
 class RunMigrationsController
 {
@@ -42,6 +44,10 @@ class RunMigrationsController
 
     private function load(Collection $migrations): void
     {
+        if ($migration = $migrations->firstWhere('file', null)) {
+            throw new RuntimeException("Cannot load migration '{$migration->name}' as it was not found on disk.");
+        }
+
         $files = $migrations->pluck('file')->all();
 
         $this->migrator->requireFiles($files);
@@ -55,7 +61,7 @@ class RunMigrationsController
 
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
-            $this->currentAction = "{$migration->name} (up)";
+            $this->currentAction = "{$migration->name} (up method)";
             $this->migrator->runUp($migration->file, $batch, false);
         }
 
@@ -103,7 +109,7 @@ class RunMigrationsController
 
         /** @var Migration $migration */
         foreach ($migrations as $migration) {
-            $this->currentAction = "{$migration->name} (down)";
+            $this->currentAction = "{$migration->name} (down method)";
 
             $this->migrator->runDown(
                 $migration->file,
@@ -223,7 +229,7 @@ class RunMigrationsController
 
             // Seed the database (if requested)
             if (Request::get('seed', false)) {
-                $this->currentAction = 'seeders';
+                $this->currentAction = 'Database Seeder';
                 if ($this->runSeeder()) {
                     $messages[] = 'Seeded the database.';
                 }
@@ -258,8 +264,12 @@ class RunMigrationsController
 
     public function seed()
     {
-        if ($this->runSeeder()) {
-            $this->response->withSuccess('Seed', 'Database seeded', $this->runtime());
+        try {
+            if ($this->runSeeder()) {
+                $this->response->withSuccess('Seed', 'Database seeded', $this->runtime());
+            }
+        } catch (Exception $e) {
+            return $this->response->withException('Error in Database Seeder', $e);
         }
 
         return $this->response;

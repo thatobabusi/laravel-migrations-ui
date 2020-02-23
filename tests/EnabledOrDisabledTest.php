@@ -4,7 +4,7 @@ namespace MigrationsUITests;
 
 class EnabledOrDisabledTest extends TestCase
 {
-    protected $enablePackage = false;
+    protected $enableDebugging = false;
 
     /** @noinspection ReturnTypeCanBeDeclaredInspection Changed between Laravel 6 and 7 */
     private function getRouteList()

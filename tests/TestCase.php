@@ -9,19 +9,24 @@ use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
+use PHPUnit\Framework\Constraint\Constraint;
 
 abstract class TestCase extends TestbenchTestCase
 {
-    protected $enablePackage = true;
+    protected $enableDebugging = true;
 
-    protected static function assertTableExists(string $table)
+    protected function setUp(): void
     {
-        static::assertTrue(Schema::hasTable($table), "Expected '$table' table to exist");
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
     }
 
-    protected static function assertTableDoesntExist(string $table)
+    protected function getPackageProviders($app)
     {
-        static::assertFalse(Schema::hasTable($table), "Expected '$table' table not to exist");
+        return [
+            MigrationsUIServiceProvider::class,
+        ];
     }
 
     protected function resolveApplicationConfiguration($app)
@@ -33,35 +38,36 @@ abstract class TestCase extends TestbenchTestCase
         // Load configuration files
         parent::resolveApplicationConfiguration($app);
 
-        // Enable the package, except in the EnabledOrDisabledTest where we want
+        // Enable debug mode, except in the EnabledOrDisabledTest where we want
         // the default settings
-        if ($this->enablePackage) {
-            config(['migrations-ui.enabled' => true]);
+        if ($this->enableDebugging) {
+            config(['app.debug' => true, 'app.env' => 'local']);
         }
     }
 
-    protected function getPackageProviders($app)
+    protected function assertTableExists(string $table, string $message = '')
     {
-        return [
-            MigrationsUIServiceProvider::class,
-        ];
+        $this->assertThat($table, $this->isTable(), $message);
     }
 
-    protected function setUp(): void
+    protected function assertTableDoesntExist(string $table, string $message = '')
     {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
+        $this->assertThat($table, $this->logicalNot($this->isTable()), $message);
     }
 
-    protected function setMigrationPath(string $path)
+    private function isTable()
     {
-        app(Migrator::class)->path($path);
-    }
+        return new class extends Constraint {
+            protected function matches($table): bool
+            {
+                return Schema::hasTable($table);
+            }
 
-    protected function markAsRun(string $migration, int $batch = 1): void
-    {
-        DB::table('migrations')->insert(compact('migration', 'batch'));
+            public function toString(): string
+            {
+                return 'table exists';
+            }
+        };
     }
 
     protected function createTable(string $table): void
@@ -69,5 +75,15 @@ abstract class TestCase extends TestbenchTestCase
         Schema::create($table, static function (Blueprint $table) {
             $table->bigIncrements('id');
         });
+    }
+
+    protected function markAsRun(string $migration, int $batch = 1): void
+    {
+        DB::table('migrations')->insert(compact('migration', 'batch'));
+    }
+
+    protected function setMigrationPath(string $path)
+    {
+        app(Migrator::class)->path($path);
     }
 }
