@@ -29,8 +29,11 @@ matrix:
     - { env: Laravel=7.x, php: 7.1 }
     - { env: Laravel=6.x, php: 7.1 }
 
-install:
+before_install:
   - cp .env.travis .env
+  - mysql -e 'CREATE DATABASE test;'
+
+install:
   - travis_retry composer require --dev "laravel/framework:${Laravel}" --no-interaction
 
 script:
