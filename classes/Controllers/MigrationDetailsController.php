@@ -19,7 +19,7 @@ class MigrationDetailsController extends Controller
         try {
             $response['source'] = File::get($migration->file);
         } catch (FileNotFoundException $e) {
-            $response['source'] = "# FILE NOT FOUND:\n# {$migration->file}";
+            $response['source'] = "# FILE NOT FOUND:\n# {$migration->name}.php";
         }
 
         return $response;

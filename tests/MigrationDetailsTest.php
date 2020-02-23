@@ -55,4 +55,41 @@ class MigrationDetailsTest extends TestCase
             'source' => file_get_contents(__DIR__ . '/migrations/three/2014_10_12_100000_create_password_resets_table.php'),
         ], $response->json());
     }
+
+    public function testMigrationSourceMissing()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/three');
+        $this->markAsRun('2014_10_12_100000_file_is_missing');
+
+        // === Act ===
+        $response = $this->get('/migrations/api/migration-details/2014_10_12_100000_file_is_missing');
+
+        // === Assert ===
+        $response->assertOk();
+
+        $this->assertSame([
+            'name' => '2014_10_12_100000_file_is_missing',
+            'date' => '2014-10-12 10:00:00',
+            'title' => 'file is missing',
+            'batch' => 1,
+            // Absolute path because it's outside the project root
+            'relPath' => null,
+            'source' => "# FILE NOT FOUND:\n# 2014_10_12_100000_file_is_missing.php",
+        ], $response->json());
+    }
+
+    public function testMigrationDoesNotExist()
+    {
+        // === Arrange ===
+        $this->setMigrationPath(__DIR__ . '/migrations/three');
+
+        // === Act ===
+        $response = $this->withExceptionHandling()
+            ->get('/migrations/api/migration-details/2014_10_12_100000_invalid_name');
+
+        // === Assert ===
+        $response->assertNotFound()
+            ->assertSee('Not Found');
+    }
 }
