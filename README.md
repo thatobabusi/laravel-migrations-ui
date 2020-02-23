@@ -30,7 +30,8 @@ A web-based GUI for ~~creating~~ (coming soon) ~~and~~ running migrations in [La
 
 | Laravel Migrations UI | Laravel   | PHP  |
 |-----------------------|-----------|------|
-| **1.0.0+**            | 5.6+      | 7.1+ |
+| **1.0.1+**            | 5.6+      | 7.1+ |
+| **1.0.0+**            | 5.8+      | 7.1+ |
 
 
  Installation

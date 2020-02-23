@@ -193,7 +193,10 @@ class RunMigrationsController
         $this->migrator->getRepository()->createRepository();
 
         // Run migrations & seeders (if requested)
-        $message = 'Dropped all ' . collect($types)->join(', ', ' & ') . '.';
+        // Can't use this until Laravel 5.8:
+        // $message = 'Dropped all ' . collect($types)->join(', ', ' & ') . '.';
+        $lastType = array_pop($types);
+        $message = 'Dropped all ' . ($types ? implode(', ', $types) . ' & ' . $lastType : $lastType) . '.';
         return $this->finishRefresh('Fresh', $message);
     }
 
