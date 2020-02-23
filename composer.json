@@ -2,7 +2,8 @@
     "name": "davejamesmiller/laravel-migrations-ui",
     "description": "A web-based GUI for creating and running migrations in Laravel.",
     "keywords": [
-        "laravel"
+        "laravel",
+        "migrations"
     ],
     "homepage": "https://github.com/davejamesmiller/laravel-migrations-ui",
     "authors": [
