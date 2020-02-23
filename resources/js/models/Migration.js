@@ -1,37 +1,19 @@
 import Model from './Model';
 
-/**
- * @property {string} name
- * @property {string} date
- * @property {string} title
- * @property {Number|null} batch
- * @property {string} relPath
- * @property {string} source
- * @property {boolean} loading
- * @property {boolean} running
- */
 export default class Migration extends Model
 {
-    _fields = [
-        'name',
-        'date',
-        'title',
-        'batch',
-        'relPath',
-        'source',
-
-        'loading',
-        'running',
-    ];
+    date = null;
+    title = null;
+    batch = null;
+    relPath = null;
+    source = null;
+    loading = false;
+    running = false;
 
     constructor(name) {
         super();
 
-        this.init({
-            name,
-            loading: false,
-            running: false,
-        });
+        this.name = name;
     }
 
     get isApplied() {

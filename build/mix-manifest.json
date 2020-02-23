@@ -1,6 +1,5 @@
 {
-    "/app.js": "/app.js?id=217e68159fcf0ec0ac9f",
-    "/app.css": "/app.css?id=65279505baf4aa3ba483",
-    "/app.js.map": "/app.js.map?id=09e16fc42b807c2747bb",
-    "/favicon.png": "/favicon.png?id=0e399763c007a7ff1028"
+    "/app.js": "/app.js",
+    "/app.css": "/app.css",
+    "/favicon.png": "/favicon.png"
 }
