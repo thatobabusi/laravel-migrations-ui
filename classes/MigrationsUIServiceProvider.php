@@ -2,6 +2,8 @@
 
 namespace DaveJamesMiller\MigrationsUI;
 
+use DaveJamesMiller\MigrationsUI\Commands\ListPaths;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -41,6 +43,11 @@ class MigrationsUIServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Register commands
+        if ($this->app->runningInConsole()) {
+            $this->commands(ListPaths::class);
+        }
+
         // Register routes
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
 

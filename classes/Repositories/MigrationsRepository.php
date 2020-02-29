@@ -5,6 +5,9 @@ namespace DaveJamesMiller\MigrationsUI\Repositories;
 use DaveJamesMiller\MigrationsUI\Migrator;
 use DaveJamesMiller\MigrationsUI\Models\Migration;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 class MigrationsRepository
 {
@@ -16,10 +19,35 @@ class MigrationsRepository
         $this->migrator = $migrator;
     }
 
-    private function allPaths()
+    /** @internal */
+    public function allPaths()
     {
-        /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
-        return array_merge($this->migrator->paths(), [app()->databasePath('migrations')]);
+        // Unfortunately some packages (e.g. Telescope) don't register their
+        // migrations when running via the web. Artisan::call() doesn't help
+        // either because it doesn't re-run the service providers, and
+        // manually creating a new application instance caused it to crash.
+        // Maybe at some point I can fix that, but for now we shell out to a
+        // separate Artisan console process to get the paths.
+
+        if (App::runningInConsole()) {
+            /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
+            $paths = array_merge(
+                app('migrator')->paths(),
+                [app()->databasePath('migrations')]
+            );
+        } else {
+            // @codeCoverageIgnoreStart
+            // I can't think of a way to unit test this - even if we put a copy
+            // of the artisan binary somewhere, it won't have the right environment
+            /** Based on {@see \Illuminate\Queue\Listener} */
+            $php = (new PhpExecutableFinder)->find(false);
+            $artisan = defined('ARTISAN_BINARY') ? ARTISAN_BINARY : base_path('artisan');
+            $process = new Process("$php $artisan migrations-ui:list-paths");
+            $paths = json_decode($process->mustRun()->getOutput(), true);
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $paths;
     }
 
     private function load()
