@@ -19,7 +19,7 @@ class ListPathsTest extends TestCase
         }
     }
 
-    public function testDefaultResponse()
+    public function testWithDefaultPaths()
     {
         $output = Mockery::mock(BufferedOutput::class . '[writeln]');
         $output->shouldReceive('writeln')->once()->with('["' . database_path('migrations') . '"]', Mockery::any());
@@ -28,7 +28,7 @@ class ListPathsTest extends TestCase
         $this->assertSame(0, $exitCode);
     }
 
-    public function testCustomPath()
+    public function testWithCustomPath()
     {
         app('migrator')->path('/custom/path');
 

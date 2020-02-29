@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use PHPUnit\Framework\Constraint\Constraint;
 
-abstract class TestCase extends TestbenchTestCase
+define('ARTISAN_BINARY', __DIR__ . '/artisan');
+
+// Note: Must not be abstract because we use it in the 'artisan' script
+class TestCase extends TestbenchTestCase
 {
     protected $enableDebugging = true;
     protected $migrateFresh = false;

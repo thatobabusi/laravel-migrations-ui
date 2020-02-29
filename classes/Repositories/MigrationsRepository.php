@@ -19,7 +19,6 @@ class MigrationsRepository
         $this->migrator = $migrator;
     }
 
-    /** @internal */
     public function allPaths()
     {
         // Unfortunately some packages (e.g. Telescope) don't register their
@@ -36,7 +35,6 @@ class MigrationsRepository
                 [app()->databasePath('migrations')]
             );
         } else {
-            // @codeCoverageIgnoreStart
             // I can't think of a way to unit test this - even if we put a copy
             // of the artisan binary somewhere, it won't have the right environment
             /** Based on {@see \Illuminate\Queue\Listener} */
@@ -44,7 +42,6 @@ class MigrationsRepository
             $artisan = defined('ARTISAN_BINARY') ? ARTISAN_BINARY : base_path('artisan');
             $process = new Process("$php $artisan migrations-ui:list-paths");
             $paths = json_decode($process->mustRun()->getOutput(), true);
-            // @codeCoverageIgnoreEnd
         }
 
         return $paths;

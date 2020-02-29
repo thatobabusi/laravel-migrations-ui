@@ -2,7 +2,7 @@
 
 namespace DaveJamesMiller\MigrationsUI\Commands;
 
-use DaveJamesMiller\MigrationsUI\Migrator;
+use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
 use Illuminate\Console\Command;
 
 class ListPaths extends Command
@@ -11,13 +11,9 @@ class ListPaths extends Command
 
     protected $hidden = true;
 
-    public function handle(Migrator $migrator)
+    public function handle(MigrationsRepository $repo)
     {
-        /** @see \Illuminate\Database\Console\Migrations\BaseCommand::getMigrationPaths() */
-        $paths = array_merge(
-            $migrator->paths(),
-            [app()->databasePath('migrations')]
-        );
+        $paths = $repo->allPaths();
 
         $this->output->writeln(json_encode($paths, JSON_UNESCAPED_SLASHES));
     }
