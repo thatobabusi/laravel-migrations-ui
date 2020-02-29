@@ -35,8 +35,6 @@ class MigrationsRepository
                 [app()->databasePath('migrations')]
             );
         } else {
-            // I can't think of a way to unit test this - even if we put a copy
-            // of the artisan binary somewhere, it won't have the right environment
             /** Based on {@see \Illuminate\Queue\Listener} */
             $php = (new PhpExecutableFinder)->find(false);
             $artisan = defined('ARTISAN_BINARY') ? ARTISAN_BINARY : base_path('artisan');
