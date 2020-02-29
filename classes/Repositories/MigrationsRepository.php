@@ -40,7 +40,7 @@ class MigrationsRepository
             /** Based on {@see \Illuminate\Queue\Listener} */
             $php = (new PhpExecutableFinder)->find(false);
             $artisan = defined('ARTISAN_BINARY') ? ARTISAN_BINARY : base_path('artisan');
-            $process = new Process("$php $artisan migrations-ui:list-paths");
+            $process = new Process([$php, $artisan, 'migrations-ui:list-paths']);
             $paths = json_decode($process->mustRun()->getOutput(), true);
         }
 
