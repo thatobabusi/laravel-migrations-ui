@@ -54,10 +54,11 @@ class MigrationsRepository
                 return new Migration($name, $file);
             });
 
-        // Check which migrations have been run, and check for any with missing files
+        // Check which migrations have been run
         if ($this->migrator->repositoryExists()) {
             foreach ($this->migrator->getRepository()->getMigrationBatches() as $name => $batch) {
                 if (!isset($migrations[$name])) {
+                    // The migration was run then deleted - list it anyway, but with no filename
                     $migrations[$name] = new Migration($name);
                 }
 
