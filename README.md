@@ -200,6 +200,12 @@ If you get really stuck, I suggest you:
 *Laravel Migrations UI uses [Semantic Versioning](http://semver.org/).*
 
 
+### [v1.0.3](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.3) (Sat 29 Feb 2020)
+
+- Fix Telescope migrations not being picked up because they're only registered at the console
+- Grey out all buttons when any action is running
+
+
 ### [v1.0.2](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.2) (Sun 23 Feb 2020)
 
 - Better error handling for various edge cases
