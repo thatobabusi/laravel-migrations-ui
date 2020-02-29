@@ -21,7 +21,7 @@
     <BDropdown right :size="size" :style="{ width }" split variant="warning" :disabled="migrations.running" @click="migrations.fresh(true)">
 
         <template v-slot:button-content>
-            <Spinner v-if="migrations.running"></Spinner>
+            <Spinner v-if="migrations.runningFresh"></Spinner>
             <template v-else>Fresh</template>
         </template>
 

@@ -15,6 +15,7 @@ export default new Vue({
             queue: [],
             queueRunning: false,
             running: false,
+            runningFresh: false,
             tables: [],
         };
     },
@@ -43,12 +44,14 @@ export default new Vue({
         },
         async fresh(seed) {
             this.running = true;
+            this.runningFresh = true;
 
             try {
                 const response = await api.post('fresh', { seed });
                 this.setOverview(response.data);
             } finally {
                 this.running = false;
+                this.runningFresh = false;
             }
         },
         async loadDetails(name) {
@@ -65,77 +68,91 @@ export default new Vue({
         },
         async refresh(seed) {
             this.running = true;
+            this.runningFresh = true;
 
             try {
                 const response = await api.post('refresh', { seed });
                 this.setOverview(response.data);
             } finally {
                 this.running = false;
+                this.runningFresh = false;
             }
         },
         async seed() {
             this.running = true;
+            this.runningFresh = true;
 
             try {
                 const response = await api.post('seed');
                 this.setOverview(response.data);
             } finally {
                 this.running = false;
+                this.runningFresh = false;
             }
         },
         async migrateAll() {
             const migrations = this.allMigrations.filter(migration => !migration.isApplied);
 
+            this.running = true;
             migrations.forEach(migration => migration.running = true);
 
             try {
                 const response = await api.post('migrate-all');
                 this.setOverview(response.data);
             } finally {
+                this.running = false;
                 migrations.forEach(migration => migration.running = false);
             }
         },
         async migrateSingle(migration) {
+            this.running = true;
             migration.running = true;
 
             try {
                 const response = await api.post(`migrate-single/${migration.name}`);
                 this.setOverview(response.data);
             } finally {
+                this.running = false;
                 migration.running = false;
             }
         },
         async rollbackAll() {
             const migrations = this.allMigrations.filter(migration => migration.isApplied);
 
+            this.running = true;
             migrations.forEach(migration => migration.running = true);
 
             try {
                 const response = await api.post('rollback-all');
                 this.setOverview(response.data);
             } finally {
+                this.running = false;
                 migrations.forEach(migration => migration.running = false);
             }
         },
         async rollbackBatch(batch) {
             const migrations = this.allMigrations.filter(migration => migration.batch === batch);
 
+            this.running = true;
             migrations.forEach(migration => migration.running = true);
 
             try {
                 const response = await api.post(`rollback-batch/${batch}`);
                 this.setOverview(response.data);
             } finally {
+                this.running = false;
                 migrations.forEach(migration => migration.running = false);
             }
         },
         async rollbackSingle(migration) {
+            this.running = true;
             migration.running = true;
 
             try {
                 const response = await api.post(`rollback-single/${migration.name}`);
                 this.setOverview(response.data);
             } finally {
+                this.running = false;
                 migration.running = false;
             }
         },
