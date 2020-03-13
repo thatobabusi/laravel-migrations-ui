@@ -13,7 +13,8 @@
         "watch": "npm run development -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
         "h": "npm run hot",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js --https --host=0.0.0.0 --disable-host-check"
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js --host=0.0.0.0 --disable-host-check",
+        "hot-ssl": "npm run hot -- --https"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.8.3",
