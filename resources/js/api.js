@@ -9,8 +9,8 @@ const api = axios.create({
     },
 });
 
-// Automatically add CSRF token
 api.interceptors.request.use(function (request) {
+    // Automatically add CSRF token
     if (request.method.toLowerCase() !== 'get' && typeof request.data === 'object') {
         request.data._token = document.body.dataset.csrfToken;
     }
@@ -18,9 +18,17 @@ api.interceptors.request.use(function (request) {
     return request;
 });
 
-// Global error handler
+// Debugbar integration - https://github.com/barryvdh/laravel-debugbar/issues/674
+// Not currently working because of the Accept header above... Not sure how to resolve that...
+function addResponseToDebugbar(response) {
+    if (phpdebugbar && phpdebugbar.ajaxHandler && response.request) {
+        phpdebugbar.ajaxHandler.handle(response.request);
+    }
+}
+
 api.interceptors.response.use(
     function (response) {
+        addResponseToDebugbar(response);
         return response;
     },
     function (error) {
@@ -28,6 +36,7 @@ api.interceptors.response.use(
         // Display the full HTML error in a popup window
         if (error.response) {
             errors.show(`Error in ${error.request.responseURL}`, error.response.data);
+            addResponseToDebugbar(error.response);
         }
 
         return Promise.reject(error);
