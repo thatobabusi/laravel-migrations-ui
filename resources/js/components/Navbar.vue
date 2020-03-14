@@ -16,13 +16,6 @@
     }
 </script>
 
-<style lang="scss">
-    .navbar {
-        // Make the dropdown menus appear over toasts
-        z-index: 1200;
-    }
-</style>
-
 <template>
     <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top">
 

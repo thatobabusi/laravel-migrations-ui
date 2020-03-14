@@ -95,6 +95,10 @@ h6,
     font-weight: 600;
 }
 
+.b-toaster {
+    z-index: $zindex-dropdown - 1;
+}
+
 .btn-group > .btn.dropdown-toggle:not(:first-child),
 .btn-group > .btn-group:not(:first-child) > .btn.dropdown-toggle {
     // Make split buttons actually appear split
