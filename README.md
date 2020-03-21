@@ -49,7 +49,7 @@ php artisan vendor:publish --tag=migrations-ui-config
 
 Then visit `/migrations` (or the path set in your config file).
 
-For security, by default, Migrations UI is only active if `APP_ENV=local` and `APP_DEBUG=true`, *or* you set `MIGRATIONS_UI_ENABLED=true`, in `.env`.
+For security, by default, Migrations UI is only active if `APP_ENV=local` and `APP_DEBUG=true`, *or* you set `MIGRATIONS_UI_ENABLED=true`, in `.env`. You should not enable it in production or any publically accessible environments - that would be a major security vulnerability!
 
  Contributing
 --------------------------------------------------------------------------------
