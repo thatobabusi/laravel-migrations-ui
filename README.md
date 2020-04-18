@@ -1,4 +1,14 @@
- Laravel Migrations UI
+**As of 18 April 2020, Laravel Migrations UI is not being maintained.**
+
+I was originally planning to build a GUI for generating migrations, not just running them, but it took about 18 months to get this far (the [wireframes](resources/views/wireframes/) weren't originally in Git) and I don't think I'm likely to go back to it any time soon.
+
+If you want to create your own fork, to fix bugs or add new features, please see [the instructions below](#creating-a-pull-request). The [MIT license](#license) requires you to keep the copyright notice and license information, but otherwise you can do what you like with the code and documentation.
+
+— *Dave*
+
+---
+
+Laravel Migrations UI
 ================================================================================
 
 [![Latest Stable Version](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/v/stable)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
