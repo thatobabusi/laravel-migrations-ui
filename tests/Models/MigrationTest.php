@@ -2,7 +2,7 @@
 
 namespace MigrationsUITests\Models;
 
-use DaveJamesMiller\MigrationsUI\Models\Migration;
+use ThatoBabusi\MigrationsUI\Models\Migration;
 use Illuminate\Support\Facades\App;
 use MigrationsUITests\TestCase;
 

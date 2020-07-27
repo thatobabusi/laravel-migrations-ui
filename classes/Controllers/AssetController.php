@@ -1,6 +1,6 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Controllers;
+namespace ThatoBabusi\MigrationsUI\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;

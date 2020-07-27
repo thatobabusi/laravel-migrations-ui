@@ -1,8 +1,8 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI;
+namespace ThatoBabusi\MigrationsUI;
 
-use DaveJamesMiller\MigrationsUI\Commands\ListPaths;
+use ThatoBabusi\MigrationsUI\Commands\ListPaths;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

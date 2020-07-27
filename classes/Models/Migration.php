@@ -1,8 +1,8 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Models;
+namespace ThatoBabusi\MigrationsUI\Models;
 
-use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
+use ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Contracts\Support\Arrayable;
 use LogicException;

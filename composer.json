@@ -1,15 +1,15 @@
 {
-    "name": "davejamesmiller/laravel-migrations-ui",
+    "name": "thatobabusi/laravel-migrations-ui",
     "description": "A web-based GUI for creating and running migrations in Laravel.",
     "keywords": [
         "laravel",
         "migrations"
     ],
-    "homepage": "https://github.com/davejamesmiller/laravel-migrations-ui",
+    "homepage": "https://github.com/thatobabusi/laravel-migrations-ui",
     "authors": [
         {
-            "name": "Dave James Miller",
-            "email": "dave@davejamesmiller.com"
+            "name": "Thato Babusi",
+            "email": "thatobabusi@yahoo.com"
         }
     ],
     "license": "MIT",
@@ -29,7 +29,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "DaveJamesMiller\\MigrationsUI\\": "classes/"
+            "ThatoBabusi\\MigrationsUI\\": "classes/"
         }
     },
     "autoload-dev": {
@@ -40,7 +40,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DaveJamesMiller\\MigrationsUI\\MigrationsUIServiceProvider"
+                "ThatoBabusi\\MigrationsUI\\MigrationsUIServiceProvider"
             ]
         }
     }

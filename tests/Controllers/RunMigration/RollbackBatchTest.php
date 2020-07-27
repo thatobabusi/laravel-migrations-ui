@@ -5,7 +5,7 @@ namespace MigrationsUITests\Controllers\RunMigration;
 use MigrationsUITests\TestCase;
 
 /**
- * @see \DaveJamesMiller\MigrationsUI\Controllers\RunMigrationsController
+ * @see \ThatoBabusi\MigrationsUI\Controllers\RunMigrationsController
  */
 class RollbackBatchTest extends TestCase
 {

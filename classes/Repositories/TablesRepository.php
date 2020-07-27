@@ -1,6 +1,6 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Repositories;
+namespace ThatoBabusi\MigrationsUI\Repositories;
 
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;

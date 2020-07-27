@@ -9,7 +9,7 @@ use MigrationsUITests\Util\UsersTableExceptionSeeder;
 use MigrationsUITests\Util\UsersTableSeeder;
 
 /**
- * @see \DaveJamesMiller\MigrationsUI\Controllers\RunMigrationsController
+ * @see \ThatoBabusi\MigrationsUI\Controllers\RunMigrationsController
  */
 class SeedTest extends TestCase
 {

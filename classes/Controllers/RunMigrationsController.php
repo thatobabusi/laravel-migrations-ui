@@ -1,11 +1,11 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Controllers;
+namespace ThatoBabusi\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Migrator;
-use DaveJamesMiller\MigrationsUI\Models\Migration;
-use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
-use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
+use ThatoBabusi\MigrationsUI\Migrator;
+use ThatoBabusi\MigrationsUI\Models\Migration;
+use ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository;
+use ThatoBabusi\MigrationsUI\Responses\OverviewResponse;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -16,13 +16,13 @@ use Throwable;
 
 class RunMigrationsController
 {
-    /** @var \DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository */
+    /** @var \ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository */
     private $migrations;
 
-    /** @var \DaveJamesMiller\MigrationsUI\Migrator */
+    /** @var \ThatoBabusi\MigrationsUI\Migrator */
     private $migrator;
 
-    /** @var \DaveJamesMiller\MigrationsUI\Responses\OverviewResponse */
+    /** @var \ThatoBabusi\MigrationsUI\Responses\OverviewResponse */
     private $response;
 
     /** @var float */

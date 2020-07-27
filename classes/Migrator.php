@@ -1,6 +1,6 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI;
+namespace ThatoBabusi\MigrationsUI;
 
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 

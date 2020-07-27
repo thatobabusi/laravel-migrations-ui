@@ -1,8 +1,8 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Controllers;
+namespace ThatoBabusi\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Responses\OverviewResponse;
+use ThatoBabusi\MigrationsUI\Responses\OverviewResponse;
 use Illuminate\Routing\Controller;
 
 /**

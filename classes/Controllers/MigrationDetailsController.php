@@ -1,8 +1,8 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Controllers;
+namespace ThatoBabusi\MigrationsUI\Controllers;
 
-use DaveJamesMiller\MigrationsUI\Models\Migration;
+use ThatoBabusi\MigrationsUI\Models\Migration;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;

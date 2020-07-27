@@ -2,8 +2,8 @@
 
 namespace MigrationsUITests;
 
-use DaveJamesMiller\MigrationsUI\MigrationsUIServiceProvider;
-use DaveJamesMiller\MigrationsUI\Migrator;
+use ThatoBabusi\MigrationsUI\MigrationsUIServiceProvider;
+use ThatoBabusi\MigrationsUI\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Facades\DB;

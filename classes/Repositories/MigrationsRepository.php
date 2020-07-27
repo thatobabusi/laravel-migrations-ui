@@ -1,9 +1,9 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Repositories;
+namespace ThatoBabusi\MigrationsUI\Repositories;
 
-use DaveJamesMiller\MigrationsUI\Migrator;
-use DaveJamesMiller\MigrationsUI\Models\Migration;
+use ThatoBabusi\MigrationsUI\Migrator;
+use ThatoBabusi\MigrationsUI\Models\Migration;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -11,7 +11,7 @@ use Symfony\Component\Process\Process;
 
 class MigrationsRepository
 {
-    /** @var \DaveJamesMiller\MigrationsUI\Migrator */
+    /** @var \ThatoBabusi\MigrationsUI\Migrator */
     private $migrator;
 
     public function __construct(Migrator $migrator)

@@ -1,6 +1,6 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Middleware;
+namespace ThatoBabusi\MigrationsUI\Middleware;
 
 use Closure;
 

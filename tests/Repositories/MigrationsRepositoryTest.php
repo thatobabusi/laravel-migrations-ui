@@ -2,7 +2,7 @@
 
 namespace MigrationsUITests\Repositories;
 
-use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
+use ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository;
 use Illuminate\Support\Facades\App;
 use MigrationsUITests\TestCase;
 use Mockery;

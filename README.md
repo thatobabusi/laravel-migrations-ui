@@ -1,3 +1,10 @@
+**As of 27 July 2020, I forked this to take over and use this separately from the main repo as Dave is no longer supporting it. 
+Also tired of getting the notifications "package no longer supported" when I do composer install/update/dumpautoload etc.
+
+— *Thato*
+
+---
+
 **As of 18 April 2020, Laravel Migrations UI is not being maintained.**
 
 I was originally planning to build a GUI for generating migrations, not just running them, but it took about 18 months to get this far (the [wireframes](resources/views/wireframes/) weren't originally in Git) and I don't think I'm likely to go back to it any time soon.
@@ -11,13 +18,13 @@ If you want to create your own fork, to fix bugs or add new features, please see
 Laravel Migrations UI
 ================================================================================
 
-[![Latest Stable Version](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/v/stable)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
-[![Total Downloads](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/downloads)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
-[![Monthly Downloads](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/d/monthly)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
-[![License](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/license)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
-[![Latest Unstable Version](https://poser.pugx.org/davejamesmiller/laravel-migrations-ui/v/unstable)](https://packagist.org/packages/davejamesmiller/laravel-migrations-ui)
-[![Build Status](https://travis-ci.com/davejamesmiller/laravel-migrations-ui.svg?branch=master)](https://travis-ci.com/davejamesmiller/laravel-migrations-ui)
-[![Coverage Status](https://coveralls.io/repos/github/davejamesmiller/laravel-migrations-ui/badge.svg?branch=master)](https://coveralls.io/github/davejamesmiller/laravel-migrations-ui?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/thatobabusi/laravel-migrations-ui/v/stable)](https://packagist.org/packages/thatobabusi/laravel-migrations-ui)
+[![Total Downloads](https://poser.pugx.org/thatobabusi/laravel-migrations-ui/downloads)](https://packagist.org/packages/thatobabusi/laravel-migrations-ui)
+[![Monthly Downloads](https://poser.pugx.org/thatobabusi/laravel-migrations-ui/d/monthly)](https://packagist.org/packages/thatobabusi/laravel-migrations-ui)
+[![License](https://poser.pugx.org/thatobabusi/laravel-migrations-ui/license)](https://packagist.org/packages/thatobabusi/laravel-migrations-ui)
+[![Latest Unstable Version](https://poser.pugx.org/thatobabusi/laravel-migrations-ui/v/unstable)](https://packagist.org/packages/thatobabusi/laravel-migrations-ui)
+[![Build Status](https://travis-ci.com/thatobabusi/laravel-migrations-ui.svg?branch=master)](https://travis-ci.com/thatobabusi/laravel-migrations-ui)
+[![Coverage Status](https://coveralls.io/repos/github/thatobabusi/laravel-migrations-ui/badge.svg?branch=master)](https://coveralls.io/github/thatobabusi/laravel-migrations-ui?branch=master)
 
 A web-based GUI for ~~creating~~ (coming soon) ~~and~~ running migrations in [Laravel](https://laravel.com/).
 
@@ -48,7 +55,7 @@ A web-based GUI for ~~creating~~ (coming soon) ~~and~~ running migrations in [La
 --------------------------------------------------------------------------------
 
 ```bash
-composer require --dev davejamesmiller/laravel-migrations-ui
+composer require --dev thatobabusi/laravel-migrations-ui
 ```
 
 Optionally publish and edit the config file (`config/migrations-ui.php`):
@@ -64,11 +71,11 @@ For security, by default, Migrations UI is only active if `APP_ENV=local` and `A
  Contributing
 --------------------------------------------------------------------------------
 
-**Documentation:** If you think the documentation can be improved in any way, please do [edit this file](https://github.com/davejamesmiller/laravel-migrations-ui/edit/master/README.md) and make a pull request.
+**Documentation:** If you think the documentation can be improved in any way, please do [edit this file](https://github.com/thatobabusi/laravel-migrations-ui/edit/master/README.md) and make a pull request.
 
-**Bug fixes:** Please fix it and open a [pull request](https://github.com/davejamesmiller/laravel-migrations-ui/pulls). ([See below](#creating-a-pull-request) for more detailed instructions.) Bonus points if you add a unit test to make sure it doesn't happen again!
+**Bug fixes:** Please fix it and open a [pull request](https://github.com/thatobabusi/laravel-migrations-ui/pulls). ([See below](#creating-a-pull-request) for more detailed instructions.) Bonus points if you add a unit test to make sure it doesn't happen again!
 
-**New features:** Please build it and open a [pull request](https://github.com/davejamesmiller/laravel-migrations-ui/pulls). If you want to discuss it before doing too much work, make a proof-of-concept (either code or documentation) and open a [Draft PR](https://github.blog/2019-02-14-introducing-draft-pull-requests/) to discuss the details.
+**New features:** Please build it and open a [pull request](https://github.com/thatobabusi/laravel-migrations-ui/pulls). If you want to discuss it before doing too much work, make a proof-of-concept (either code or documentation) and open a [Draft PR](https://github.blog/2019-02-14-introducing-draft-pull-requests/) to discuss the details.
 
 
 ### Creating a pull request
@@ -76,14 +83,14 @@ For security, by default, Migrations UI is only active if `APP_ENV=local` and `A
 The easiest way to work on Laravel Migrations UI is to tell Composer to install it from source (Git) using the `--prefer-source` flag:
 
 ```bash
-rm -rf vendor/davejamesmiller/laravel-migrations-ui
+rm -rf vendor/thatobabusi/laravel-migrations-ui
 composer install --prefer-source
 ```
 
 Then checkout the master branch and create your own local branch to work on:
 
 ```bash
-cd vendor/davejamesmiller/laravel-migrations-ui
+cd vendor/thatobabusi/laravel-migrations-ui
 git checkout -t origin/master
 git checkout -b YOUR_BRANCH
 ```
@@ -94,7 +101,7 @@ Now make your changes, including unit tests and documentation (if appropriate). 
 scripts/test.sh
 ```
 
-Then commit the changes. [Fork the repository on GitHub](https://github.com/davejamesmiller/laravel-migrations-ui/fork) if you haven't already, and push your changes to it:
+Then commit the changes. [Fork the repository on GitHub](https://github.com/thatobabusi/laravel-migrations-ui/fork) if you haven't already, and push your changes to it:
 
 ```bash
 git remote add YOUR_USERNAME git@github.com:YOUR_USERNAME/laravel-migrations-ui.git
@@ -103,7 +110,7 @@ git push -u YOUR_USERNAME YOUR_BRANCH
 
 Finally, browse to the repository on GitHub and create a pull request.
 
-(Alternatively, there is a [test app](https://github.com/davejamesmiller/laravel-packages-test) that you can use.)
+(Alternatively, there is a [test app](https://github.com/thatobabusi/laravel-packages-test) that you can use.)
 
 
 ### Using your fork in a project
@@ -121,7 +128,7 @@ To use your own fork in a project, update the `composer.json` in your main proje
     ],
     "require": {
         // UPDATE THIS:
-        "davejamesmiller/laravel-migrations-ui": "dev-YOUR_BRANCH"
+        "thatobabusi/laravel-migrations-ui": "dev-YOUR_BRANCH"
     }
 }
 ```
@@ -173,14 +180,14 @@ If backwards-incompatible changes cause the **minimum** supported versions of La
 
 - Ensure the unit tests are updated and have 100% coverage (for PHP code)
 - Build assets in production mode (`yarn build`) and commit if anything has changed
-- Update the [test app](https://github.com/davejamesmiller/laravel-packages-test), if appropriate, and test it manually
+- Update the [test app](https://github.com/thatobabusi/laravel-packages-test), if appropriate, and test it manually
 - Ensure the [README](README.md) is up to date, including:
     - Document any new features
     - [Compatibility Chart](README.md#compatibility-chart)
     - [Changelog](README.md#changelog)
 - Merge the changes into the `master` branch (if necessary)
 - Push the code changes to GitHub (`git push`)
-- Make sure [all tests are passing](https://travis-ci.org/davejamesmiller/laravel-migrations-ui)
+- Make sure [all tests are passing](https://travis-ci.org/thatobabusi/laravel-migrations-ui)
 - Tag the release (`git tag 1.2.3`)
 - Push the tag (`git push --tag`)
 
@@ -190,7 +197,7 @@ If backwards-incompatible changes cause the **minimum** supported versions of La
 
 Sorry, I don't offer any technical support, and GitHub Issues are disabled. That means I won't figure out why it's not working for you, I won't fix bugs for you, and I won't write new features on request - this is **free** software after all.
 
-**But** the beauty of open source is you can do whatever you want with it! You can fork it, fix it, improve it and extend it. If you don't want to maintain your own fork, and you think other people would benefit from your changes, you can submit a [pull request](https://github.com/davejamesmiller/laravel-migrations-ui/pulls) to have your changes included in the next release.
+**But** the beauty of open source is you can do whatever you want with it! You can fork it, fix it, improve it and extend it. If you don't want to maintain your own fork, and you think other people would benefit from your changes, you can submit a [pull request](https://github.com/thatobabusi/laravel-migrations-ui/pulls) to have your changes included in the next release.
 
 If you get really stuck, I suggest you:
 
@@ -210,24 +217,24 @@ If you get really stuck, I suggest you:
 *Laravel Migrations UI uses [Semantic Versioning](http://semver.org/).*
 
 
-### [v1.0.3](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.3) (Sat 29 Feb 2020)
+### [v1.0.3](https://github.com/thatobabusi/laravel-migrations-ui/tree/1.0.3) (Sat 29 Feb 2020)
 
 - Fix Telescope migrations not being picked up because they're only registered at the console
 - Grey out all buttons when any action is running
 
 
-### [v1.0.2](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.2) (Sun 23 Feb 2020)
+### [v1.0.2](https://github.com/thatobabusi/laravel-migrations-ui/tree/1.0.2) (Sun 23 Feb 2020)
 
 - Better error handling for various edge cases
 - Excluded some unnecessary files from production build
 
 
-### [v1.0.1](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.1) (Sun 23 Feb 2020)
+### [v1.0.1](https://github.com/thatobabusi/laravel-migrations-ui/tree/1.0.1) (Sun 23 Feb 2020)
 
 - Bug fix for Laravel 5.6, 5.7 (`Collection` class didn't have a `join()` method)
 
 
-### [v1.0.0](https://github.com/davejamesmiller/laravel-migrations-ui/tree/1.0.0) (Sat 22 Feb 2020)
+### [v1.0.0](https://github.com/thatobabusi/laravel-migrations-ui/tree/1.0.0) (Sat 22 Feb 2020)
 
 - First stable release
 

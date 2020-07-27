@@ -1,6 +1,6 @@
 <?php
 
-use DaveJamesMiller\MigrationsUI\Middleware\CheckEnabled;
+use ThatoBabusi\MigrationsUI\Middleware\CheckEnabled;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -9,7 +9,7 @@ use Illuminate\Session\Middleware\StartSession;
 
 Route
     ::prefix(config('migrations-ui.path', 'migrations'))
-    ->namespace('DaveJamesMiller\MigrationsUI\Controllers')
+    ->namespace('ThatoBabusi\MigrationsUI\Controllers')
     ->middleware([
         CheckEnabled::class,
         EncryptCookies::class,

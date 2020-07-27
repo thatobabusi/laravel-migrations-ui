@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use MigrationsUITests\TestCase;
 
 /**
- * @see \DaveJamesMiller\MigrationsUI\Controllers\MigrationDetailsController
+ * @see \ThatoBabusi\MigrationsUI\Controllers\MigrationDetailsController
  */
 class MigrationDetailsTest extends TestCase
 {

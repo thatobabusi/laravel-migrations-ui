@@ -1,4 +1,4 @@
-@inject('helpers', 'DaveJamesMiller\MigrationsUI\Helpers')
+@inject('helpers', 'ThatoBabusi\MigrationsUI\Helpers')
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">

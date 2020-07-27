@@ -1,9 +1,9 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Responses;
+namespace ThatoBabusi\MigrationsUI\Responses;
 
-use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
-use DaveJamesMiller\MigrationsUI\Repositories\TablesRepository;
+use ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository;
+use ThatoBabusi\MigrationsUI\Repositories\TablesRepository;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Support\Responsable;

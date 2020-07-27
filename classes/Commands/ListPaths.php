@@ -1,8 +1,8 @@
 <?php
 
-namespace DaveJamesMiller\MigrationsUI\Commands;
+namespace ThatoBabusi\MigrationsUI\Commands;
 
-use DaveJamesMiller\MigrationsUI\Repositories\MigrationsRepository;
+use ThatoBabusi\MigrationsUI\Repositories\MigrationsRepository;
 use Illuminate\Console\Command;
 
 class ListPaths extends Command
